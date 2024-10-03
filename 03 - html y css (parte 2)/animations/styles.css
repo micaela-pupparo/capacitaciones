@@ -1,0 +1,63 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: "Inter", Arial, Helvetica, sans-serif;
+  width: 100vw;
+  height: 100hv;
+}
+
+footer {
+  display: flex;
+  align-items: center;
+  background: rgb(116, 214, 144);
+  background: linear-gradient(
+    90deg,
+    rgba(116, 214, 144, 1) 0%,
+    rgba(92, 191, 187, 1) 89%
+  );
+  color: #fff;
+}
+
+img {
+  width: 60px;
+  height: 60px;
+  border-radius: 100%;
+  border: 3px solid white;
+  margin-right: 1rem;
+}
+
+.user-card {
+  width: 80vw;
+  max-width: 500px;
+  margin: 10rem auto;
+  display: flex;
+  flex-direction: column;
+  border-radius: 30px;
+  overflow: hidden;
+  box-shadow: 0 0 20px 30px #f9f9f9;
+  transform: rotate(-5deg);
+}
+
+.user-card:hover {
+  transform: rotate(0);
+}
+
+.user-card:hover img {
+  transform: scale(1.15);
+}
+
+.content,
+footer {
+  padding: 0.7rem 2rem;
+}
+
+.content {
+  font-weight: 600;
+  margin: 1rem 0;
+}
