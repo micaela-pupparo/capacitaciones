@@ -1,0 +1,12 @@
+nav {
+  display: flex;
+  flex-direction: column;
+  background: #2a2138;
+  color: #f4e1e1;
+  width: 100%;
+  padding: 1rem 2rem;
+}
+
+div {
+  display: flex;
+}
