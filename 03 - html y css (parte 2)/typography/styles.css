@@ -1,11 +1,64 @@
-*, *::before, *::after {
-    font-family: Arial, Helvetica, sans-serif;
-    box-sizing: border-box;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 62.5%;
+  margin: 0 1rem;
 }
 
 main {
-    max-width: 1140px;
-    margin: 0 auto;
-    border: 2px solid #333;
-    padding: 0 1rem;
+  max-width: 1140px;
+  margin: 1rem auto;
+  border: 2px solid #333;
+  padding: 2rem;
+}
+
+img {
+  display: inline-block;
+  width: 100%;
+  object-fit: cover;
+}
+
+p,
+ul {
+  font-family: "Open Sans";
+  font-style: normal;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+ul {
+  padding-left: 2rem;
+}
+
+h1 {
+  font-size: 2.986rem;
+}
+
+h2 {
+  font-size: 2.074rem;
+}
+
+h1,
+h2 {
+  margin: 2rem 0;
+}
+
+h3 {
+  margin-bottom: 1rem;
+  font-size: 1.44rem;
+}
+
+.headings {
+  font-family: "Roboto";
+}
+
+#leading {
+  font-family: "Playfair Display";
 }
