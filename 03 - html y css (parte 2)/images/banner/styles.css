@@ -9,9 +9,6 @@
 }
 
 body {
-  background-image: url(img/background_mobile.jpg);
-  background-repeat: no-repeat;
-  background-size: cover;
   font-family: "Poppins", Arial, Helvetica, sans-serif;
   height: 100vh;
 }
@@ -28,6 +25,17 @@ main {
   height: 100%;
   margin: auto;
   text-align: center;
+  position: relative;
+}
+
+img {
+  display: inline-block;
+  width: 100vw;
+  height: inherit;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -999;
 }
 
 h1 {
