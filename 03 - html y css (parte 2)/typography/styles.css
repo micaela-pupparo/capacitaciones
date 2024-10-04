@@ -1,36 +1,43 @@
+/*  BASICOS */
+
 *,
 *::before,
 *::after {
   box-sizing: border-box;
-  padding: 0;
   margin: 0;
+  padding: 0;
 }
 
 body {
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 62.5%;
   margin: 0 1rem;
 }
 
+html {
+  font-size: 62.5%;
+}
+
+/* RECETA */
+
 main {
-  max-width: 1140px;
-  margin: 1rem auto;
   border: 2px solid #333;
+  margin: 1rem auto;
+  max-width: 1140px;
   padding: 2rem;
 }
 
 img {
   display: inline-block;
-  width: 100%;
   object-fit: cover;
+  width: 100%;
 }
 
 p,
 ul {
   font-family: "Open Sans";
+  font-size: 1.5rem;
   font-style: normal;
   margin-bottom: 1rem;
-  font-size: 1rem;
 }
 
 ul {
@@ -38,11 +45,11 @@ ul {
 }
 
 h1 {
-  font-size: 2.986rem;
+  font-size: 5rem;
 }
 
 h2 {
-  font-size: 2.074rem;
+  font-size: 4rem;
 }
 
 h1,
@@ -51,8 +58,8 @@ h2 {
 }
 
 h3 {
+  font-size: 3rem;
   margin-bottom: 1rem;
-  font-size: 1.44rem;
 }
 
 .headings {

@@ -1,14 +1,18 @@
+/* BASICOS */
+
 *,
 *::before,
 *::after {
   box-sizing: border-box;
-  padding: 0;
   margin: 0;
+  padding: 0;
 }
 
 body {
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* NAVEGADOR */
 
 .navbar {
   align-items: center;
