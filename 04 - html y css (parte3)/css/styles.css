@@ -157,3 +157,25 @@ en el estado hover */
     padding-left: 0;
   }
 }
+
+/* Icons */
+.icon {
+  width: 40px;
+  height: 40px;
+}
+
+/* en BEM se usa - para separar las palabras */
+.icon-container {
+  align-items: center;
+  background: #f3f9fa;
+  border-radius: 100%;
+  display: inline-flex; /* en vez de block usamos flex para alinear el icono dentro del circulo */
+  height: 64px;
+  justify-content: center;
+  width: 64px;
+}
+
+.icon--primary {
+  /* esta propiedad solo aplica a las imagenes svg */
+  fill: var(--color-primary);
+}
