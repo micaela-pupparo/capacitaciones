@@ -225,7 +225,7 @@ en el estado hover */
   text-align: center;
   text-transform: uppercase;
   outline: 0;
-  padding: 2rem 3rem;
+  padding: 2rem 4vw; /* toma 4% del tamano del viewport */
   white-space: nowrap;
 }
 
@@ -288,6 +288,7 @@ en el estado hover */
 @media screen and (min-width: 1024px) {
   .btn {
     font-size: 1.5rem;
+    padding: 2rem 3rem;
   }
 }
 
@@ -315,6 +316,8 @@ en el estado hover */
   border: 0;
   flex-grow: 1; /* crece y ocupa todo el espacio disponible */
   padding: 1.5rem 2rem;
+  width: 0; /* esto se pone 0 porque sino el navegador le asigna
+  un tamano y causa problemas en pantallas chicas */
 }
 
 .input-group .btn {
@@ -763,10 +766,11 @@ que hace que los headings sean blancos */
 }
 
 .block-domain__prices {
+  color: var(--color-headings);
   display: grid;
   font-size: 2rem;
   font-weight: 600;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, 6rem); /* 6rem define el alto */
   justify-items: center;
   max-width: 700px;
