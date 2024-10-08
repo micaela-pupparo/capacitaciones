@@ -1,3 +1,7 @@
+@import "./normalize.css";
+/* el import se utiliza para poder unir estos dos archivos y 
+optimizar recursos */
+
 :root {
   --color-primary: #2584ff;
   --color-secondary: #00d9ff;
