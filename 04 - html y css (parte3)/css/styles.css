@@ -219,6 +219,7 @@ en el estado hover */
   margin: 1rem 0;
   text-align: center;
   text-transform: uppercase;
+  outline: 0;
   padding: 2rem 3rem;
   white-space: nowrap;
 }
@@ -231,6 +232,13 @@ en el estado hover */
 .btn--block {
   display: inline-block;
   width: 100%;
+}
+
+.btn .icon {
+  width: 2rem;
+  height: 2rem;
+  margin-right: 1rem;
+  vertical-align: middle;
 }
 
 .btn--primary {
@@ -301,7 +309,7 @@ en el estado hover */
 .input-group .input {
   border: 0;
   flex-grow: 1; /* crece y ocupa todo el espacio disponible */
-  padding: 1.5rem 1rem;
+  padding: 1.5rem 2rem;
 }
 
 .input-group .btn {
@@ -715,5 +723,34 @@ en el estado hover */
   .hero__content {
     text-align: left;
     align-self: center;
+  }
+}
+
+/* Domain Block */
+
+.block-domain .input-group {
+  box-shadow: 0 0 30px 20px #e6ebee;
+  border: 0;
+  margin: 4rem auto;
+  max-width: 670px;
+}
+
+.block-domain__prices {
+  display: grid;
+  font-size: 2rem;
+  font-weight: 600;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 6rem); /* 6rem define el alto */
+  justify-items: center;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+@media screen and (min-width: 768px) {
+  .block-domain__prices {
+    /* la columna crea todas las celdas posibles y con min y max pedimos que 
+    se utilice todo el espacio disponible. no podemos usar solo 1fr como
+    siempre porque no funciona. */
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
   }
 }
