@@ -563,6 +563,8 @@ en el estado hover */
 .callout {
   padding: 4rem;
   border-radius: 5px;
+  position: relative;
+  bottom: -40px;
 }
 
 .callout--primary {
@@ -601,20 +603,20 @@ en el estado hover */
 }
 
 /* Collapsibles */
-.collapsible__header {
+.collapsible__heading {
+  margin-top: 0;
+  font-size: 3rem;
   display: flex;
   justify-content: space-between;
 }
 
-.collapsible__heading {
-  margin-top: 0;
-  font-size: 3rem;
-}
-
-.collapsible__chevron {
-  transform: rotate(-90deg);
+.collapsible__heading::after {
+  content: '>';
+  color: #fff;
+  transform: rotate(90deg) scaleY(1.5);
   transition: transform 0.3s;
 }
+
 
 .collapsible__content {
   /* esto es para que pueda haber una transicion, dado que con display no se puede */
@@ -624,8 +626,8 @@ en el estado hover */
   transition: all 0.3s;
 }
 
-.collapsible--expanded .collapsible__chevron {
-  transform: rotate(0);
+.collapsible--expanded .collapsible__heading::after {
+  transform: rotate(0) scaleY(1.5);
 }
 
 .collapsible--expanded .collapsible__content {
@@ -897,7 +899,7 @@ que hace que los headings sean blancos */
     grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
   }
 
-  .footer .collapsible__chevron {
+  .footer .collapsible__heading::after {
     display: none;
   }
 
