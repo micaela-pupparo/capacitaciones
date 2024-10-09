@@ -398,9 +398,6 @@ en el estado hover */
   margin-bottom: 2rem;
 }
 
-.plan--popular {
-  transform: scale(1.1);
-}
 
 .plan--popular .card__header {
   position: relative;
@@ -427,17 +424,21 @@ en el estado hover */
   .plan__name {
     font-size: 1.4rem;
   }
-
+  
   .plan__price {
     font-size: 5rem;
   }
-
+  
   .plan__billing-cycle {
     font-size: 1.6rem;
   }
-
+  
   .plan__description {
     font-size: 1.7rem;
+  }
+  
+  .plan--popular {
+    transform: scale(1.1);
   }
 }
 
