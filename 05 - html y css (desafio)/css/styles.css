@@ -22,13 +22,13 @@ html {
 }
 
 body {
-    font-family: "Inter", sans-serif;
+    font-family: "Tenor Sans", sans-serif;
     color: var(--color-body);
     font-size: 1.4rem;
 }
 
-h1, h2, h3, h4 {
-    font-family: "Tenor Sans", sans-serif;
+p {
+    font-family: "Inter", sans-serif;
 }
 
 h1 {
@@ -67,3 +67,18 @@ h2, h3 {
         font-size: 3rem;
     }
 }
+
+/* Buttons */
+.btn {
+    background: none;
+    border: 1px solid #000;
+    border-radius: 100%;
+    padding: 1.8rem;
+}
+
+.btn > svg{
+    width: 18px;
+    height: 18px;
+}
+
+
