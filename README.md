@@ -2,6 +2,6 @@
 
 Conjunto de cursos hechos para las capacitaciones de Mox It
 
-# HTML y CSS
+# Información
 
-Pagina web: https://clinquant-pudding-6cfd91.netlify.app/
+Algunas carpetas tienen dentro un README para poder visualizar el proceso o el proyecto terminado.
