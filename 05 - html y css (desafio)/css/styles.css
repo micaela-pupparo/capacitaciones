@@ -119,3 +119,21 @@ h2, h3 {
         letter-spacing: 5px;
     }
 }
+
+/* Bubble Chat */
+.chat {
+    cursor: pointer;
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+    box-shadow: rgb(255, 255, 255) 0px 0px 1px 0px inset, rgb(255, 255, 255) 0px 0px 1px 0px;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}
+
+.chat > svg {
+    width: 80%;
+    height: 80%;
+    fill: #fff;
+}
