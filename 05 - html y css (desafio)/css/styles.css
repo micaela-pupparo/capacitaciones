@@ -24,11 +24,12 @@ html {
 body {
     font-family: "Tenor Sans", sans-serif;
     color: var(--color-body);
-    font-size: 1.4rem;
+    font-size: 1.6rem;
 }
 
 p {
     font-family: "Inter", sans-serif;
+    font-size: 1.4rem;
 }
 
 h1 {
@@ -73,12 +74,48 @@ h2, h3 {
     background: none;
     border: 1px solid #000;
     border-radius: 100%;
+    cursor: pointer;
     padding: 1.8rem;
+    transition: all .2s;
+}
+
+.btn:hover {
+    background: var(--color-primary);
+    transform: scale(0.9);
 }
 
 .btn > svg{
-    width: 18px;
-    height: 18px;
+    width: 1.8rem;
+    height: 1.8rem;
 }
 
+@media screen and (min-width: 1024px) {
+    .btn {
+        padding: 2.5rem;
+    }
 
+    .btn > svg {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+}
+
+/* Links */
+.link {
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #000;
+}
+
+.link-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@media screen and (min-width: 1024px) {
+    .link-group .link{
+        letter-spacing: 5px;
+    }
+}
