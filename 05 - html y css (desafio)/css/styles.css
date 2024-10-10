@@ -6,4 +6,64 @@
     --color-tertiary: #f3e6d5;
     --color-accent: #f4d9c5;
     --color-background: #e8e1d9;
+    --color-body: #000;
+}
+
+*, 
+
+*::after, 
+*::before {
+    box-sizing: border-box;
+}
+
+/* Typography */
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-family: "Inter", sans-serif;
+    color: var(--color-body);
+    font-size: 1.4rem;
+}
+
+h1, h2, h3, h4 {
+    font-family: "Tenor Sans", sans-serif;
+}
+
+h1 {
+    font-size: 2rem;
+}
+
+h2, h3 {
+    font-size: 2.2rem;
+}
+
+
+@media screen and (min-width: 768px) {
+    h1 {
+        font-size: 3.8rem;
+    }
+
+    h2, h3 {
+        font-size: 2.6rem;
+    }
+
+    h4 {
+        font-size: 1.6rem;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    body {
+        font-size: 2rem;
+    }
+
+    h1 {
+        font-size: 7rem;
+    }
+
+    h2, h3 {
+        font-size: 3rem;
+    }
 }
