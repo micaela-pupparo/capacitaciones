@@ -145,6 +145,23 @@ h3 {
   }
 }
 
+/* Grid */
+.grid {
+  display: grid;
+  gap: 15px;
+}
+
+.grid div {
+  height: 200px;
+  background-color: blue;
+}
+
+@media screen and (min-width: 768px) {
+  .grid--2x4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 /* Bubble Chat */
 .chat {
   cursor: pointer;
