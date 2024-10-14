@@ -418,6 +418,7 @@ h3 {
 }
 
 .about-us__description {
+  display: block;
   position: relative;
   z-index: 111;
   background-color: var(--color-background);
@@ -428,5 +429,13 @@ h3 {
   gap: 20px;
 }
 
-@media screen and (min-width: 688px) {
+@media screen and (min-width: 1440px) {
+  .about-us__content {
+    display: flex;
+    gap: 50px;
+  }
+
+  .about-us__description {
+    width: 60%;
+  }
 }
