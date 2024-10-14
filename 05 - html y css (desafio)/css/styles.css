@@ -15,7 +15,14 @@
   box-sizing: border-box;
 }
 
+.container {
+  max-width: 1244px;
+  margin: 25% auto 0;
+  padding: 0 5%;
+}
+
 /* Typography */
+/* TODO: ordenar bien tipografias */
 html {
   font-size: 62.5%;
 }
@@ -23,8 +30,15 @@ html {
 body {
   font-family: "Inter", sans-serif;
   color: var(--color-body);
+  background: var(--color-background);
   font-size: 1.6rem;
   margin: 0;
+}
+
+p {
+  font-size: 1.4rem;
+  font-weight: 300;
+  line-height: 2.1rem;
 }
 
 a,
@@ -307,9 +321,6 @@ h3 {
 .image-gallery {
   display: flex;
   margin: 5rem 0 18rem 0;
-  /* width: initial;
-  height: 100%;
-  flex-grow: 1; */
   align-items: start;
   position: relative;
   max-width: 767px;
@@ -352,7 +363,11 @@ h3 {
   z-index: -1;
 }
 
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 688px) {
+  .image-gallery {
+    margin: 7rem auto;
+  }
+
   .image-gallery__item1 {
     width: 124px;
   }
@@ -372,4 +387,46 @@ h3 {
     right: 13%;
     top: -5%;
   }
+}
+
+@media screen and (min-width: 1440px) {
+  .image-gallery {
+    max-width: 1444px;
+  }
+
+  .image-gallery__item1 {
+    width: 25%;
+  }
+
+  .image-gallery__item2 {
+    width: 50%;
+  }
+
+  .image-gallery__item3 {
+    width: 40%;
+    right: 2px;
+  }
+
+  .image-gallery__item4 {
+    right: -150px;
+  }
+}
+
+/* About Us Block */
+.about-us__heading {
+  text-align: center;
+}
+
+.about-us__description {
+  position: relative;
+  z-index: 111;
+  background-color: var(--color-background);
+}
+
+.about-us .link-group {
+  justify-content: end;
+  gap: 20px;
+}
+
+@media screen and (min-width: 688px) {
 }
