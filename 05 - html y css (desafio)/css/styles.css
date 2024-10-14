@@ -181,6 +181,23 @@ h3 {
   fill: #fff;
 }
 
+/* Cards */
+.card {
+  padding: 2rem 3rem;
+}
+
+.card__image {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+.card__image .icon {
+  width: 13.7rem;
+  height: 13.7rem;
+}
+
 /* Notification Block */
 .notification-bar {
   background: var(--color-primary);
