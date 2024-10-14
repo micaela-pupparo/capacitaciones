@@ -153,7 +153,6 @@ h3 {
 
 .grid div {
   height: 200px;
-  background-color: blue;
 }
 
 @media screen and (min-width: 768px) {
@@ -190,6 +189,7 @@ h3 {
   width: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
   margin: 2rem 0;
 }
 
@@ -486,4 +486,27 @@ h3 {
   .about-us__description {
     width: 60%;
   }
+}
+
+/* Category Block */
+.categories__heading {
+  font-size: 2rem;
+  text-align: center;
+  letter-spacing: 15px;
+}
+
+.categories .card:first-of-type {
+  background: var(--color-secondary);
+}
+
+.categories .card:nth-of-type(2) {
+  background: var(--color-tertiary);
+}
+
+.categories .card:nth-of-type(3) {
+  background: var(--color-primary);
+}
+
+.categories .card:nth-of-type(4) {
+  background: var(--color-accent);
 }
