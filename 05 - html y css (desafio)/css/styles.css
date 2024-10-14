@@ -198,6 +198,20 @@ h3 {
   height: 13.7rem;
 }
 
+@media screen and (min-width: 768px) {
+  .card__image .icon {
+    width: 18.5rem;
+    height: 18.5rem;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .card__image .icon {
+    width: 35rem;
+    height: 35rem;
+  }
+}
+
 /* Notification Block */
 .notification-bar {
   background: var(--color-primary);
