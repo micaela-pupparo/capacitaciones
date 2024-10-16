@@ -35,6 +35,9 @@ body {
   font-size: 1.6rem;
   margin: 0;
   padding: 0;
+  /* TODO: chequear que este bien */
+  letter-spacing: 2px;
+  line-height: 16.8px;
 }
 
 p {
@@ -46,7 +49,8 @@ p {
 a,
 h1,
 h2,
-h3 {
+h3,
+h4 {
   font-family: "Tenor Sans", sans-serif;
   text-transform: uppercase;
   font-weight: 400;
@@ -90,6 +94,13 @@ h3 {
   h3 {
     font-size: 3rem;
   }
+}
+
+/* Lists */
+ul,
+ol {
+  list-style-type: none;
+  padding-left: 0;
 }
 
 /* Buttons */
@@ -772,5 +783,97 @@ fijarse si todos estan alineados al centro */
     font-size: 2rem;
     letter-spacing: 2px;
     line-height: 30px;
+  }
+}
+
+/* Footer */
+.footer {
+  display: flex;
+  flex-direction: column;
+  margin-top: 25%;
+  padding: 10% 5%;
+  gap: 27px;
+  background-color: var(--color-primary);
+}
+
+.footer__header {
+  order: 3;
+  display: flex;
+  flex-direction: column;
+  align-content: space-between;
+  gap: 40px;
+  margin-top: 15%;
+}
+
+.footer__header .icon,
+.footer__header svg {
+  width: 18.5rem;
+  height: 2rem;
+}
+
+.footer__header .icon {
+  margin-bottom: 20px;
+}
+
+.footer__list {
+  font-weight: 300;
+  font-size: 1.4rem;
+  line-height: 21px;
+}
+
+.footer__socials {
+  display: none;
+}
+
+@media screen and (min-width: 768px) {
+  .footer {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 30px 10%;
+    padding: 3% 3% 0 3%;
+  }
+
+  .footer__header {
+    width: 100%;
+    margin-top: 0;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .footer {
+    justify-content: space-between;
+    row-gap: 0;
+  }
+
+  .footer__header {
+    width: auto;
+    order: 0;
+    flex-grow: 0.5;
+    gap: 0;
+  }
+
+  .footer__header .icon,
+  .footer__header svg {
+    width: 24.6rem;
+    height: 2.2rem;
+  }
+
+  .footer__titles {
+    margin: 0;
+  }
+
+  .footer__contact {
+    order: 3;
+  }
+
+  .footer__socials {
+    order: 4;
+    width: 100%;
+    display: block;
+  }
+
+  .footer__socials-list {
+    display: flex;
+    gap: 60px;
   }
 }
