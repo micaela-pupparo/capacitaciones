@@ -7,6 +7,7 @@
   --color-accent: #f4d9c5;
   --color-background: #e8e1d9;
   --color-body: #000;
+  --color-testimonial: #cedad7;
 }
 
 *,
@@ -33,6 +34,7 @@ body {
   background: var(--color-background);
   font-size: 1.6rem;
   margin: 0;
+  padding: 0;
 }
 
 p {
@@ -601,11 +603,11 @@ fijarse si todos estan alineados al centro */
 }
 
 /* Quotes */
-.quote::before {
+.quotes__quote::before {
   content: '"';
 }
 
-.quote::after {
+.quotes__quote::after {
   content: '"';
 }
 
@@ -619,11 +621,62 @@ fijarse si todos estan alineados al centro */
 }
 
 @media screen and (min-width: 1440px) {
-  .quote {
+  .quotes__quote {
     font-size: 2rem;
+    letter-spacing: 2px;
+    line-height: 30px;
   }
 
   .quotes__cite {
     font-size: 2rem;
+  }
+}
+
+/* Slider */
+/* TODO: arreglar el jv para el slider */
+.slider {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.slides {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+  min-width: 100%;
+  box-sizing: border-box;
+  /* Añadir más estilos si es necesario */
+}
+
+.slider__pages {
+  margin-top: 50px;
+}
+
+.slider__pages > span {
+  display: inline-block;
+  font-size: 25px;
+  color: #b2bbb8;
+}
+
+/* Testimonial */
+.testimonial {
+  background: var(--color-testimonial);
+  text-align: center;
+  padding: 20% 5%;
+  margin: 0 10%;
+  border-radius: 300px;
+}
+
+.testimonial .quotes {
+  padding: 0 40px;
+}
+
+@media screen and (min-width: 768px) {
+  .testimonial {
+    border-radius: 100%;
+    padding: 25% 10%;
   }
 }
