@@ -662,12 +662,18 @@ fijarse si todos estan alineados al centro */
 }
 
 /* Testimonial */
+.testimonial-container {
+  text-align: center;
+  /* TODO: entender por que teine tanta importancia el element.style
+  para tener que poner el important */
+  margin: 25% 0 -40% !important;
+  border-radius: 300px;
+}
+
 .testimonial {
   background: var(--color-testimonial);
-  text-align: center;
-  padding: 20% 5%;
-  margin: 0 10%;
   border-radius: 300px;
+  padding: 20% 5%;
 }
 
 .testimonial .quotes {
@@ -675,8 +681,96 @@ fijarse si todos estan alineados al centro */
 }
 
 @media screen and (min-width: 768px) {
-  .testimonial {
+  .testimonial-container {
     border-radius: 100%;
     padding: 25% 10%;
+    margin: 0 10% -20%;
+  }
+}
+
+/* Callout Block */
+.block-callout__body-container {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  position: relative;
+  z-index: -9999;
+  background: #d6d8b1;
+}
+
+.block-callout__figure {
+  margin: 0;
+}
+
+.block-callout__figure img {
+  display: inline-block;
+  width: 100%;
+  object-fit: contain;
+}
+
+.block-callout__text {
+  padding: 5%;
+}
+
+.block-callout__text > p {
+  margin-bottom: 1.5rem;
+  line-height: 21px;
+}
+
+@media screen and (min-width: 768px) {
+  .block-callout__body-container {
+    background: none;
+    top: -18vw;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    min-height: 532px;
+    align-items: center;
+    justify-items: center;
+  }
+
+  .block-callout__figure {
+    order: 2;
+    margin-top: 31%;
+  }
+
+  .block-callout__text {
+    background: #d6d8b1;
+    padding: 45% 5% 5%;
+    border-radius: 500px 500px 0 0;
+    flex-grow: 1;
+    margin-bottom: 30px;
+    max-width: 600px;
+  }
+
+  .block-callout__text > h2 {
+    margin-top: 28%;
+  }
+
+  .block-callout__text > p {
+    margin: 10% 0;
+  }
+}
+
+@media screen and (min-width: 1010px) {
+  .block-callout__body-container {
+    grid-template-columns: 60% 40%;
+  }
+
+  .block-callout__figure {
+    margin-top: 70%;
+  }
+
+  .block-callout__figure img {
+    width: 90%;
+  }
+
+  .block-callout__text {
+    max-width: 500px;
+  }
+
+  .block-callout__text > p {
+    font-size: 2rem;
+    letter-spacing: 2px;
+    line-height: 30px;
   }
 }
