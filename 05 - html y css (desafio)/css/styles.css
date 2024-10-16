@@ -599,3 +599,31 @@ fijarse si todos estan alineados al centro */
     display: flex;
   }
 }
+
+/* Quotes */
+.quote::before {
+  content: '"';
+}
+
+.quote::after {
+  content: '"';
+}
+
+.quotes__cite {
+  font-family: "Tenor Sans", sans-serif;
+  font-size: 1.4rem;
+  letter-spacing: 5px;
+  line-height: 21px;
+  font-style: normal;
+  text-transform: uppercase;
+}
+
+@media screen and (min-width: 1440px) {
+  .quote {
+    font-size: 2rem;
+  }
+
+  .quotes__cite {
+    font-size: 2rem;
+  }
+}
