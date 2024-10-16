@@ -121,6 +121,15 @@ h3 {
   }
 }
 
+/* Images */
+.image {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem 0;
+}
+
 /* Links */
 .link {
   letter-spacing: 2px;
@@ -185,15 +194,7 @@ h3 {
   padding: 2rem 3rem;
 }
 
-.card__image {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 2rem 0;
-}
-
-.card__image .icon {
+.card .image .icon {
   width: 13.7rem;
   height: 13.7rem;
 }
@@ -209,6 +210,41 @@ h3 {
   .card__image .icon {
     width: 35rem;
     height: 35rem;
+  }
+}
+
+/* Media */
+.media {
+  text-align: center;
+}
+
+.media__heading {
+  font-size: 1.4rem;
+}
+
+.media .image .icon {
+  width: 10rem;
+  height: 10rem;
+}
+
+@media screen and (min-width: 768px) {
+  .media__heading {
+    font-size: 1.6rem;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .media {
+    text-align: left;
+  }
+
+  .media .image .icon {
+    width: 15rem;
+    height: 15rem;
+  }
+
+  .media__heading {
+    font-size: 2rem;
   }
 }
 
@@ -510,3 +546,6 @@ h3 {
 .categories .card:nth-of-type(4) {
   background: var(--color-accent);
 }
+
+/* Company Description Block */
+/* TODO: una sola clase para los headers h2 de los bloques */
