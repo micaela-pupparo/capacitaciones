@@ -8,6 +8,7 @@
   --color-background: #e8e1d9;
   --color-body: #000;
   --color-testimonial: #cedad7;
+  --color-form: #fcf1e4;
 }
 
 *,
@@ -111,11 +112,20 @@ ol {
   cursor: pointer;
   padding: 1.8rem;
   transition: all 0.2s;
+  text-transform: uppercase;
+  font-family: "Tenor Sans", sans-serif;
+  line-height: 16px;
 }
 
 .btn:hover {
   background: var(--color-primary);
   transform: scale(0.9);
+}
+
+.btn--block {
+  width: 100%;
+  border-radius: 35px;
+  padding: 10px 65px;
 }
 
 .btn > svg {
@@ -875,5 +885,109 @@ fijarse si todos estan alineados al centro */
   .footer__socials-list {
     display: flex;
     gap: 60px;
+  }
+}
+
+/* Forms */
+.block-form {
+  margin: 200px 3%;
+}
+
+.form {
+  background: var(--color-form);
+  padding: 10%;
+}
+
+.input {
+  width: 100%;
+  outline: 0;
+  background: 0;
+  border: 0;
+  border-bottom: 1px solid #818a91;
+  padding: 8px 16px;
+  margin-bottom: 30px;
+}
+
+.input::placeholder {
+  letter-spacing: 5px;
+  line-height: 1.5em;
+  font-size: 1.4rem;
+  font-weight: 300;
+  font-family: "Tenor Sans", sans-serif;
+  text-transform: uppercase;
+}
+
+textarea[class="input"] {
+  height: 91px;
+}
+
+.block-form__heading {
+  display: inline-block;
+  font-size: 1.4rem;
+  border-top: 1px solid #000;
+  padding: 15px 25px 0 0;
+  margin-bottom: 12%;
+}
+
+.form__icon {
+  padding: 70px 0;
+  margin: 0;
+}
+
+.form__icon .icon {
+  width: 182px;
+  height: 182px;
+}
+
+@media screen and (min-width: 768px) {
+  .form {
+    display: flex;
+    padding: 0;
+  }
+
+  .form__inputs {
+    padding: 73px 73px 73px 0;
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 4%;
+    justify-content: end;
+  }
+
+  .input:first-child,
+  .input:nth-child(2) {
+    width: 48%;
+  }
+
+  .form__inputs .btn--block {
+    width: 40%;
+  }
+
+  .form__icon {
+    order: -1;
+    padding: 70px 0;
+  }
+
+  .block-form__heading {
+    font-size: 1.6rem;
+    padding-right: 60px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .form__icon {
+    padding: 140px 0 70px 0;
+  }
+
+  .form__inputs {
+    padding: 150px 150px 150px 0;
+  }
+
+  .form__icon .icon {
+    width: 22.6rem;
+    height: 22.6rem;
+  }
+
+  .block-form__heading {
+    margin-bottom: 72px;
   }
 }
