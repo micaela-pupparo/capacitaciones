@@ -754,6 +754,8 @@ fijarse si todos estan alineados al centro */
 
 /* Testimonial */
 .testimonial-container {
+  display: flex;
+  justify-content: center;
   text-align: center;
   /* TODO: entender por que teine tanta importancia el element.style
   para tener que poner el important */
@@ -775,11 +777,15 @@ fijarse si todos estan alineados al centro */
   .testimonial-container {
     border-radius: 100%;
     padding: 25% 10%;
-    margin: 0 10% -20%;
+    margin: 0 10% -20% !important;
   }
 }
 
 /* Callout Block */
+.block-callout {
+  line-height: 4rem;
+}
+
 .block-callout__body-container {
   width: 100%;
   height: 100%;
@@ -830,7 +836,6 @@ fijarse si todos estan alineados al centro */
     border-radius: 500px 500px 0 0;
     flex-grow: 1;
     margin-bottom: 30px;
-    max-width: 600px;
   }
 
   .block-callout__text > h2 {
@@ -855,14 +860,27 @@ fijarse si todos estan alineados al centro */
     width: 90%;
   }
 
+  .block-callout__text-container {
+    position: relative;
+    z-index: 999;
+    margin: 0 -10% -11% 5%;
+  }
+
   .block-callout__text {
-    max-width: 500px;
+    padding: 25% 7% 5%;
+    min-height: 1000px;
   }
 
   .block-callout__text > p {
     font-size: 2rem;
     letter-spacing: 2px;
     line-height: 30px;
+    margin-bottom: 20%;
+  }
+
+  .block-callout .testimonial {
+    max-width: 839px;
+    max-height: 839px;
   }
 }
 
