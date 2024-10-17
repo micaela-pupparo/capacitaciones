@@ -1,24 +1,31 @@
-<nav class="nav-bar">
-    <span>
-        <a href="#" class="link">
-            <svg class="icon nav-bar__logo">
-                <use xlink:href="images/sprite.svg#logo"></use>
-            </svg>
-        </a>
-    </span>
-    <span class="nav-bar__list">
-        <a href="#" class="link link--selected">Home</a>
-        <a href="#" class="link">About</a>
-        <a href="#" class="link">Products</a>
-        <a href="#" class="link">Contact Us</a>
-    </span>
-    <span class="nav-bar_cart">
-        <p>$0.00</p>
-        <div class="nav-bar__bag">
-            <svg class="icon">
-                <use xlink:href="images/sprite.svg#bag"></use>
-            </svg>
-            <div class="nav-bar__badge">0</div>
-        </div>
-    </span>
+<nav class="nav-bar collapsible">
+  <header class="nav-bar__header">
+    <section class="nav-bar__logo-container">
+      <a href="#" class="link">
+        <svg class="icon nav-bar__logo">
+          <use xlink:href="images/sprite.svg#logo"></use>
+        </svg>
+      </a>
+    </section>
+    <section>
+      <i class="fa-solid fa-bars nav-bar__toggler"></i>
+      <i class="fa-solid fa-xmark nav-bar__toggler icon--invisible"></i>
+    </section>
+  </header>
+  <section class="nav-bar_cart">
+    <p>$0.00</p>
+    <div class="nav-bar__bag">
+      <svg class="icon">
+        <use xlink:href="images/sprite.svg#bag"></use>
+      </svg>
+      <div class="nav-bar__badge">0</div>
+    </div>
+  </section>
+
+  <section class="nav-bar__list collapsible__content">
+    <a href="#" class="link link--selected">Home</a>
+    <a href="#" class="link">About</a>
+    <a href="#" class="link">Products</a>
+    <a href="./contact-us.html" class="link">Contact Us</a>
+  </section>
 </nav>
