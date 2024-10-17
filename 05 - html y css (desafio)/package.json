@@ -1,0 +1,19 @@
+{
+  "name": "html-css-desafio",
+  "version": "1.0.0",
+  "description": "pagina creada en base a templates de Elementor",
+  "source": "index.html",
+  "targets":{
+    "default":{
+      "distDir": "./build"
+    }
+  },
+  "scripts": {
+    "build": "parcel build index.html"
+  },
+  "author": "Micaela Pupparo",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel": "^2.12.0"
+  }
+}
