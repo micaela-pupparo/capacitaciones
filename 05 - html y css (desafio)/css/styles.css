@@ -19,7 +19,7 @@
 
 .container {
   /* max-width: 1244px; */
-  margin: 25% auto 0;
+  margin: 0 auto;
   padding: 0 5%;
 }
 
@@ -39,6 +39,12 @@ body {
   /* TODO: chequear que este bien */
   letter-spacing: 2px;
   line-height: 16.8px;
+}
+
+.main {
+  position: relative;
+  z-index: 9999999999999999;
+  background: var(--color-background);
 }
 
 p {
@@ -190,9 +196,6 @@ ol {
 }
 
 /* TODO: sacar esto, es muy especifico */
-.grid div {
-  height: 200px;
-}
 
 @media screen and (min-width: 768px) {
   .grid--2x4 {
@@ -224,7 +227,7 @@ ol {
   padding: 2rem 3rem;
 }
 
-.card .image .icon {
+.card__image .icon {
   width: 13.7rem;
   height: 13.7rem;
 }
@@ -293,6 +296,7 @@ ol {
 
 /* Notification Block */
 .notification-bar {
+  width: 100%;
   background: var(--color-primary);
   font-style: italic;
   font-weight: 200;
@@ -456,10 +460,11 @@ ol {
 /* Hero Component */
 .container-hero {
   width: 100%;
-  height: fit-content;
+  height: 90vh;
   /* para que la imagen pueda tene overflow: hidden se necesita
   que el contenedor tenga una posicion relativa */
   position: relative;
+  background: transparent;
 }
 
 .hero {
@@ -481,10 +486,10 @@ ol {
 
 .hero__background {
   display: inline-block;
-  z-index: -999;
-  position: absolute;
+  z-index: -99999999999;
+  position: fixed;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   object-fit: cover;
   overflow: hidden;
 }
@@ -514,7 +519,7 @@ ol {
   margin: 5rem 0 18rem 0;
   align-items: start;
   position: relative;
-  max-width: 767px;
+  max-width: 1140px;
 }
 
 .image-gallery--position-absolute {
@@ -582,7 +587,7 @@ ol {
 
 @media screen and (min-width: 1440px) {
   .image-gallery {
-    max-width: 1444px;
+    max-width: 1144px;
   }
 
   .image-gallery__item1 {
@@ -604,6 +609,10 @@ ol {
 }
 
 /* About Us Block */
+.about-us {
+  padding-top: 10%;
+}
+
 .about-us__heading {
   text-align: center;
 }
@@ -623,6 +632,7 @@ ol {
 @media screen and (min-width: 1440px) {
   .about-us__content {
     display: flex;
+    justify-content: space-between;
     gap: 50px;
   }
 
@@ -632,6 +642,10 @@ ol {
 }
 
 /* Category Block */
+.categories {
+  padding-top: 10%;
+}
+
 .categories__heading {
   font-size: 2rem;
   text-align: center;
@@ -657,6 +671,11 @@ ol {
 /* Company Description Block */
 /* TODO: una sola clase para los headers h2 de los bloques
 fijarse si todos estan alineados al centro */
+.block-company-description {
+  margin-top: 10%;
+  margin-bottom: -10%;
+}
+
 .block-company-description__heading {
   text-align: center;
 }
@@ -761,6 +780,8 @@ fijarse si todos estan alineados al centro */
   para tener que poner el important */
   margin: 25% 0 -40% !important;
   border-radius: 300px;
+  position: relative;
+  overflow: hidden;
 }
 
 .testimonial {
@@ -784,6 +805,7 @@ fijarse si todos estan alineados al centro */
 /* Callout Block */
 .block-callout {
   line-height: 4rem;
+  padding-bottom: 5%;
 }
 
 .block-callout__body-container {
@@ -812,6 +834,10 @@ fijarse si todos estan alineados al centro */
 .block-callout__text > p {
   margin-bottom: 1.5rem;
   line-height: 21px;
+}
+
+.block-callout .testimonial > p {
+  padding: 0 60px;
 }
 
 @media screen and (min-width: 768px) {
@@ -881,6 +907,7 @@ fijarse si todos estan alineados al centro */
   .block-callout .testimonial {
     max-width: 839px;
     max-height: 839px;
+    border-radius: 120%;
   }
 }
 
@@ -888,7 +915,6 @@ fijarse si todos estan alineados al centro */
 .footer {
   display: flex;
   flex-direction: column;
-  margin-top: 25%;
   padding: 10% 5%;
   gap: 27px;
   background-color: var(--color-primary);
@@ -978,7 +1004,7 @@ fijarse si todos estan alineados al centro */
 
 /* Forms */
 .block-form {
-  margin: 200px 3%;
+  margin: 150px 3%;
 }
 
 .form {
@@ -1030,15 +1056,18 @@ textarea[class="input"] {
 @media screen and (min-width: 768px) {
   .form {
     display: flex;
+    justify-content: space-around;
     padding: 0;
   }
 
   .form__inputs {
+    max-width: 70%;
     padding: 73px 73px 73px 0;
     display: flex;
     flex-wrap: wrap;
     column-gap: 4%;
     justify-content: end;
+    flex-grow: 1;
   }
 
   .input:first-child,
@@ -1048,6 +1077,8 @@ textarea[class="input"] {
 
   .form__inputs .btn--block {
     width: 40%;
+    max-width: 220px;
+    padding: 15px 0;
   }
 
   .form__icon {
