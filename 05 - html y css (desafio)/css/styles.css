@@ -144,6 +144,12 @@ ol {
   }
 }
 
+/* Icons */
+.icon--invisible {
+  /* necesario por estilos de font awesome */
+  display: none !important;
+}
+
 /* Images */
 .image {
   width: 100%;
@@ -298,13 +304,35 @@ ol {
   width: 100vw;
 }
 
+/* Collapsibles */
+.collapsible__content {
+  /* esto es para que pueda haber una transicion, dado que con display no se puede */
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: all 0.3s;
+}
+
+.collapsible--expanded .collapsible__content {
+  max-height: 100vh;
+  opacity: 1;
+}
+
 /* Navigation Bar */
 .nav-bar {
   font-family: "Tenor Sans", sans-serif;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 1.5rem;
+  flex-wrap: wrap;
+}
+
+.nav-bar__header {
+  width: 70%;
+  padding: 1rem 0 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .nav-bar__logo-container {
@@ -317,13 +345,29 @@ ol {
 }
 
 .nav-bar__list {
-  display: none;
+  width: 100%;
+  order: 9999;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  font-size: 1.4rem;
+}
+
+.nav-bar__list .link {
+  padding: 13px 15px;
+}
+
+.link--selected,
+.nav-bar__list .link:hover {
+  background: var(--color-primary);
+  border: 0;
 }
 
 .nav-bar_cart {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding-right: 1.5rem;
 }
 
 .nav-bar__bag {
@@ -347,6 +391,10 @@ ol {
 }
 
 @media screen and (min-width: 1024px) {
+  .nav-bar {
+    flex-wrap: nowrap;
+  }
+
   .nav-bar__logo-container {
     flex-grow: 1;
   }
@@ -355,8 +403,20 @@ ol {
     width: auto;
   }
 
+  .nav-bar__toggler {
+    display: none !important;
+  }
+
   .nav-bar__list {
-    display: inline-block;
+    width: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    max-height: 100%;
+    background: none;
+    opacity: 1;
+    overflow: visible;
+    white-space: nowrap;
   }
 
   .nav-bar__list > a {
@@ -369,8 +429,8 @@ ol {
   .nav-bar__list > a::after {
     content: "";
     position: absolute;
-    bottom: 0;
-    top: 0;
+    right: 0;
+    top: 35px;
     width: 100%;
     height: 1px;
     background-color: #000;
@@ -380,6 +440,16 @@ ol {
 
   .nav-bar__list > a:hover::after {
     transform: scaleX(1);
+  }
+
+  .link--selected,
+  .nav-bar__list .link:hover {
+    background: none;
+    border: 0;
+  }
+
+  .nav-bar_cart {
+    order: 99999999;
   }
 }
 
