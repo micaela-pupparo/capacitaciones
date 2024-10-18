@@ -67,7 +67,7 @@ Animaciones al hacer scroll (usando CSS Animations o Transitions).
 
 #### Estructura HTML:
 
-Utiliza etiquetas semánticas (<header>, <nav>, <section>, <article>, <footer>, etc.).
+Utiliza etiquetas semánticas.
 Accesibilidad: Asegúrate de que el sitio sea navegable mediante teclado y utiliza atributos alt en imágenes.
 Estilos CSS:
 
