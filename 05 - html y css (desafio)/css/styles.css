@@ -70,12 +70,12 @@ h1 {
 
 h2 {
   letter-spacing: 0.5rem;
-  line-height: 30px;
 }
 
 h2,
 h3 {
   font-size: 2.2rem;
+  line-height: 3rem;
 }
 
 @media screen and (min-width: 768px) {
@@ -245,6 +245,10 @@ ol {
 /* Cards */
 .card {
   padding: 2rem 3rem;
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .card__image {
@@ -266,6 +270,10 @@ ol {
 }
 
 @media screen and (min-width: 1440px) {
+  .card {
+    min-height: 100vh;
+  }
+
   .card__image .icon {
     width: 35rem;
     height: 35rem;
