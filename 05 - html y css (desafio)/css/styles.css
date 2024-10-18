@@ -216,22 +216,37 @@ ol {
 }
 
 /* Bubble Chat */
-.chat {
-  cursor: pointer;
-  width: 60px;
-  height: 60px;
+.chat-container {
+  align-items: center;
+  background: #000;
   border-radius: 100%;
+  bottom: 0;
   box-shadow: rgb(255, 255, 255) 0px 0px 1px 0px inset,
     rgb(255, 255, 255) 0px 0px 1px 0px;
+  cursor: pointer;
+  display: flex;
+  height: 60px;
+  justify-content: center;
+  margin: 0 10px 10px 0;
+  overflow: hidden;
   position: fixed;
-  bottom: 0;
   right: 0;
+  width: 60px;
+  z-index: 999999999999999;
 }
 
-.chat > svg {
-  width: 80%;
-  height: 80%;
-  fill: #fff;
+.chat {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.chat > i.icon {
+  text-align: center;
+  display: inline-block;
+  color: #fff;
+  font-size: 30px;
 }
 
 /* Cards */
