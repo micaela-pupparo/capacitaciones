@@ -70,6 +70,7 @@ h1 {
 
 h2 {
   letter-spacing: 0.5rem;
+  line-height: 30px;
 }
 
 h2,
@@ -101,6 +102,25 @@ h3 {
   h3 {
     font-size: 3rem;
   }
+}
+
+/* Animations */
+[data-aos="roll"] {
+  opacity: 0;
+  transition-property: rotate, opacity;
+
+  &.aos-animate {
+    opacity: 1;
+    rotate: 360deg;
+  }
+
+  /* @media screen and (min-width: 768px) {
+    transform: translateX(100px);
+
+    &.aos-animate {
+      transform: translateX(0);
+    }
+  } */
 }
 
 /* Lists */
@@ -195,7 +215,7 @@ ol {
   gap: 15px;
 }
 
-/* TODO: sacar esto, es muy especifico */
+/* TODO: sacar esto, es muy especifico (era grid height 200px)*/
 
 @media screen and (min-width: 768px) {
   .grid--2x4 {
@@ -225,6 +245,12 @@ ol {
 /* Cards */
 .card {
   padding: 2rem 3rem;
+}
+
+.card__image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .card__image .icon {
