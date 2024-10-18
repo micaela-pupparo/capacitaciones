@@ -113,14 +113,6 @@ h3 {
     opacity: 1;
     rotate: 360deg;
   }
-
-  /* @media screen and (min-width: 768px) {
-    transform: translateX(100px);
-
-    &.aos-animate {
-      transform: translateX(0);
-    }
-  } */
 }
 
 /* Lists */
@@ -1078,6 +1070,9 @@ textarea[class="input"] {
 }
 
 .form__icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 70px 0;
   margin: 0;
 }
@@ -1118,6 +1113,7 @@ textarea[class="input"] {
   .form__icon {
     order: -1;
     padding: 70px 0;
+    align-items: start;
   }
 
   .block-form__heading {
