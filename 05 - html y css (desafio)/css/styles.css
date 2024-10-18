@@ -43,6 +43,7 @@ body {
 
 .main {
   position: relative;
+  overflow: hidden;
   z-index: 9999999999999999;
   background: var(--color-background);
 }
@@ -785,21 +786,91 @@ fijarse si todos estan alineados al centro */
 
 /* Slider */
 /* TODO: arreglar el jv para el slider */
+@keyframes slide--small {
+  0% {
+    transform: translateX(120%);
+  }
+  10% {
+    transform: translateX(120%);
+  }
+
+  30% {
+    transform: translateX(0%);
+  }
+  40% {
+    transform: translateX(0%);
+  }
+
+  70% {
+    transform: translateX(-120%);
+  }
+  80% {
+    transform: translateX(-120%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide--big {
+  0% {
+    transform: translateX(0);
+  }
+  10% {
+    transform: translateX(0);
+  }
+
+  30% {
+    transform: translateX(-140%);
+  }
+  40% {
+    transform: translateX(-140%);
+  }
+
+  70% {
+    transform: translateX(-280%);
+  }
+  80% {
+    transform: translateX(-280%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 .slider {
-  width: 100%;
-  overflow: hidden;
+  /* width: 100%;
+  overflow: hidden; */
   position: relative;
 }
 
 .slides {
+  position: relative;
   display: flex;
-  transition: transform 0.5s ease-in-out;
+  overflow: hidden;
 }
 
 .slide {
-  min-width: 100%;
+  max-width: 600px;
+  margin: 0 30px;
   box-sizing: border-box;
-  /* Añadir más estilos si es necesario */
+  width: 100vw;
+  flex-shrink: 0;
+  animation-name: slide--small;
+  animation-duration: 20s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+.slides:hover .slide {
+  animation-play-state: paused;
 }
 
 .slider__pages {
@@ -810,6 +881,17 @@ fijarse si todos estan alineados al centro */
   display: inline-block;
   font-size: 25px;
   color: #b2bbb8;
+}
+
+@media screen and (min-width: 768px) {
+  .slide {
+    margin: 0 120px;
+    animation-name: slide--big;
+    animation-delay: 5s;
+    animation-duration: 20s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+  }
 }
 
 /* Testimonial */
@@ -827,19 +909,20 @@ fijarse si todos estan alineados al centro */
 
 .testimonial {
   background: var(--color-testimonial);
-  border-radius: 300px;
-  padding: 20% 5%;
+  border-radius: 100%;
+  padding: 15% 0%;
 }
 
 .testimonial .quotes {
-  padding: 0 40px;
+  padding: 20px 40px; /* Aumenta padding en dispositivos pequeños */
+  text-align: center;
+  line-height: 1.5;
 }
 
 @media screen and (min-width: 768px) {
   .testimonial-container {
     border-radius: 100%;
-    padding: 25% 10%;
-    margin: 0 10% -20% !important;
+    margin: 20% 10% -10% !important;
   }
 }
 
