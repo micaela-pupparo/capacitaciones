@@ -145,6 +145,7 @@ Audité la página y mejoré en lo posible su rendimiento.
 
 ## Páginas utilizadas en el proceso
 
+- [Google Fonts](https://fonts.google.com/)
 - [Sprite Generator](https://svgsprit.es/)
 - [Font Awesome](https://fontawesome.com/)
 - [Animation On Scroll](https://michalsnik.github.io/aos/)
