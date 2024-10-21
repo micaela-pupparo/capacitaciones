@@ -24,7 +24,6 @@
 }
 
 /* Typography */
-/* TODO: ordenar bien tipografias */
 html {
   font-size: 62.5%;
 }
@@ -36,7 +35,6 @@ body {
   font-size: 1.6rem;
   margin: 0;
   padding: 0;
-  /* TODO: chequear que este bien */
   letter-spacing: 2px;
   line-height: 16.8px;
 }
@@ -192,10 +190,6 @@ ol {
   align-items: center;
 }
 
-.link--selected {
-  border-bottom: 1px solid #000;
-}
-
 @media screen and (min-width: 1024px) {
   .link-group .link {
     letter-spacing: 5px;
@@ -207,8 +201,6 @@ ol {
   display: grid;
   gap: 15px;
 }
-
-/* TODO: sacar esto, es muy especifico (era grid height 200px)*/
 
 @media screen and (min-width: 768px) {
   .grid--2x4 {
@@ -229,7 +221,6 @@ ol {
   height: 60px;
   justify-content: center;
   margin: 0 10px 10px 0;
-  overflow: hidden;
   position: fixed;
   right: 0;
   width: 60px;
@@ -338,7 +329,6 @@ ol {
 
 /* Notification Block */
 .notification-bar {
-  width: 100%;
   background: var(--color-primary);
   font-style: italic;
   font-weight: 200;
@@ -352,7 +342,6 @@ ol {
 
 /* Collapsibles */
 .collapsible__content {
-  /* esto es para que pueda haber una transicion, dado que con display no se puede */
   max-height: 0;
   overflow: hidden;
   opacity: 0;
@@ -711,8 +700,6 @@ ol {
 }
 
 /* Company Description Block */
-/* TODO: una sola clase para los headers h2 de los bloques
-fijarse si todos estan alineados al centro */
 .block-company-description {
   margin-top: 10%;
   margin-bottom: -10%;
@@ -846,8 +833,6 @@ fijarse si todos estan alineados al centro */
 }
 
 .slider {
-  /* width: 100%;
-  overflow: hidden; */
   position: relative;
 }
 
@@ -899,8 +884,6 @@ fijarse si todos estan alineados al centro */
   display: flex;
   justify-content: center;
   text-align: center;
-  /* TODO: entender por que teine tanta importancia el element.style
-  para tener que poner el important */
   margin: 25% 0 -40% !important;
   border-radius: 300px;
   position: relative;
