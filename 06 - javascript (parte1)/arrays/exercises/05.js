@@ -10,6 +10,7 @@ function countOccurrences(array, searchElement) {
 }
 
 //ejercicio Mosh con reduce
+//es mas eficiente porque no crea un nuevo array y no hace que ocupe espacio
 function countOccurrencesMosh(array, searchElement) {
   return array.reduce((accumulator, current) => {
     const occurrence = current === searchElement ? 1 : 0;
