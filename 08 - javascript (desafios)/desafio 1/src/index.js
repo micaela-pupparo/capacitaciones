@@ -15,9 +15,27 @@ const contraseñaEquivocada = {
   email: "belen@gmail.com",
   _contraseña: "belen1234",
 };
+const contraseñaInvalida = {
+  nombre: "lorena",
+  email: "lorena@gmail.com",
+  _contraseña: "!!!",
+};
+const emailInvalido = {
+  nombre: "lorena",
+  email: "lore   na@gmail.com",
+  _contraseña: "am123",
+};
+const nombreInvalido = {
+  nombre: "123",
+  email: "lorena@gmail.com",
+  _contraseña: "lore1232",
+};
 
 try {
   admin.agregarUsuario(nuevo);
+  admin.agregarUsuario(contraseñaInvalida);
+  admin.agregarUsuario(nombreInvalido);
+  admin.agregarUsuario(emailInvalido);
   admin.eliminarUsuario(nuevo);
   Usuarios.logout(otro);
   Usuarios.login(contraseñaEquivocada);

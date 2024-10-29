@@ -1,5 +1,11 @@
 import { usuarios, Usuarios } from "./usuario";
-import { encontrarUsuario, validarDatos, validarEmail } from "./auth";
+import {
+  encontrarUsuario,
+  validarDatos,
+  validarEmail,
+  validarContraseña,
+  validarNombre,
+} from "./auth";
 
 const _tipo = new WeakMap();
 
@@ -13,27 +19,27 @@ Administrador.prototype.constructor = Administrador;
 
 Administrador.prototype.agregarUsuario = function (usuario) {
   const { nombre, email, _contraseña } = usuario;
-  let esValido = validarDatos(nombre, _contraseña);
+  let datosValidos = validarDatos(nombre, _contraseña, email);
+  let emailValido = validarEmail(email);
+  let nombreValido = validarNombre(nombre);
+  let contraseñaValida = validarContraseña(_contraseña);
 
-  if (!esValido) return console.log("datos invalidos");
+  if (!datosValidos || !emailValido || !nombreValido || !contraseñaValida)
+    return;
 
   new Usuarios(nombre, email, _contraseña);
   console.log(`${nombre} fue creado con exito por ${this.nombre}`);
 };
 
 Administrador.prototype.eliminarUsuario = function (usuario) {
-  const verificarUsuario = (usuario) => {
-    return usuarios.some((usr) => usr.email === usuario.email);
-  };
+  const resultado = encontrarUsuario(usuario);
 
-  if (!verificarUsuario(usuario)) {
-    return console.log("El usuario no existe");
+  if (resultado) {
+    usuarios = usuarios.filter((usr) => usr.email !== resultado.email);
+    console.log(
+      `el usuario ${resultado.nombre} ha sido eliminado por ${this.nombre}`
+    );
   }
-
-  usuarios = usuarios.filter((usr) => usr.email !== usuario.email);
-  console.log(
-    `el usuario ${usuario.nombre} ha sido eliminado por ${this.nombre}`
-  );
 };
 
 export function Editor(nombre, email, _contraseña) {
