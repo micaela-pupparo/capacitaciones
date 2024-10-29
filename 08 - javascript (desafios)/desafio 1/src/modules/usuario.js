@@ -4,7 +4,9 @@ const _contraseña = new WeakMap();
 const _logueoEIntentos = new WeakMap();
 
 //para almacenar todos los usuarios
-export let usuarios = [];
+//console.log(usuarios);
+export var usuarios = [];
+//var usuarios = "hola";
 
 export function Usuarios(nombre, email, contraseña) {
   this.nombre = nombre;
