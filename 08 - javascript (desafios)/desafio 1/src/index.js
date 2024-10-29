@@ -1,4 +1,4 @@
-import { Usuarios } from "./modules/usuario";
+import { usuarios, Usuarios } from "./modules/usuario";
 import { Administrador, Editor } from "./modules/roles";
 // ------------------------ INDEX ------------------------------
 const usuario = new Usuarios("micaela", "micaela@gmail.com", "mica1234");
@@ -33,16 +33,24 @@ const nombreInvalido = {
 
 try {
   admin.agregarUsuario(nuevo);
+
   admin.agregarUsuario(contraseñaInvalida);
   admin.agregarUsuario(nombreInvalido);
   admin.agregarUsuario(emailInvalido);
+
   admin.eliminarUsuario(nuevo);
+
+  editor.modificarCotenido();
+
+  usuario.verContenido();
+
   Usuarios.logout(otro);
   Usuarios.login(contraseñaEquivocada);
-  Usuarios.login(otro);
-  //Usuarios.login(contraseñaEquivocada);
-  //Usuarios.login(contraseñaEquivocada);
-  //Usuarios.login(contraseñaEquivocada);
+
+  Usuarios.login(contraseñaEquivocada);
+  Usuarios.login(contraseñaEquivocada);
+  Usuarios.login(contraseñaEquivocada);
+
   otro.cambiarContraseña("12345");
   console.log(otro.mostrarActividad());
 } catch (e) {

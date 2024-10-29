@@ -1,12 +1,10 @@
-import { encontrarUsuario } from "./auth";
+import { encontrarUsuario, validarContraseña } from "./auth";
 
 const _contraseña = new WeakMap();
 const _logueoEIntentos = new WeakMap();
 
 //para almacenar todos los usuarios
-//console.log(usuarios);
 export var usuarios = [];
-//var usuarios = "hola";
 
 export function Usuarios(nombre, email, contraseña) {
   this.nombre = nombre;
@@ -63,16 +61,10 @@ Usuarios.logout = function (usuarioADesloguear) {
 };
 
 Usuarios.prototype.cambiarContraseña = function (contraseña) {
-  const validarContraseña = (nuevaContraseña) => {
-    if (typeof nuevaContraseña === "string")
-      if (nuevaContraseña.length > 4) return !nuevaContraseña.includes(" ");
-    return false;
-  };
-
-  if (!validarContraseña(contraseña)) return console.log("contraseña invalida");
-
-  _contraseña.set(this, contraseña);
-  console.log("contraseña cambiada con exito!");
+  if (validarContraseña(contraseña)) {
+    _contraseña.set(this, contraseña);
+    return console.log(`contraseña de ${this.nombre} cambiada con éxito!`);
+  }
 };
 
 Usuarios.prototype.verContenido = function () {

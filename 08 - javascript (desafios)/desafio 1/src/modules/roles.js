@@ -43,7 +43,7 @@ Administrador.prototype.eliminarUsuario = function (usuario) {
 };
 
 export function Editor(nombre, email, _contraseña) {
-  new Usuarios(nombre, email, _contraseña);
+  Usuarios.call(this, nombre, email, _contraseña);
   _tipo.set(this, "editor");
 }
 

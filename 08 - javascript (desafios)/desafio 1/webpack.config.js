@@ -8,7 +8,7 @@ module.exports = {
     filename: "bundle.js",
     path: path.resolve(__dirname, "dist"),
   },
-  mode: "production", // 'production' para minificar el bundle
+  mode: "production", // production para minificar el bundle
   module: {
     rules: [
       {
