@@ -85,6 +85,59 @@ Podemos correr en terminal:
 ## Decisiones de Diseño
 
 - **Herencia**: creé una clase padre llamada Usuarios y dos clases hijos Administrador y Editor. Decidí obviar el rol Regular porque son funciones que los administradores y editores tienen disponible, por lo que crear un nuevo objeto que herede todo lo de Usuarios y no tenga funcionalidades nuevas era un desperdicio de recursos.
+
+Para Usuarios diseñé lo siguiente:
+
+```js
+function Usuarios(nombre, email, contraseña) {
+  //propiedades publicas
+  this.nombre = nombre;
+  this.email = email;
+
+  //propiedades privadas
+  _contraseña.set(this, contraseña);
+  _logueoEIntentos.set(this, { logueado: false, intentos: 0 });
+
+  //para implementar closures
+  let historialAcceso = [];
+  this.agregarAcceso = function () {
+    const horarioAcceso = new Date().toISOString();
+    historialAcceso.push(horarioAcceso);
+    if (historialAcceso.length > 5) historialAcceso.shift();
+  };
+  this.mostrarHistorialAcceso = function () {
+    return historialAcceso.slice();
+  };
+
+  //para almacenar todas las instancias
+  usuarios.push(this);
+}
+```
+
+Para Administrador:
+
+```js
+function Administrador(nombre, email, _contraseña) {
+  Usuarios.call(this, nombre, email, _contraseña);
+  _tipo.set(this, "admin");
+}
+
+Administrador.prototype = Object.create(Usuarios.prototype);
+Administrador.prototype.constructor = Administrador;
+```
+
+Para Editor:
+
+```js
+export function Editor(nombre, email, _contraseña) {
+  new Usuarios(nombre, email, _contraseña);
+  _tipo.set(this, "editor");
+}
+
+Editor.prototype = Object.create(Usuarios.prototype);
+Editor.prototype.constructor = Editor;
+```
+
 - **Closures**: crear closures que privaticen al exterior la lógica de las validaciones fue mi primer pensamiento, hasta que me encontré con la necesidad de tener que duplicar dichas closures. Por este motivo, las eliminé y creé un historial de accesos para poder utilizar closures sin la necesidad de imponerlas en situaciones donde era más eficiente el uso de otros métodos.
 
 ## Desafíos Enfrentados
@@ -96,3 +149,4 @@ Podemos correr en terminal:
 
 - Fabricar la lógica para bloquear una cuenta al hacer muchos intentos de inicio sesión
 - Formatear la contraseña
+- Fabricar la lógica para editar contenido de los Editores
