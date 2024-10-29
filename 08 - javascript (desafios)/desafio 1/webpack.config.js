@@ -1,4 +1,6 @@
 const path = require("path");
+const BundleAnalyzerPlugin =
+  require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 module.exports = {
   entry: "./src/index.js",
@@ -18,4 +20,10 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    new BundleAnalyzerPlugin({
+      analyzerMode: "static", // Genera un archivo HTML en lugar de abrir el navegador
+      reportFilename: "report.html", // Nombre del archivo de salida
+    }),
+  ],
 };
