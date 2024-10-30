@@ -1,6 +1,8 @@
 # Single Responsibility Principle
 
-Una funcion o una clase deberian tener una sola responsabilidad. Que tengan una responsabilidad **no** quiere decir que hagan una sola cosa.
+> "Nunca debería haber más de un motivo por el cual cambiar una clase o un módulo" - Robert C. Martin
+
+Una función o una clase debería tener una sola responsabilidad. Que tengan una responsabilidad **no** quiere decir que hagan una sola cosa.
 
 El concepto de **_responsabilidad_** hace referencia a aquellos actores (fuentes de cambio) que podrían reclamar diferentes modificaciones en un determinado módulo dependiendo de su rol en el negocio. Esto quiere decir que solo un cambio potencial (lógica de base de datos, lógica de registro, lógica de negocio, lógica de persistencia -capacidad de una apliación de guardar datos para que se puedan recuperar-, etc.) en la especificación del software debería poder afectar la especificación de la clase.
 
@@ -13,4 +15,6 @@ Esto promueve cohesión y modularidad en el diseño de software. También facili
 
 - La función/clase o función tiene varias razones para cambiar (por ejemplo, la lógica de negocio y manejo de archivos en una misma clase)
 - La función/clase realiza múltiples tareas no relacionadas entre sí
-- La descripción del nombre de la función/clase hace más de una cosa
+- La descripción del nombre de la función/clase hace más de una cosa o es demasiado genérico
+- Cuando una clase tiene una API con un número alto de métodos públicos, suele ser síntoma de que tiene demasiadas responsabilidades
+- Lo mismo cuando tiene un excesivo número de líneas de código.
