@@ -11,5 +11,5 @@ Esto facilita la interoperabilidad entre diferentes componentes o módulos del s
 ## ¿Cuándo implementar este principio?
 
 - Las clases de alto nivel dependen directamente de clases de bajo nivel, lo cual hace dificil modificar o reemplazar partes del sistema
-  -Al cambiar la implementacion de una clase de bajo nivel, el código de alto nivel también debe modificarse
+- Al cambiar la implementacion de una clase de bajo nivel, el código de alto nivel también debe modificarse
 - Las clases no son fácilmente testeables o se requiere mucho esfuerzo para reemplazar las dependencias.
