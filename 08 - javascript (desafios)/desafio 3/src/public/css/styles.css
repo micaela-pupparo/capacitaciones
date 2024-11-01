@@ -120,15 +120,19 @@ a {
 }
 
 .task-card__header-icon {
+  cursor: pointer;
   background-color: var(--color-accent);
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #fff;
   font-size: 1.3rem;
   text-align: center;
   padding: 7.5px;
   border-radius: 100%;
+}
+
+.task-card__header-icon a {
+  color: #fff;
 }
 
 .task-card {
@@ -154,6 +158,8 @@ a {
   align-items: center;
   padding: 0.2rem 1rem;
   margin-top: 1rem;
+  position: relative;
+  overflow: hidden;
 }
 
 .task-card__checkbox {
