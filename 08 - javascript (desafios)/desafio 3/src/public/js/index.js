@@ -10,3 +10,8 @@ class Tareas {
         this.estado = false;
     }
 }
+
+//para tomar nuevos valores en el formulario
+//y crear nuevas instancias
+const $formNewTask = document.querySelector(".new-task");
+const formData = new FormData($formNewTask);
