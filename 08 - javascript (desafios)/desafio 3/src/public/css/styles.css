@@ -106,10 +106,46 @@ a {
   padding: 0 2rem;
 }
 
+.tasks__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .tasks__heading {
   margin: 2.2rem 0;
   font-size: 2rem;
   letter-spacing: 0.2rem;
+}
+
+/* New Group */
+.new-group {
+  margin: 0 auto 4rem;
+  max-width: 1000px;
+  display: flex;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: all 0.3s;
+}
+
+.collapsible--expanded {
+  max-height: 100vh;
+  opacity: 1;
+}
+
+.new-group input,
+.new-group button {
+  padding: 1rem;
+  border: 0;
+}
+
+.new-group input {
+  flex-grow: 1;
+}
+
+.new-group button {
+  width: 15%;
 }
 
 /* Cards */

@@ -53,7 +53,14 @@
       </ul>
     </header>
     <main class="tasks-container">
-      <h2 class="tasks__heading">Mis Tareas</h2>
+      <section class="tasks__header">
+        <h2 class="tasks__heading">Mis Tareas</h2>
+        <a href="#" class="icon"><i class="fa-solid fa-plus"></i></a>
+      </section>
+      <section class="new-group collapsible collapsible--expanded">
+        <input type="text" placeholder="Nombre del grupo" />
+        <button>Crear</button>
+      </section>
       <table class="task-card">
         <thead>
           <tr class="task-card__header">
@@ -101,5 +108,7 @@
         </article>
       </section>
     </main>
+
+    <script src="./public/js/collapsible.js"></script>
   </body>
 </html>
