@@ -22,24 +22,23 @@
       <h1 class="new-task__heading">Crea tu tarea</h1>
       <label class="new-task__input">
         <p>Nombre de la tarea</p>
-        <input type="text" name="nombre" />
+        <input type="text" name="nombre" required />
       </label>
       <label class="new-task__input">
-        <p>Nombre de la tarea</p>
-        <input type="text" name="nombre" />
-      </label>
-      <label class="new-task__input">
-        <p>Nombre de la tarea</p>
-        <input type="text" name="nombre" />
+        <p>Descripción</p>
+        <textarea name="descripcion"></textarea>
       </label>
       <label class="new-task__input">
         <p>Fecha de vencimiento</p>
-        <input type="date" name="fechaVencimiento" />
+        <input type="date" name="fechaVencimiento" required />
       </label>
       <section class="new-task__buttons">
+        <!-- <button type="submit"><a href="../../index.html">Enviar</a></button> -->
         <button type="submit">Enviar</button>
         <button><a href="../../index.html">Cancelar</a></button>
       </section>
     </form>
+
+    <script type="module" src="../js/newTask.js"></script>
   </body>
 </html>
