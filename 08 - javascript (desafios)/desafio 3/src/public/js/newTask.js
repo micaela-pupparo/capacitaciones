@@ -54,3 +54,5 @@ $formNuevaTarea.addEventListener("submit", (event) => {
 
     window.location.href = "../../index.html"
 })
+
+//TODO: agregar id con date.now
