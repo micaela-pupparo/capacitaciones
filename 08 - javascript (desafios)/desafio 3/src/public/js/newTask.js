@@ -1,6 +1,8 @@
 // Objeto Tareas
 //crea una linea nada mas, lo podes guardar en un array
 //para que cada grupo tenga un conjunto de tareas
+import { createHash } from "crypto-browserify";
+
 class Tareas {
     constructor(nombre, descripcion, fechaVencimiento) {
         this.nombre = nombre;
@@ -8,13 +10,14 @@ class Tareas {
         this.fechaVencimiento = fechaVencimiento;
         //this.ubicacion = ubicacion;
         //this.lienzo = lienzo;
+        this.id = createHash('sha256').update(`${Date.now()}`).digest('hex');
         this.estado = false;
     }
 }
 
 //para tomar nuevos valores en el formulario
 //y crear nuevas instancias
-import { Validaciones, obtenerGrupos } from "../../index.js";
+import { Validaciones, obtenerGrupos } from "../../index";
 
 const $formNuevaTarea = document.querySelector(".new-task");
 

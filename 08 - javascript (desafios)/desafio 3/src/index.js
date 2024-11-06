@@ -1,8 +1,15 @@
 import "./public/css/styles.css"
 
-import { createHash } from "crypto-browserify";
+if (window.location.pathname === "/index.html") {
+    import(/* webpackChunkName: "newTask" */ "./public/js/collapsible" )
+      .catch((error) => console.error("Error loading newTask.js", error));
+}
 
-console.log(createHash('sha256').update('some data').digest('hex'))
+if (window.location.pathname === "/public/pages/newTask.html") {
+    import(/* webpackChunkName: "newTask" */ "./public/js/newTask.js")
+      .catch((error) => console.error("Error loading newTask.js", error));
+}
+
 
 // VALIDACIONES
 export class Validaciones {
@@ -29,6 +36,7 @@ export class Validaciones {
 
 //CREAR UN NUEVO GRUPO
 document.addEventListener("DOMContentLoaded", () => {
+    //localStorage.clear()
     const gruposGuardados = obtenerGrupos();
     console.log(gruposGuardados)
 
@@ -97,13 +105,13 @@ function renderizaTarea(nombreGrupo, tarea) {
 
     if ($contenedorTareas) {
         $contenedorTareas.insertAdjacentHTML("afterend", `
-            <tr class="task-card__list">
+            <tr class="task-card__list ${tarea.id}">
                 <td class="task-card__checkbox-cell"><input class="task-card__checkbox" type="checkbox" /></td>
                 <td class="task-card__name">${tarea.nombre}</td>
                 <td class="task-card__description">${tarea.descripcion}</td>
                 <td>${tarea.fechaVencimiento}</td>
                 <td>10/07/2024</td>
-                <td><i class="fa-solid fa-trash-can"></i></td>
+                <td><i class="fa-solid fa-trash-can" id="${tarea.id}"></i></td>
               </tr>
             `)
     }
@@ -122,6 +130,7 @@ export function obtenerGrupos() {
 
 
 // GUARDA INFO DE QUE BOTON FUE TOCADO PARA SABER A QUE GRUPO HAY QUE AGREGAR LA TAREA
+// ELIMINA TAMBIEN TAREA POR ID
 const $contenedorTareas = document.querySelector(".tasks-container");
 
 if ($contenedorTareas) {
@@ -130,6 +139,28 @@ if ($contenedorTareas) {
         if (event.target.matches(".task-card__button")) {
             //const boton = event.target.id.replace(/-/g, " ");
             localStorage.setItem("boton", event.target.id);
+        }
+        if (event.target.matches(".fa-trash-can")) {
+            const id = event.target.id;
+            const grupos = obtenerGrupos();
+            let tarea;
+            let indexTarea;
+
+            grupos.forEach(grupo => {
+                tarea = grupo.tareas.find( t => t.id === id);
+                if (tarea) {
+                    indexTarea = grupo.tareas.indexOf(tarea);
+                    grupo.tareas.splice(indexTarea, 1);
+                    //borrarlo de la memoria
+                    localStorage.setItem("grupos", JSON.stringify(grupos));
+
+                    //borrarlo del html sin refrescar la pagina
+                    const $tarea = document.querySelector(`.${CSS.escape(id)}`);
+                    if ($tarea) {
+                        $tarea.remove();
+                    }
+                }
+            })
         }
     })
 }

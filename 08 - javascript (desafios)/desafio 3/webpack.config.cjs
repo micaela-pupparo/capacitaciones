@@ -11,6 +11,7 @@ module.exports = {
       path: path.resolve(__dirname, "dist"),
       filename: "[name].bundle.js",
       clean: true,
+      publicPath: "/"
     },
     optimization: {
       minimize: true,
@@ -36,6 +37,11 @@ module.exports = {
       compress: true,
       port: 3000,
       open: true,
+      historyApiFallback: {
+        rewrites: [
+          { from: /^\/public\/pages\/newTask$/, to: '/public/pages/newTask.html' },
+        ],
+      },
     },
     module: {
       rules: [
@@ -65,7 +71,12 @@ module.exports = {
     },
     plugins: [
       new HtmlWebpackPlugin({
-        template: "./src/index.html"
+        template: "./src/index.html",
+        filename: "index.html"
+      }),
+      new HtmlWebpackPlugin({
+        template: "./src/public/pages/newTask.html",
+        filename: "./public/pages/newTask.html"
       }),
       new MiniCssExtractPlugin({
         filename: "./public/css/[name].css",
