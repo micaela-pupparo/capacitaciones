@@ -2,23 +2,38 @@
 //crea una linea nada mas, lo podes guardar en un array
 //para que cada grupo tenga un conjunto de tareas
 import { createHash } from "crypto-browserify";
+import { Validaciones, obtenerGrupos } from "../../index";
 
 class Tareas {
     constructor(nombre, descripcion, fechaVencimiento) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.fechaVencimiento = fechaVencimiento;
-        //this.ubicacion = ubicacion;
         //this.lienzo = lienzo;
         this.id = createHash('sha256').update(`${Date.now()}`).digest('hex');
         this.estado = false;
+        this.ubicacion = null;
+    }
+
+    obtenerPosicion = function() {
+        return new Promise((resolve, reject) => {
+            if ("geolocation" in navigator) {
+                navigator.geolocation.getCurrentPosition(posicion => {
+                    console.log(posicion);
+                    this.ubicacion = posicion;
+                    resolve();  // Resuelve la promesa cuando se obtiene la geolocalización
+                }, error => {
+                    reject("Error en la geolocalización: " + error.message);
+                });
+            } else {
+                reject("Geolocalización no disponible.");
+            }
+        });
     }
 }
 
 //para tomar nuevos valores en el formulario
 //y crear nuevas instancias
-import { Validaciones, obtenerGrupos } from "../../index";
-
 const $formNuevaTarea = document.querySelector(".new-task");
 
 $formNuevaTarea.addEventListener("submit", (event) => {
@@ -39,23 +54,29 @@ $formNuevaTarea.addEventListener("submit", (event) => {
 
     const tarea = new Tareas(nombre, descripcion, fechaVencimiento);
 
-    const nombreGrupo = localStorage.getItem("boton").replace(/-/g, " ");
-    console.log(nombreGrupo)
+    tarea.obtenerPosicion()
+        .then(ubicacion => {
+            console.log("ubicacion ", ubicacion);
 
-    //ENCUENTRA EL NOMBRE DEL GRUPO AL QUE LE QUEREMOS SUMAR UNA TAREA
-    const grupos = obtenerGrupos();
-    console.log(grupos)
-    let grupoObjeto;
-    if (grupos.length !== 0) 
-        grupoObjeto = grupos.find(grupo => grupo.nombre === nombreGrupo);
-    console.log(grupoObjeto)
+            const nombreGrupo = localStorage.getItem("boton").replace(/-/g, " ");
+            console.log(nombreGrupo)
+        
+            //ENCUENTRA EL NOMBRE DEL GRUPO AL QUE LE QUEREMOS SUMAR UNA TAREA
+            const grupos = obtenerGrupos();
+            console.log(grupos)
+            let grupoObjeto;
+            if (grupos.length !== 0) 
+                grupoObjeto = grupos.find(grupo => grupo.nombre === nombreGrupo);
+            console.log(grupoObjeto)
+        
+            //GUARDAMOS LA TAREA
+            grupoObjeto.tareas.push(tarea);
+            console.log(grupos)
+            console.log(tarea.ubicacion)
+            localStorage.setItem("grupos", JSON.stringify(grupos));
+            console.log(JSON.parse(localStorage.getItem("grupos")))
+            window.location.href = "../../index.html"
+        })
 
-    //GUARDAMOS LA TAREA
-    grupoObjeto.tareas.push(tarea);
-    console.log(grupos)
-    localStorage.setItem("grupos", JSON.stringify(grupos));
 
-    window.location.href = "../../index.html"
 })
-
-//TODO: agregar id con date.now

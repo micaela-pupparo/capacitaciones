@@ -1,4 +1,6 @@
 import "./public/css/styles.css"
+import "leaflet/dist/leaflet.css"
+import L from "leaflet"
 
 if (window.location.pathname === "/index.html") {
     import(/* webpackChunkName: "newTask" */ "./public/js/collapsible" )
@@ -110,10 +112,21 @@ function renderizaTarea(nombreGrupo, tarea) {
                 <td class="task-card__name">${tarea.nombre}</td>
                 <td class="task-card__description">${tarea.descripcion}</td>
                 <td>${tarea.fechaVencimiento}</td>
-                <td>10/07/2024</td>
+                <td id="map${tarea.id}" style="height: 40px; width: 200px"></td>
                 <td><i class="fa-solid fa-trash-can" id="${tarea.id}"></i></td>
               </tr>
             `)
+        
+            const contenedorMapa = document.getElementById(`map${tarea.id}`);
+            console.log(contenedorMapa)
+            console.log(tarea.posicion)
+            console.log(tarea)
+            if (contenedorMapa) {
+                const map = L.map(`map${tarea.id}`).setView([tarea.ubicacion.coords.latitude, tarea.ubicacion.coords.longitude], 13);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+            }   
     }
 }
 
