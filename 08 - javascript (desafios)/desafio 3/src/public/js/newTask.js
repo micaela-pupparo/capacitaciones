@@ -4,6 +4,46 @@
 import { createHash } from "crypto-browserify";
 import { Validaciones, obtenerGrupos } from "../../index";
 
+//LIENZO
+const $canva = document.querySelector(".new-task__canva");
+const contexto = $canva.getContext("2d");
+
+let inicialX;
+let inicialY;
+
+const dibujar = (cursorX, cursorY) => {
+    contexto.beginPath();
+    contexto.moveTo(inicialX, inicialY);
+    contexto.lineWidth = 5;
+    contexto.strokeStyle = "#000";
+    contexto.lineCap = "round";
+    contexto.lineJoin = "round";
+    contexto.lineTo(cursorX, cursorY);
+    contexto.stroke();
+
+    inicialX = cursorX;
+    inicialY = cursorY;
+}
+
+const mouseDown = (event) => {
+    inicialX = event.offsetX;
+    inicialY = event.offsetY;
+    dibujar(inicialX, inicialY);
+    $canva.addEventListener("mousemove", mouseMoving);
+}
+
+const mouseMoving = (event) => {
+    dibujar(event.offsetX, event.offsetY);
+}
+
+const mouseUp = () => {
+    $canva.removeEventListener("mousemove", mouseMoving);
+}
+
+$canva.addEventListener("mousedown", mouseDown);
+$canva.addEventListener("mouseup", mouseUp);
+
+// crea clase Tarea
 class Tareas {
     constructor(nombre, descripcion, fechaVencimiento) {
         this.nombre = nombre;
