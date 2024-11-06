@@ -14,7 +14,7 @@ class Tareas {
 
 //para tomar nuevos valores en el formulario
 //y crear nuevas instancias
-import { Validaciones, obtenerGrupos } from "./index.js";
+import { Validaciones, obtenerGrupos } from "../../index.js";
 
 const $formNuevaTarea = document.querySelector(".new-task");
 

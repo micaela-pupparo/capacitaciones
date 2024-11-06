@@ -1,3 +1,9 @@
+import "./public/css/styles.css"
+
+import { createHash } from "crypto-browserify";
+
+console.log(createHash('sha256').update('some data').digest('hex'))
+
 // VALIDACIONES
 export class Validaciones {
     static vacio = function(...valores) {
