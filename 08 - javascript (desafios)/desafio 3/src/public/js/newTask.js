@@ -63,12 +63,14 @@ if ($botonLimpiar) {
 }
 
 //guardar lienzo
+let lienzo;
 if ($botonGuardar) {
     $botonGuardar.addEventListener("click", event => {
         event.preventDefault();
         $botonGuardar.value = true;       
         $botonGuardar.setAttribute("disabled", "");
         $botonGuardar.innerHTML = "Guardado";
+        lienzo = $canva.toDataURL("image/png");
     })
 }
 
@@ -103,8 +105,7 @@ class Tareas {
 
     guardarImagen = function() {
         if($botonGuardar.value) {
-            this.imagen = $canva.toDataURL("image/jpeg")
-            console.log(this.imagen);
+            this.imagen = lienzo;
         }
     }
 }
@@ -148,12 +149,10 @@ $formNuevaTarea.addEventListener("submit", (event) => {
         
             //GUARDAMOS LA TAREA
             grupoObjeto.tareas.push(tarea);
-            console.log(grupos)
+            //console.log(grupos)
             console.log("tarea: ----->", tarea.imagen)
             localStorage.setItem("grupos", JSON.stringify(grupos));
-            console.log(JSON.parse(localStorage.getItem("grupos")))
+            //console.log(JSON.parse(localStorage.getItem("grupos")))
             window.location.href = "../../index.html"
         })
-
-
 })
