@@ -3,7 +3,7 @@ import "leaflet/dist/leaflet.css"
 import L from "leaflet"
 import "./public/js/modules/newGroup.js"
 
-if (window.location.pathname === "/index.html") {
+if (window.location.pathname === "/index.html" || window.location.pathname === "/") {
     import(/* webpackChunkName: "collapsible" */ "./public/js/modules/collapsible.js" )
       .catch((error) => console.error("Error loading newTask.js", error));
 }
@@ -13,7 +13,6 @@ if (window.location.pathname === "/public/pages/newTask.html") {
       .catch((error) => console.error("Error loading newTask.js", error));
 }
 
-//CREAR UN NUEVO GRUPO
 document.addEventListener("DOMContentLoaded", () => {
     //localStorage.clear()
     const gruposGuardados = obtenerGrupos();
