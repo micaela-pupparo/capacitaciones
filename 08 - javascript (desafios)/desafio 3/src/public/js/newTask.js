@@ -5,6 +5,7 @@ import { createHash } from "crypto-browserify";
 import { Validaciones, obtenerGrupos } from "../../index";
 
 const $botonGuardar = document.querySelector("#canva__save-button");
+console.log($botonGuardar.value)
 document.addEventListener("DOMContentLoaded", () => {
     if ($botonGuardar) {
         $botonGuardar.value = false;
@@ -104,8 +105,13 @@ class Tareas {
     };
 
     guardarImagen = function() {
-        if($botonGuardar.value) {
-            this.imagen = lienzo;
+        // por mas de que sea falso el valor esta guardado en string, por lo que hay que hacer esto
+        if($botonGuardar.value !== "false") {
+            console.log("wtfff")
+            this.imagen = `<img src="${lienzo}" />`;
+        }
+        else {
+            this.imagen = "<p></p>";
         }
     }
 }

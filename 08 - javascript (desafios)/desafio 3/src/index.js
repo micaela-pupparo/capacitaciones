@@ -104,7 +104,7 @@ function renderizarGrupo(nombre, id) {
 }
 
 function renderizaTarea(nombreGrupo, tarea) {
-    const $contenedorTareas = document.querySelector(`.${nombreGrupo}`);
+    const $contenedorTareas = document.querySelector(`.${CSS.escape(nombreGrupo)}`);
 
     if ($contenedorTareas) {
         $contenedorTareas.insertAdjacentHTML("afterend", `
@@ -113,7 +113,7 @@ function renderizaTarea(nombreGrupo, tarea) {
                 <td class="task-card__name">${tarea.nombre}</td>
                 <td class="task-card__description">${tarea.descripcion}</td>
                 <td>${tarea.fechaVencimiento}</td>
-                <td class="task-card__image"><img src="${tarea.imagen}"/></td>
+                <td class="task-card__image">${tarea.imagen}</td>
                 <td id="map${tarea.id}" style="height: 40px; width: 200px"></td>
                 <td><i class="fa-solid fa-trash-can" id="${tarea.id}"></i></td>
               </tr>
