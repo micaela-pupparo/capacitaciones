@@ -4,6 +4,15 @@
 import { createHash } from "crypto-browserify";
 import { Validaciones, obtenerGrupos } from "../../index";
 
+const $botonGuardar = document.querySelector("#canva__save-button");
+document.addEventListener("DOMContentLoaded", () => {
+    if ($botonGuardar) {
+        $botonGuardar.value = false;
+        $botonGuardar.removeAttribute("disabled");
+        $botonGuardar.innerHTML = "Guardar";
+    }
+})
+
 //LIENZO
 const $canva = document.querySelector(".new-task__canva");
 const contexto = $canva.getContext("2d");
@@ -47,12 +56,22 @@ $canva.addEventListener("mouseup", mouseUp);
 const $botonLimpiar = document.querySelector("#canva__clean-button");
 
 if ($botonLimpiar) {
-    $botonLimpiar.addEventListener("click", (event) => {
+    $botonLimpiar.addEventListener("click", event => {
         event.preventDefault();
-        console.log($botonLimpiar)
         contexto.clearRect(0, 0, $canva.width, $canva.height);
     })
 }
+
+//guardar lienzo
+if ($botonGuardar) {
+    $botonGuardar.addEventListener("click", event => {
+        event.preventDefault();
+        $botonGuardar.value = true;       
+        $botonGuardar.setAttribute("disabled", "");
+        $botonGuardar.innerHTML = "Guardado";
+    })
+}
+
 
 // CREA CLASE TAREA
 class Tareas {
@@ -60,10 +79,10 @@ class Tareas {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.fechaVencimiento = fechaVencimiento;
-        //this.lienzo = lienzo;
         this.id = createHash('sha256').update(`${Date.now()}`).digest('hex');
         this.estado = false;
         this.ubicacion = null;
+        this.imagen = null;
     }
 
     obtenerPosicion = function() {
@@ -80,6 +99,13 @@ class Tareas {
                 reject("Geolocalización no disponible.");
             }
         });
+    };
+
+    guardarImagen = function() {
+        if($botonGuardar.value) {
+            this.imagen = $canva.toDataURL("image/jpeg")
+            console.log(this.imagen);
+        }
     }
 }
 
@@ -104,7 +130,7 @@ $formNuevaTarea.addEventListener("submit", (event) => {
     Validaciones.descripcion(descripcion);
 
     const tarea = new Tareas(nombre, descripcion, fechaVencimiento);
-
+    tarea.guardarImagen();
     tarea.obtenerPosicion()
         .then(ubicacion => {
             console.log("ubicacion ", ubicacion);
@@ -123,7 +149,7 @@ $formNuevaTarea.addEventListener("submit", (event) => {
             //GUARDAMOS LA TAREA
             grupoObjeto.tareas.push(tarea);
             console.log(grupos)
-            console.log(tarea.ubicacion)
+            console.log("tarea: ----->", tarea.imagen)
             localStorage.setItem("grupos", JSON.stringify(grupos));
             console.log(JSON.parse(localStorage.getItem("grupos")))
             window.location.href = "../../index.html"
