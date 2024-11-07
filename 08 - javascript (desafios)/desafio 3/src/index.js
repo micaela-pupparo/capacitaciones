@@ -1,40 +1,16 @@
 import "./public/css/styles.css"
 import "leaflet/dist/leaflet.css"
 import L from "leaflet"
-import { createHash } from "crypto-browserify";
+import "./public/js/modules/newGroup.js"
 
 if (window.location.pathname === "/index.html") {
-    import(/* webpackChunkName: "newTask" */ "./public/js/collapsible" )
+    import(/* webpackChunkName: "collapsible" */ "./public/js/modules/collapsible.js" )
       .catch((error) => console.error("Error loading newTask.js", error));
 }
 
 if (window.location.pathname === "/public/pages/newTask.html") {
-    import(/* webpackChunkName: "newTask" */ "./public/js/newTask.js")
+    import(/* webpackChunkName: "newTask" */ "./public/js/modules/newTask.js")
       .catch((error) => console.error("Error loading newTask.js", error));
-}
-
-
-// VALIDACIONES
-export class Validaciones {
-    static vacio = function(...valores) {
-        const regex = /^(?!\s*$).+/
-        valores.forEach(valor => {
-            if(!regex.test(valor))
-                throw new Error("el nombre no debe estar vacio");
-        })
-    }
-
-    static nombre = function(nombre) {
-        const regex = /^(?!\s*$)[A-Za-z0-9\s]+$/;
-        if (!regex.test(nombre)) 
-            throw new Error("el nombre debe tener números y letras");   
-    }
-
-    static descripcion = function(descripcion) {
-        if (descripcion.length > 100) {
-            throw new Error("descripcion muy larga");
-        }
-    }
 }
 
 //CREAR UN NUEVO GRUPO
@@ -54,30 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 })
 
-const $formNuevoGrupo = document.querySelector(".new-group");
-
-if ($formNuevoGrupo) {
-    $formNuevoGrupo.addEventListener("submit", (event) => {
-        event.preventDefault();
-    
-        const formData = new FormData($formNuevoGrupo);
-        const dato = {};
-    
-        formData.forEach((valor, llave) => {
-            dato[llave] = valor;
-        })
-        const {grupo} = dato;
-        //console.log(grupo.replace(/\s+/g, "-"));
-    
-        Validaciones.vacio(grupo);
-        Validaciones.nombre(grupo);
-    
-        renderizarGrupo(grupo);
-        guardarGrupo(grupo);
-    })
-}
-
-function renderizarGrupo(nombre, id) {
+export function renderizarGrupo(nombre, id) {
     //console.log(grupo)
     const $contenedorInformacion = document.querySelector(".info-card-container");
 
@@ -130,14 +83,6 @@ function renderizaTarea(nombreGrupo, tarea) {
                 }).addTo(map);
             }   
     }
-}
-
-function guardarGrupo(grupo) {
-    const grupos = obtenerGrupos();
-    const idGrupo = createHash('sha256').update(`${Date.now()}`).digest('hex');
-    grupos.push({nombre: grupo, id: idGrupo, tareas: []})
-
-    localStorage.setItem("grupos", JSON.stringify(grupos));
 }
 
 export function obtenerGrupos() {
