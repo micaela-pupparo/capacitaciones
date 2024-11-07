@@ -5,6 +5,7 @@ import { createHash } from "crypto-browserify";
 import { obtenerGrupos } from "../../../index";
 import { Validaciones } from "../utils/validations";
 import { guardarLienzo } from "./canva";
+import { Notificaciones } from "./notifications";
 
 // reiniciamos los valores del boton guardar lienzo
 const $botonGuardar = document.querySelector("#canva__save-button");
@@ -103,7 +104,9 @@ $formNuevaTarea.addEventListener("submit", (event) => {
             //console.log(grupos)
             console.log("tarea: ----->", tarea.imagen)
             localStorage.setItem("grupos", JSON.stringify(grupos));
-            //console.log(JSON.parse(localStorage.getItem("grupos")))
+            
+            Notificaciones.nuevaTarea(tarea.nombre)
+
             window.location.href = "../../index.html"
         })
 })
