@@ -43,7 +43,18 @@ const mouseUp = () => {
 $canva.addEventListener("mousedown", mouseDown);
 $canva.addEventListener("mouseup", mouseUp);
 
-// crea clase Tarea
+//limpiar liezo
+const $botonLimpiar = document.querySelector("#canva__clean-button");
+
+if ($botonLimpiar) {
+    $botonLimpiar.addEventListener("click", (event) => {
+        event.preventDefault();
+        console.log($botonLimpiar)
+        contexto.clearRect(0, 0, $canva.width, $canva.height);
+    })
+}
+
+// CREA CLASE TAREA
 class Tareas {
     constructor(nombre, descripcion, fechaVencimiento) {
         this.nombre = nombre;
