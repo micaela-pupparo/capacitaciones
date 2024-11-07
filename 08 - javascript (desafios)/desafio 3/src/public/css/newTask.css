@@ -3,16 +3,17 @@
   border-radius: 3px;
   display: flex;
   flex-direction: column;
-  margin: 1rem auto;
-  padding: 2rem;
+  margin: 0.5rem auto;
+  padding: 1rem 2rem;
   width: 500px;
+  height: 100vh;
   font-size: 1.2rem;
 }
 
 .new-task__heading {
   text-transform: uppercase;
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 
 .new-task__input {
@@ -50,13 +51,13 @@
 .new-task__canva__buttons {
   display: flex;
   justify-content: end;
-  margin-top: 10px;
+  margin-top: 6px;
   margin-bottom: 5px;
   gap: 5px;
 }
 
 .new-task__buttons {
-  margin-top: 30px;
+  margin-top: 20px;
   display: flex;
   justify-content: space-around;
 }
