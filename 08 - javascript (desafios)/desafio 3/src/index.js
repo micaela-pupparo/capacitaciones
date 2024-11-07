@@ -1,6 +1,7 @@
 import "./public/css/styles.css"
 import "leaflet/dist/leaflet.css"
 import L from "leaflet"
+import { createHash } from "crypto-browserify";
 
 if (window.location.pathname === "/index.html") {
     import(/* webpackChunkName: "newTask" */ "./public/js/collapsible" )
@@ -44,10 +45,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if(gruposGuardados.length !== 0) {
         gruposGuardados.forEach(grupo => {
-            renderizarGrupo(grupo.nombre);
-            const nombreClase = grupo.nombre.replace(/\s+/g, "-");
+            renderizarGrupo(grupo.nombre, grupo.id);
+            console.log(grupo)
             grupo.tareas.forEach(tarea => {
-                renderizaTarea(nombreClase, tarea)
+                renderizaTarea(grupo.id, tarea)
             })
     });
     }
@@ -76,7 +77,7 @@ if ($formNuevoGrupo) {
     })
 }
 
-function renderizarGrupo(grupo) {
+function renderizarGrupo(nombre, id) {
     //console.log(grupo)
     const $contenedorInformacion = document.querySelector(".info-card-container");
 
@@ -87,15 +88,15 @@ function renderizarGrupo(grupo) {
             <table class="task-card">
             <thead>
               <tr class="task-card__header">
-                <th class="task-card__heading">${grupo}</th>
+                <th class="task-card__heading">${nombre}</th>
                 <th class="task-card__header-icon">
                   <a href="./public/pages/newTask.html"
-                    ><i class="fa-solid fa-plus task-card__button" id="${grupo.replace(/\s+/g, "-")}"></i
+                    ><i class="fa-solid fa-plus task-card__button" id="${id}"></i
                   ></a>
                 </th>
               </tr>
             </thead>
-            <tbody class="${grupo.replace(/\s+/g, "-")}">
+            <tbody class="${id}">
             </tbody>
             </table>
             `)
@@ -133,7 +134,8 @@ function renderizaTarea(nombreGrupo, tarea) {
 
 function guardarGrupo(grupo) {
     const grupos = obtenerGrupos();
-    grupos.push({nombre: grupo, tareas: []})
+    const idGrupo = createHash('sha256').update(`${Date.now()}`).digest('hex');
+    grupos.push({nombre: grupo, id: idGrupo, tareas: []})
 
     localStorage.setItem("grupos", JSON.stringify(grupos));
 }

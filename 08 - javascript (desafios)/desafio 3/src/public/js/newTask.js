@@ -136,16 +136,16 @@ $formNuevaTarea.addEventListener("submit", (event) => {
         .then(ubicacion => {
             console.log("ubicacion ", ubicacion);
 
-            const nombreGrupo = localStorage.getItem("boton").replace(/-/g, " ");
-            console.log(nombreGrupo)
-        
+            const idGrupo = localStorage.getItem("boton");
+            console.log(idGrupo)
             //ENCUENTRA EL NOMBRE DEL GRUPO AL QUE LE QUEREMOS SUMAR UNA TAREA
             const grupos = obtenerGrupos();
             console.log(grupos)
             let grupoObjeto;
             if (grupos.length !== 0) 
-                grupoObjeto = grupos.find(grupo => grupo.nombre === nombreGrupo);
-            console.log(grupoObjeto)
+                grupoObjeto = grupos.find(grupo => grupo.id === idGrupo);
+            console.log("OBJETOOOO---->" ,grupoObjeto)
+            console.log("TAREAAAAAAAA", tarea)
         
             //GUARDAMOS LA TAREA
             grupoObjeto.tareas.push(tarea);
