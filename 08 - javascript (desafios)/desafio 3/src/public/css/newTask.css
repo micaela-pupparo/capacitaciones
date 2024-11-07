@@ -3,7 +3,7 @@
   border-radius: 3px;
   display: flex;
   flex-direction: column;
-  margin: 9rem auto;
+  margin: 1rem auto;
   padding: 2rem;
   width: 500px;
   font-size: 1.2rem;
@@ -47,10 +47,34 @@
   width: 100%;
 }
 
+.new-task__canva__buttons {
+  display: flex;
+  justify-content: end;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  gap: 5px;
+}
+
 .new-task__buttons {
   margin-top: 30px;
   display: flex;
   justify-content: space-around;
+}
+
+.new-task__canva__buttons button {
+  padding: 3px 6px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.new-task__canva__buttons button:first-child {
+  background-color: transparent;
+  border: 1px solid #b6c7aa;
+}
+
+.new-task__canva__buttons button:last-child {
+  background-color: #b6c7aa;
+  border: none;
 }
 
 .new-task__buttons button {
