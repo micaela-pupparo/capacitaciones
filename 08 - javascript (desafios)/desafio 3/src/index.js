@@ -127,10 +127,16 @@ if ($contenedorTareas) {
 
 // ------------------ WEBSOCKET --------------------
 // Conectar al servidor WebSocket
-const socket = new WebSocket("ws://localhost:8080");
+const socket = new WebSocket(`ws://${process.env.IP_LOCAL}:8080`);
+console.log("processssssssss s-------->", process.env)
 
 socket.onopen = () => {
   console.log("Conectado al servidor WebSocket");
+
+  const datos = localStorage.getItem("grupos");
+
+  if (datos)
+    socket.send(datos);
 };
 
 // maneja los mensajes recibidos del servidor

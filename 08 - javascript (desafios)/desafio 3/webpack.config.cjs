@@ -4,8 +4,13 @@ const TerserPlugin = require("terser-webpack-plugin");
 const path = require("path");
 const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 const webpack = require("webpack");
+const Dotenv = require("dotenv-webpack");
 
-module.exports = {
+module.exports = (env) => {
+  const isProduction = env.NODE_ENV === "production";
+  const dotenvFilename = isProduction ? ".env.production" : ".env.development";
+
+  return {
     entry: "./src/index.js",
     output: {
       path: path.resolve(__dirname, "dist"),
@@ -89,5 +94,7 @@ module.exports = {
         resource.request = resource.request.replace(/^node:/, "");
       }),
       new NodePolyfillPlugin(),
+      new Dotenv({ path: dotenvFilename }),
     ],
   };
+}

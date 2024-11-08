@@ -15,6 +15,20 @@ wss.on("connection", (ws) => {
     ws.send(JSON.stringify(taskUpdate));
   }, 5000);
 
+  ws.on("message", (message) => {
+    const datos = JSON.parse(message)
+    console.log("DATOS DE GRUPOS -------------------------");
+    datos.forEach(grupo => {
+      console.log(grupo.nombre);
+      
+      if(grupo.tareas.length !== 0) {
+        console.log("tareas ---------")
+        grupo.tareas.forEach(tarea => {
+          console.log(tarea.nombre)})
+        }
+    });
+  })
+
   ws.on("close", () => {
     console.log("Cliente desconectado");
     clearInterval(intervalId);
