@@ -64,7 +64,7 @@ function renderizaTarea(nombreGrupo, tarea) {
                 <td class="task-card__checkbox-cell"><input class="task-card__checkbox" type="checkbox" /></td>
                 <td class="task-card__name">${tarea.nombre}</td>
                 <td class="task-card__description">${tarea.descripcion}</td>
-                <td>${tarea.fechaVencimiento}</td>
+                <td class="task-card__date">${tarea.fechaVencimiento}</td>
                 <td class="task-card__image">${tarea.imagen}</td>
                 <td id="map${tarea.id}" style="height: 40px; width: 200px"></td>
                 <td><i class="fa-solid fa-trash-can" id="${tarea.id}"></i></td>
@@ -72,9 +72,9 @@ function renderizaTarea(nombreGrupo, tarea) {
             `)
         
             const contenedorMapa = document.getElementById(`map${tarea.id}`);
-            console.log(contenedorMapa)
-            console.log(tarea.posicion)
-            console.log(tarea)
+            //console.log(contenedorMapa)
+            //console.log(tarea.posicion)
+            //console.log(tarea)
             if (contenedorMapa) {
                 const map = L.map(`map${tarea.id}`).setView([tarea.ubicacion.coords.latitude, tarea.ubicacion.coords.longitude], 13);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -127,24 +127,76 @@ if ($contenedorTareas) {
 
 // ------------------ WEBSOCKET --------------------
 // Conectar al servidor WebSocket
-const socket = new WebSocket(`ws://${process.env.IP_LOCAL}:8080`);
-console.log("processssssssss s-------->", process.env)
 
-socket.onopen = () => {
-  console.log("Conectado al servidor WebSocket");
+//FIXME: SI NO CONECTA EL WEB SCOKET DEJA DE EJECUTAR LAS LINEAS QUE LE SIGUEN
+// debemos chequear primero que el navegador soporte wesockets
 
-  const datos = localStorage.getItem("grupos");
+// if (window.WebSocket) {
+//     const socket = new WebSocket(`ws://${process.env.IP_LOCAL}:8080`);
+//     console.log("processssssssss s-------->", process.env)
+    
+//     socket.onopen = () => {
+//       console.log("Conectado al servidor WebSocket");
+    
+//       const datos = localStorage.getItem("grupos");
+    
+//       if (datos)
+//         socket.send(datos);
+//     };
+    
+//     // maneja los mensajes recibidos del servidor
+//     socket.onmessage = (event) => {
+//       const update = JSON.parse(event.data);
+//       console.log(`Task ID: ${update.taskId} - Status: ${update.status} - Message: ${update.message}`);
+//     };
+    
+//     socket.onclose = () => {
+//       console.log("Desconectado del servidor WebSocket");
+//     };
+// } else {
+//     console.log("no soporta websockets");
+// }
 
-  if (datos)
-    socket.send(datos);
-};
+//----------------------WEB WORKER----------------------
+const worker = new Worker(new URL("./public/js/utils/worker.js", import.meta.url));
 
-// maneja los mensajes recibidos del servidor
-socket.onmessage = (event) => {
-  const update = JSON.parse(event.data);
-  console.log(`Task ID: ${update.taskId} - Status: ${update.status} - Message: ${update.message}`);
-};
+//TODO: ver si lo podes hacer directamente en la variable
+function traerTareasYFechas() {
+    const grupos = obtenerGrupos();
+    const tareas = [];
 
-socket.onclose = () => {
-  console.log("Desconectado del servidor WebSocket");
-};
+    grupos.forEach(grupo => {
+        grupo.tareas.forEach(tarea => {
+            const nombreYFecha = {};
+            nombreYFecha.id = tarea.id;
+            nombreYFecha.fechaVencimiento = tarea.fechaVencimiento;
+            tareas.push(nombreYFecha);
+        })
+    })
+
+    return tareas;
+}
+
+worker.postMessage(traerTareasYFechas());
+
+worker.onmessage = function(event) {
+    console.log('mensaje del worker: ', event.data);
+    let tarea;
+    if (event.data.id) {
+        tarea = obtenerTarea(event.data.id);
+        const $tarea = document.querySelector(`.${tarea.id} > .task-card__date`);
+
+        if ($tarea) {
+            //TODO: agregar clases al icono i
+        }
+    }
+}
+
+function obtenerTarea(id) {
+    const grupos = obtenerGrupos();
+    let tarea;
+
+    grupos.forEach(grupo => {
+        tarea = grupo.tareas.filter(tarea => tarea.id === id);
+    })
+}

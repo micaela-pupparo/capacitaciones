@@ -5,24 +5,15 @@ const wss = new WebSocket.Server({ port: 8080 });
 wss.on("connection", (ws) => {
   console.log("Nuevo cliente conectado");
 
-  // simula el envío de actualizaciones de tareas cada 5 segundos
-  const intervalId = setInterval(() => {
-    const taskUpdate = {
-      taskId: Math.floor(Math.random() * 100),
-      status: "En progreso",
-      message: "Actualización de tarea en tiempo real",
-    };
-    ws.send(JSON.stringify(taskUpdate));
-  }, 5000);
-
   ws.on("message", (message) => {
     const datos = JSON.parse(message)
-    console.log("DATOS DE GRUPOS -------------------------");
+    console.log("-----------------------DATOS DE GRUPOS -------------------------");
     datos.forEach(grupo => {
+      console.log("-------------------NOMBRE GRUPO-------------------")
       console.log(grupo.nombre);
       
       if(grupo.tareas.length !== 0) {
-        console.log("tareas ---------")
+        console.log("--------------TAREAS--------------")
         grupo.tareas.forEach(tarea => {
           console.log(tarea.nombre)})
         }

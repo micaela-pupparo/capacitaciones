@@ -56,6 +56,9 @@ h4 {
   margin: 0;
 }
 
+i.fa {
+  text-transform: none !important;
+}
 /* LINKS */
 ul {
   padding-left: 0;
@@ -198,7 +201,6 @@ a {
   padding: 0.2rem 1rem;
   margin-top: 1rem;
   position: relative;
-  overflow: hidden;
 }
 
 .task-card__checkbox-cell {
@@ -226,6 +228,61 @@ a {
 .task-card__image img {
   width: 200px;
   height: 40px;
+}
+
+.task-card__date {
+  position: relative;
+  display: inline-block;
+}
+
+.hidden {
+  display: none;
+}
+
+.task-card__date__icon {
+  color: rgb(203, 3, 3);
+  cursor: pointer;
+}
+
+.task-card__date__tooltip {
+  visibility: hidden;
+  width: 120px;
+  background-color: rgba(203, 3, 3, 0.412);
+  color: #fff;
+  text-align: center;
+  text-transform: lowercase !important;
+  padding: 5px 0;
+  border-radius: 6px;
+  font-family: "Raleway", serif;
+  font-size: 11px;
+  font-weight: 500;
+
+  /* Position the tooltip text */
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -60px;
+
+  /* Fade in tooltip */
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.task-card__date__tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 79%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: rgba(203, 3, 3, 0.412) transparent transparent transparent;
+}
+
+.task-card__date__icon:hover .task-card__date__tooltip {
+  visibility: visible;
+  opacity: 1;
 }
 
 /* Info Cards */
