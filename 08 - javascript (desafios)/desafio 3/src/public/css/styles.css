@@ -110,6 +110,7 @@ a {
 .tasks-container {
   padding: 0 2rem;
   margin-left: 200px;
+  position: relative;
 }
 
 .tasks__header {
@@ -180,6 +181,7 @@ a {
 .task-card {
   background: var(--color-primary);
   border-radius: 3px;
+  cursor: move;
   display: flex;
   flex-direction: column;
   font-family: "Raleway", serif;

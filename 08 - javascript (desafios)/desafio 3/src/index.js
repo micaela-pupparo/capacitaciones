@@ -5,7 +5,9 @@ import "./public/js/modules/newGroup.js"
 
 if (window.location.pathname === "/index.html" || window.location.pathname === "/") {
     import(/* webpackChunkName: "collapsible" */ "./public/js/modules/collapsible.js" )
-      .catch((error) => console.error("Error loading newTask.js", error));
+      .catch((error) => console.error("Error loading collapsible.js", error));
+    import(/* webpackChunkName: "draggable" */ "./public/js/modules/draggable.js" )
+      .catch((error) => console.error("Error loading draggable.js", error));
 }
 
 if (window.location.pathname === "/public/pages/newTask.html") {
@@ -29,6 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 })
 
+
 export function renderizarGrupo(nombre, id) {
     //console.log(grupo)
     const $contenedorInformacion = document.querySelector(".info-card-container");
@@ -37,7 +40,7 @@ export function renderizarGrupo(nombre, id) {
 
         //console.log(grupo)
         $contenedorInformacion.insertAdjacentHTML("beforebegin", `
-            <table class="task-card">
+            <table class="task-card" draggable="true">
             <thead>
               <tr class="task-card__header">
                 <th class="task-card__heading">${nombre}</th>
@@ -59,7 +62,7 @@ function renderizaTarea(nombreGrupo, tarea) {
     const $contenedorTareas = document.querySelector(`.${CSS.escape(nombreGrupo)}`);
 
     if ($contenedorTareas) {
-        $contenedorTareas.insertAdjacentHTML("afterend", `
+        $contenedorTareas.insertAdjacentHTML("beforeend", `
             <tr class="task-card__list ${tarea.id}">
                 <td class="task-card__checkbox-cell"><input class="task-card__checkbox" type="checkbox" /></td>
                 <td class="task-card__name">${tarea.nombre}</td>
