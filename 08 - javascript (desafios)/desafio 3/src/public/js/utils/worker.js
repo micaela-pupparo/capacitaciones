@@ -1,6 +1,8 @@
 let tareas = [];
+let recordatoriosHechos = [];
 
 setInterval( function () {
+
     const hoy = new Date();
     hoy.setHours(0, 0, 0, 0); //para que ignore las horas
 
@@ -11,13 +13,34 @@ setInterval( function () {
             let diferencia = fechaTarea - hoy;
             diferencia = Math.ceil(diferencia / (1000 * 60 * 60 * 24))
 
-            if (diferencia <= 5 && diferencia >= 0)
-                self.postMessage({id: tarea.id, diferencia});
-            if (diferencia < 0)
-                self.postMessage({id: tarea.id, diferencia});
+            let recordatorio = {
+                id: tarea.id,
+                diferencia
+            };
+
+            if (diferencia <= 5 && diferencia >= 0) {
+                if (!buscarNuevasTareas(recordatorio, recordatoriosHechos)) {
+                    recordatoriosHechos.push(recordatorio);
+                    self.postMessage(recordatorio);
+                }
+            }
+            if (diferencia < 0) {
+                if (!buscarNuevasTareas(recordatorio, recordatoriosHechos)) {
+                    recordatoriosHechos.push(recordatorio);
+                    self.postMessage(recordatorio);
+                }
+            }
         })
 
-}, 60000)
+}, 6000)
+
+function buscarNuevasTareas(tarea, recordatoriosHechos) {
+    let resultado = recordatoriosHechos.find(recordatorio => recordatorio.id === tarea.id);
+    if (resultado) 
+        return tarea.diferencia === resultado.diferencia
+
+    return undefined;
+}
 
 self.onmessage = function(event) {
     console.log("en el workeerrr: ", event.data)

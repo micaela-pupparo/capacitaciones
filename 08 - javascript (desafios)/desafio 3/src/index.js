@@ -181,22 +181,46 @@ worker.postMessage(traerTareasYFechas());
 
 worker.onmessage = function(event) {
     console.log('mensaje del worker: ', event.data);
-    let tarea;
-    if (event.data.id) {
-        tarea = obtenerTarea(event.data.id);
-        const $tarea = document.querySelector(`.${tarea.id} > .task-card__date`);
+    let dato = event.data;
+    console.log(dato)
+
+    //diferencia es lo que falta para que venza la tarea
+    if (typeof(dato.diferencia) === "number") {
+        let tarea = obtenerTarea(dato.id);
+        const $tarea = document.querySelector(`.${CSS.escape(tarea.id)}`);
+        const $fecha = $tarea.querySelector(".task-card__date")   
 
         if ($tarea) {
-            //TODO: agregar clases al icono i
+            if ($fecha.querySelector(".task-card__date__icon")) {
+                const $tooltip = $fecha.querySelector(".task-card__date__tooltip");
+                $tooltip.innerHTML = `vence en ${dato.diferencia} días`
+            }
+            else {
+                const icono = document.createElement("i");
+                icono.className = "fa-solid fa-circle-exclamation task-card__date__icon";
+    
+                const tooltip = document.createElement("span");
+                tooltip.className = "task-card__date__tooltip";
+                tooltip.textContent = `vence en ${dato.diferencia} días`;
+                icono.appendChild(tooltip); 
+    
+                $fecha.insertAdjacentElement("beforeend", icono);
+            }
         }
     }
 }
 
 function obtenerTarea(id) {
+    console.log(id)
     const grupos = obtenerGrupos();
-    let tarea;
+    console.log(grupos)
 
-    grupos.forEach(grupo => {
-        tarea = grupo.tareas.filter(tarea => tarea.id === id);
-    })
+    //al principio puse un forEach pero el return no detiene el bucle
+    for (let grupo of grupos) {
+        let tarea = grupo.tareas.find(tarea => tarea.id === id);
+        console.log(tarea);
+        if (tarea) {
+            return tarea; 
+        }
+    }
 }
