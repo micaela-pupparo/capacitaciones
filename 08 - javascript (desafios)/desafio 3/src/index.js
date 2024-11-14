@@ -8,6 +8,8 @@ if (window.location.pathname === "/index.html" || window.location.pathname === "
       .catch((error) => console.error("Error loading collapsible.js", error));
     import(/* webpackChunkName: "draggable" */ "./public/js/modules/draggable.js" )
       .catch((error) => console.error("Error loading draggable.js", error));
+    import(/* webpackChunkName: "copy" */ "./public/js/modules/copy.js" )
+      .catch((error) => console.error("Error loading copy.js", error));
 }
 
 if (window.location.pathname === "/public/pages/newTask.html") {
