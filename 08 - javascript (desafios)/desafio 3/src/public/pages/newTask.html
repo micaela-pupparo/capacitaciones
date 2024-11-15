@@ -30,6 +30,14 @@
         <p>Fecha de vencimiento</p>
         <input type="date" name="fechaVencimiento" required />
       </label>
+      <article>
+        <p>Graba un audio</p>
+        <section class="buttons-container">
+          <button id="grabarBoton">Grabar</button>
+          <button id="pararBoton" disabled>Detener</button>
+        </section>
+        <audio id="audio" controls></audio>
+      </article>
       <article class="new-task__input">
         <p>Dibuja lo que quieras</p>
         <section class="new-task__canva__buttons">
