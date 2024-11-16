@@ -361,6 +361,117 @@ Esto es por cómo WebPack maneja los archivos y url en su sitema de empaquetado.
 
 Webpack puede identificar que "url archivo" es un recurso del proyecto y lo incluye en el proceso de construcción. La URL generada será válida en el contexto de la aplicación empaquetada. Soluciona problemas relacionados con rutas incorrectas en entornos empaquetados.
 
+## Configuración de WebPack
+
+```js
+const HtmlWebpackPlugin = require("html-webpack-plugin"); // genera archivos html automáticamente. Inyecta referencias a los archivos empaquetados
+const MiniCssExtractPlugin = require("mini-css-extract-plugin"); // extra archivos css de los módulos y genera un archivo css aparte
+const TerserPlugin = require("terser-webpack-plugin"); // minimiza y optimiza el bundle
+const path = require("path");
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin"); // proporciona un polyfill (módulo de código) para tener funcionalidades de Node.js en el navegador
+const webpack = require("webpack");
+const Dotenv = require("dotenv-webpack"); // carga variables de entorno en desde archivos .env
+
+module.exports = (env) => {
+  const isProduction = env.NODE_ENV === "production"; // chequea que el entorno sea de producción
+  const dotenvFilename = isProduction ? ".env.production" : ".env.development"; // selecciona el archivo correcto dependiento del entorno
+
+  return {
+    entry: "./src/index.js", // archivo principal del proyecto
+    output: {
+      path: path.resolve(__dirname, "dist"), // genera el bundle en esta carpeta
+      filename: "[name].bundle.js",
+      clean: true, // limpia la carpeta dist antes de generar nuevos archivos
+      publicPath: "/", // define la ruta base para los recursos (como importaciones)
+    },
+    optimization: {
+      minimize: true,
+      minimizer: [
+        new TerserPlugin({
+          terserOptions: {
+            output: {
+              comments: false,
+            },
+          },
+          extractComments: false,
+        }),
+      ],
+    },
+    watchOptions: {
+      ignored: /node_modules/, // ignora los cambios de la carpeta para evitar recargas innecesarias
+    },
+    devtool: "inline-source-map",
+    devServer: {
+      // configura el servidor de desarrollo
+      static: {
+        directory: path.join(__dirname, "dist"), // sirve los archivos desde dist
+      },
+      compress: true,
+      port: 3000,
+      open: true, // abre automaticamente el navegador
+      historyApiFallback: {
+        rewrites: [
+          {
+            from: /^\/public\/pages\/newTask$/,
+            to: "/public/pages/newTask.html",
+          },
+        ], //redirige esta ruta especifica a un archivo html
+      },
+    },
+    module: {
+      rules: [
+        // define cómo webpack va a manejar los distintos archivos
+        {
+          test: /\.js$/,
+          exclude: /node_modules/,
+          use: {
+            loader: "babel-loader", // para js utiliza babel
+            options: {
+              presets: ["@babel/preset-env"],
+            },
+          },
+        },
+        {
+          test: /\.css$/,
+          use: [MiniCssExtractPlugin.loader, "css-loader"], // para extraer los archivos y procesarlos
+        },
+      ],
+    },
+    resolve: {
+      // estos son las funcionalidades que no existen en el navegador. Lo que hace es que sí se puedan usar
+      fallback: {
+        vm: false,
+        crypto: require.resolve("crypto-browserify"),
+        stream: require.resolve("stream-browserify"),
+        process: require.resolve("process/browser"),
+      },
+    },
+    plugins: [
+      new HtmlWebpackPlugin({
+        template: "./src/index.html",
+        filename: "index.html",
+      }),
+      new HtmlWebpackPlugin({
+        template: "./src/public/pages/newTask.html",
+        filename: "./public/pages/newTask.html",
+      }),
+      new MiniCssExtractPlugin({
+        filename: "./public/css/[name].css",
+        chunkFilename: "[id].css",
+      }),
+      new webpack.ProvidePlugin({
+        process: "process/browser",
+      }),
+      new webpack.NormalModuleReplacementPlugin(/node:crypto/, (resource) => {
+        resource.request = resource.request.replace(/^node:/, "");
+      }),
+      new NodePolyfillPlugin(),
+      new Dotenv({ path: dotenvFilename }),
+    ],
+  };
+};
+```
+
 ## Documentación utilizada
 
 - https://leafletjs.com/
