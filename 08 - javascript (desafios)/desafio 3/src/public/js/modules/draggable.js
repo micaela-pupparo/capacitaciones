@@ -7,7 +7,6 @@ if ($gruposTarea) {
       e.stopPropagation();
       $grupo.classList.add("seleccionado");
 
-      //TODO: cambiar esto
       const dragImage = document.createElement("img");
       dragImage.src =
         "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
