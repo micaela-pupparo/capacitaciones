@@ -26,7 +26,7 @@ guardarLienzo()
   .catch((error) => console.log("error al guardar img"));
 
 // CREA CLASE TAREA
-class Tareas {
+class Tarea {
   constructor(nombre, descripcion, fechaVencimiento) {
     this.nombre = nombre;
     this.descripcion = descripcion;
@@ -88,7 +88,7 @@ $formNuevaTarea.addEventListener("submit", (event) => {
   Validaciones.nombre(nombre);
   Validaciones.descripcion(descripcion);
 
-  const tarea = new Tareas(nombre, descripcion, fechaVencimiento);
+  const tarea = new Tarea(nombre, descripcion, fechaVencimiento);
   tarea.guardarImagen();
   tarea.audio = obtenerAudioURL();
   tarea.obtenerPosicion().then((ubicacion) => {
