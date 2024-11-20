@@ -1,11 +1,39 @@
+import { trackPageView } from "../src/libs/analytics";
 import { getExchangeRate } from "../src/libs/currency";
+import { sendEmail } from "../src/libs/email";
+import { charge } from "../src/libs/payment";
 import { getShippingQuote } from "../src/libs/shipping";
-import { getPriceInCurrency, getShippingInfo } from "../src/mocking";
+import {
+  getPriceInCurrency,
+  getShippingInfo,
+  renderPage,
+  signUp,
+  submitOrder,
+} from "../src/mocking";
 import { vi, it, expect, describe } from "vitest";
 // vi tiene un metodo para crear mock functions
 
 vi.mock("../src/libs/currency");
 vi.mock("../src/libs/shipping");
+vi.mock("../src/libs/analytics");
+vi.mock("../src/libs/payment");
+
+//-------------------PARTIAL MOCKING-----------------------------------
+// hay situaciones donde queremos mantener alguna de las funciones en el modulo
+// en vez de reemplazar todas con mock functions
+// por ejemplo, en el modulo email, sendEmail simula enviar un email verdadero
+// que claramente vamos a querer reemplazar por una mock function porque
+// cuando testeamos el código no vamos a querer enviar emails
+// pero para isValidEmail lo unico que hace es chequear que esté bien
+// no queremos reemplazarla por una mock function
+vi.mock("../src/libs/email", async (importOriginal) => {
+  const originalModule = await importOriginal(); //devuelve una promesa
+  return {
+    ...originalModule, //copiamos todas las propiedades del modulo
+    sendEmail: vi.fn(), //sobreescribimos la funcion
+  };
+});
+//---------------------------------------------------------------------
 
 describe("test suite", () => {
   it("test case", () => {
@@ -85,5 +113,75 @@ describe("getShippingInfo", () => {
     expect(result).toMatch(/2 days/i);
     //otra forma, mismo resultado
     expect(result).toMatch(/shipping cost: \$10 \(2 days\)/i);
+  });
+});
+
+//--------------------TESTING INTERACTIONS-----------------------------
+describe("renderPage", () => {
+  it("should return correct content", async () => {
+    const result = await renderPage();
+
+    expect(result).toMatch(/content/i);
+  });
+
+  it("should call analytics", async () => {
+    await renderPage();
+
+    expect(trackPageView).toHaveBeenCalledWith("/home");
+  });
+});
+
+// Exercise
+describe("submitOrder", () => {
+  const order = { totalAmount: 10 };
+  const creditCard = { creditCardNumber: "1234" };
+
+  it("should charge the customer", async () => {
+    vi.mocked(charge).mockResolvedValue({ status: "success" });
+
+    await submitOrder(order, creditCard);
+
+    expect(charge).toHaveBeenCalledWith(creditCard, order.totalAmount);
+  });
+
+  it("should return success when payment is successful", async () => {
+    vi.mocked(charge).mockResolvedValue({ status: "success" });
+
+    const result = await submitOrder(order, creditCard);
+
+    expect(result).toEqual({ success: true });
+  });
+
+  it("should not return success when payment is successful", async () => {
+    vi.mocked(charge).mockResolvedValue({ status: "failed" });
+
+    const result = await submitOrder(order, creditCard);
+
+    expect(result).toEqual({ success: false, error: "payment_error" });
+  });
+});
+
+//-------------------------PARTIAL MOCKING-------------------------------
+describe("signUp", () => {
+  const email = "name@domain.com";
+  it("should return false if email is not valid", async () => {
+    const result = await signUp("a");
+
+    expect(result).toBe(false);
+  });
+
+  it("should return true if email is valid", async () => {
+    const result = await signUp(email);
+
+    expect(result).toBe(true);
+  });
+
+  it("should return the welcome email if email is valid", async () => {
+    const result = await signUp(email);
+
+    expect(sendEmail).toHaveBeenCalled();
+    const args = vi.mocked(sendEmail).mock.calls[0];
+    expect(args[0]).toBe(email);
+    expect(args[1]).toMatch(/welcome/i);
   });
 });
