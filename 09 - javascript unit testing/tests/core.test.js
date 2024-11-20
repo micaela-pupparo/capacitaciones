@@ -1,6 +1,7 @@
 import {
   calculateDiscount,
   canDrive,
+  fetchData,
   getCoupons,
   isPriceInRange,
   isValidUsername,
@@ -257,3 +258,33 @@ describe("canDrive", () => {
   //   expect(canDrive(18, "UK")).toBe(true);
   // });
 });
+
+// -----------------------TESTING ASYNCHRONOUS CODE--------------------
+describe("fetchData", () => {
+  // it("should return a promise that will resolve to an array of numbers", () => {
+  //   fetchData().then((result) => {
+  //     expect(Array.isArray(result)).toBe(true);
+  //     expect(result.length).toBeGreaterThan(0);
+  //   });
+  // });
+
+  // otra forma de escribir lo mismo
+  // it("should return a promise that will resolve to an array of numbers", async () => {
+  //   const result = await fetchData()
+  //   expect(Array.isArray(result)).toBe(true);
+  //   expect(result.length).toBeGreaterThan(0);
+  // });
+
+  // para simular promesa rechazada
+  it("should return a promise that will resolve to an array of numbers", async () => {
+    try {
+      const result = await fetchData();
+    } catch (error) {
+      // el objeto con el resultado de la promesa es el error
+      expect(error).toHaveProperty("reason");
+      expect(error.reason).toMatch(/fail/i);
+    }
+  });
+});
+
+//-----------------------------SETUP AND TEARDOWN----------------------
