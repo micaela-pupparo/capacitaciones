@@ -11,10 +11,27 @@ import {
   signUp,
   submitOrder,
 } from "../src/mocking";
-import { vi, it, expect, describe } from "vitest";
+import { vi, it, expect, describe, beforeEach } from "vitest";
 // SYPING ON FUNCTIONS--------------------------
 import security from "../src/libs/security";
 // ---------------------------------------------
+
+// TODO: INFO IMPORTANTE------------------------------------
+// la propiedad mock es global, acumula informacion entre
+// distintos casos de prueba. Como buena practica se debe 
+// siempre limpiar nuestras mockfunctions antes o despues
+// de cada caso de prueba
+// mockClear() --> limpia toda la informacion de tods las llamadas
+// mockReset() --> hace lo mismo pero le agrega a la implementacion
+// una funcion vacia. por lo que si hacemos que la mock function
+// tenga una logica, una implementacion, lo va a eliminar
+// mockRestore() --> hace lo mismo que clear pero en vez de vaciar
+// la implementacion, devuelve la implementacion original. esto solo
+// tiene sentido en spies
+// EJEMPLO EN SIGNUP TEST
+// se puede configurar para que vitest siempre te limpie los mocks
+// EJEMPLO EN VITEST.CONFIG.JS
+// ---------------------------------------------------------
 
 
 // vi tiene un metodo para crear mock functions
@@ -170,6 +187,14 @@ describe("submitOrder", () => {
 //-------------------------PARTIAL MOCKING-------------------------------
 describe("signUp", () => {
   const email = "name@domain.com";
+
+  // CLEARING MOCKS
+  beforeEach(() => {
+    vi.mocked(sendEmail).mockClear();
+    // FORMA DE LIMPIAR TODOS LOS MOCKS
+    vi.clearAllMocks();
+  })
+
   it("should return false if email is not valid", async () => {
     const result = await signUp("a");
 
