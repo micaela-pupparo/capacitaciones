@@ -1,14 +1,15 @@
-import globals from 'globals';
-import pluginJs from '@eslint/js';
+// @ts-check
 
-/** @type {import('eslint').Linter.Config[]} */
-export default [
-  { languageOptions: { globals: globals.browser } },
-  pluginJs.configs.recommended,
+import eslint from '@eslint/js';
+import tseslint from 'typescript-eslint';
+
+export default tseslint.config(
+  eslint.configs.recommended,
+  tseslint.configs.recommended,
   {
     rules: {
       'space-before-function-paren': 'off',
-      semi: ['error', 'always'],
+      semi: ['error', 'always'], // Reglas personalizadas
     },
   },
-];
+);
