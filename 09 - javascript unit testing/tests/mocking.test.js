@@ -6,11 +6,17 @@ import { getShippingQuote } from "../src/libs/shipping";
 import {
   getPriceInCurrency,
   getShippingInfo,
+  login,
   renderPage,
   signUp,
   submitOrder,
 } from "../src/mocking";
 import { vi, it, expect, describe } from "vitest";
+// SYPING ON FUNCTIONS--------------------------
+import security from "../src/libs/security";
+// ---------------------------------------------
+
+
 // vi tiene un metodo para crear mock functions
 
 vi.mock("../src/libs/currency");
@@ -185,3 +191,27 @@ describe("signUp", () => {
     expect(args[1]).toMatch(/welcome/i);
   });
 });
+
+//---------------------------SPYING ON FUNCTIONS------------------------
+// para el caso de la funcion login, sendEmail queremos reemplazarlo
+// claramente a una mock function, porque no queremos que se manden
+// mails durante las pruebas, pero para generateCode() no queremos
+// reemplazarlo porque tenemos una logica valiosa para testear
+// pero para poder testear login y poder crear una mock function
+// para sendEmail, se necesita saber qué código le estamos pasando
+// porque lo tiene de parametro. Para esto necesitamos un espía
+// en la funcion generateCode para saber el código que genera
+
+// importamos primero el modulo (se ve arriba de todo)
+describe('login', () => {
+  it('should email the one-time login code', async () => {
+    const email = "name@domain.com";
+    // es muy parecido a mock
+    const spy = vi.spyOn(security, "generateCode");
+
+    await login(email);
+
+    const securityCode = spy.mock.results[0].value.toString();
+    expect(sendEmail).toHaveBeenCalledWith(email, securityCode)
+  })
+})
