@@ -82,12 +82,12 @@ export function fetchData() {
   // para simular una promesa rechazada agregamos el siguiente codigo
   return Promise.reject({ reason: 'Operation failed' });
 
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const data = [1, 2, 3];
-      resolve(data);
-    });
-  });
+  // return new Promise((resolve) => {
+  //   setTimeout(() => {
+  //     const data = [1, 2, 3];
+  //     resolve(data);
+  //   });
+  // });
 }
 
 // Lesson: Setup and teardown

@@ -287,7 +287,7 @@ describe('fetchData', () => {
   // para simular promesa rechazada
   it('should return a promise that will resolve to an array of numbers', async () => {
     try {
-      const result = await fetchData();
+      await fetchData();
     } catch (error) {
       // el objeto con el resultado de la promesa es el error
       expect(error).toHaveProperty('reason');

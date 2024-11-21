@@ -1,5 +1,5 @@
 import { calculateAverage, factorial, fizzBuzz, max } from '../src/intro';
-import { describe, test, it, expect } from 'vitest';
+import { describe, it, expect } from 'vitest';
 // describe: para crear un grupo de pruebas relacionadas (test suite)
 //      es una funcion que se le pasa de parametro un string, que es el nombre
 //      del grupo y despues es una funcion que sera llamada por el Test Runner
