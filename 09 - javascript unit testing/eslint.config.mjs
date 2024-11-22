@@ -9,7 +9,12 @@ export default tseslint.config(
   {
     rules: {
       'space-before-function-paren': 'off',
-      semi: ['error', 'always'], // Reglas personalizadas
+      semi: ['error', 'always'],
+      'no-undef': 'off', //variable global console la tomaba como indefinida
     },
+  },
+  {
+    files: ['**/*.js'],
+    extends: [tseslint.configs.disableTypeChecked],
   },
 );
