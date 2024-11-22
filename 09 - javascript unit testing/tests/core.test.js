@@ -297,7 +297,7 @@ describe('fetchData', () => {
 });
 
 //-----------------------------SETUP AND TEARDOWN----------------------
-//antes de hacer lñas pruebas quiero crear un ambiente consistente
+// antes de hacer las pruebas quiero crear un ambiente consistente
 // por lo que importo lo siguiente
 // beforeEach, beforeAll, afterAll, afterEach de Vitest
 
