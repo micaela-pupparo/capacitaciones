@@ -265,3 +265,238 @@ function reject(): never {
 
 // reject();
 // console.log("hola") tira error
+// ------------------------------------------------------------------------
+
+
+// OBJECT-ORIENTED PROGRAMMING--------------------------------------------
+// Classes
+// class Account {
+//     readonly id: number;
+//     owner: string;
+//     private _balance: number;
+//     nickname?: string;
+
+//     constructor(id: number, owner: string, balance: number) {
+//         this.id = id;
+//         this.owner = owner;
+//         this._balance = balance;
+//     }
+
+//     deposit(amount: number): void {
+//         if (amount <= 0)
+//             throw new Error("invalid amount")
+//         this._balance += amount;
+//     }
+
+//     geetBalance(): number {
+//         return this._balance;
+//     }
+// }
+
+// let account = new Account(1, "Mosh", 0);
+// console.log(account instanceof Account); //true
+
+
+// Read only and optional properties
+// readonly id: number; readonly
+// nickname?: string; optional property
+
+// Access Control Keywords
+// existen 3 access modifiers
+// - public -> por default
+// - private -> private balance: number;
+// solo se puede acceder dentro de la clase, o sea, por los metodos
+// pero no se puede cambiar el valor fuera de ella
+// - protected
+// console.log(account.geetBalance())
+
+// Parameter properties
+class Account {
+    nickname?: string;
+
+    constructor(
+        public readonly id: number, 
+        public owner: string, 
+        private _balance: number) {
+    }
+
+    // Getters y Setters
+    get balance(): number {
+        return this._balance;
+    }
+
+    set balance(value: number) {
+        if (value < 0)
+            throw new Error("invalid value")
+        this._balance = value;
+    }
+}
+
+let account = new Account(1, "Mosh", 0);
+console.log(account.balance);
+
+
+// Index Signatures
+// para agregar propiedades dinamicamente a un objeto
+class SeatAssigment {
+    // A1: "Mosh"
+    // A2: "Moshi"
+    [seatNumber: string]: string;
+}
+
+let seats = new SeatAssigment();
+seats.A1 = "Mosh";
+seats.A2 = "Moshi";
+seats["A3"] = "John";
+
+
+// Static Members
+// propiedad que es de una clase y no de un objeto
+class Ride {
+    private static /* (*) */ _activeRides: number = 0;
+
+    start() {Ride._activeRides++;}
+    stop() {Ride._activeRides--;}
+
+    static get activeRides() {return Ride._activeRides}
+}
+
+let ride1 = new Ride();
+ride1.start();
+
+let ride2 = new Ride();
+ride2.start();
+
+// console.log(ride1.activeRides); //1
+// console.log(ride2.activeRides); //1
+
+// pero deberia haber 2...
+// necesitamos un lugar global para llevar registro de los active rides
+// (*) SE HACE PRIVATE TAMBIEN
+// para ue no se pueda Ride.activeRides = 2324435;
+console.log(Ride.activeRides) //2
+
+
+// Inheritance
+class Person {
+    constructor(public firstName: string, public lastName: string) {
+    }
+        
+    get fullName() : string {
+        return this.firstName + " " + this.lastName
+    }
+    
+    walk() {
+        console.log("walking");
+    }
+}
+
+class Student extends Person {
+    constructor(public studentId: number, firstName: string, lastName: string) {
+        super(firstName, lastName);
+    }
+
+    takeTest() {
+        console.log("taking a test");
+    }
+}
+
+
+// Method overriding
+class Teacher extends Person {
+    // se puede no usar el override pero puede traer problemas
+    // lo configuramos para que salte error si no lo ponemos
+    override get fullName() : string {
+        return "Professor" + super.fullName;
+    }
+}
+
+let teacher = new Teacher("John", "Smith");
+
+
+// Polymorphism
+printNames([
+    new Student(1, "John", "Smith"),
+    new Teacher("Mosh", "Moshi")
+])
+
+function printNames(people: Person[]) {
+    for (let person of people)
+        console.log(person.fullName);
+}
+
+
+// Private vs Protected Members
+// las propiedades protegidas tienen en comun con las privadas que se pueden acceder
+// dentro de la clase pero no por fuera
+// la diferencia es que las protegidas son heredadas y las privadas no
+// no suelen ser usadas. 
+
+
+
+// Abstract CLasses and Methods
+abstract class Shape {
+    constructor(public color: string) {}
+
+    // render() {}; //es ilogico pensar que si hacemos una instancia
+    // de shape, se pueda renderear.
+    // una clase abstracta necesita si o si de otra que la extienda
+
+    // tambien se puede crear un metodo abstracto
+    abstract render(): void;
+    // los metodos abstractos solo pueden existir dentro de una clase
+    // abstracta
+}
+
+class Circle extends Shape {
+    constructor(public radius: number, color: string) {
+        super(color);
+    }
+
+    override render(): void {
+        console.log("rendering a circle")
+    }
+}
+
+// let shape = new Shape("red"); tira error
+
+
+
+// Interfaces
+// classes --> blueprints for creating objects
+// interfaces --> to define the shape of objects
+
+// abstract class Calendar {
+//     constructor(public name: string) {}
+
+//     // debemos abstraer los metodos porque cada calendario puede 
+//     // tener una implementacion distinta
+//     abstract addEvent(): void;
+//     abstract removeEvent(): void;
+// }
+
+// esto a la hora de crear el archivo js no aparece porque las 
+// interfaces no existen en js. esto es algo bueno porque estariamos
+// optimizando el codigo
+interface Calendar {
+    name: string;
+    addEvent(): void;
+    removeEvent(): void;
+}
+
+// inheritance
+interface CloudCalendar extends Calendar {
+    sync(): void;
+}
+
+// implementacion
+class GoogleCalendar implements Calendar {
+    constructor(public name: string) {}
+
+    addEvent(): void {
+        throw new Error("Method not implemented.");
+    }
+    removeEvent(): void {
+        throw new Error("Method not implemented.");
+    }
+}
