@@ -500,3 +500,97 @@ class GoogleCalendar implements Calendar {
         throw new Error("Method not implemented.");
     }
 }
+// -----------------------------------------------------------------------
+
+
+
+// GENERICS---------------------------------------------------------------
+// en vez de usar el tipo any podemos usar una clase generica
+class KeyValuePair<K, V> {
+    constructor(public key: K, public value: V) {}
+}
+
+let pair = new KeyValuePair<string, string>("1", "a");
+
+// Funciones Genericas
+class ArrayUtils {
+    static wrapInArray<T>(value: T) {
+        return [value];
+    }
+}
+
+let numbers1 = ArrayUtils.wrapInArray(1);
+
+
+// Interfaces Genericas
+// http://website.com/users
+// http://website.com/products
+
+interface Result<T> {
+    data: T | null,
+    error: string | null
+}
+
+function fetch<T>(url: string): Result<T> {
+    return { data: null, error: null };
+}
+
+interface User {
+    username: string;
+}
+
+interface Product {
+    title: string;
+}
+
+let result = fetch<Product>("url");
+result.data?.title;
+
+
+// Generic Constraints
+// solo permite usar o numeros o strings
+
+// function echo<T extends number | string>(value: T): T {
+//     return value;
+// }
+// echo(1)
+
+// objetos:
+// function echo<T extends {name: string}>(value: T): T {
+//     return value;
+// }
+// echo({name: "a"});
+
+// interfaces:
+// interface Person {
+//     name: string
+// }
+
+// function echo<T extends Person>(value: T): T {
+//     return value;
+// }
+
+// clases
+class Person1 {
+    constructor(public name: string) {}
+}
+
+function echo<T extends Person1>(value: T): T {
+    return value;
+}
+echo(new Person1("a"));
+
+
+// Generic Classes and Inheritance
+interface Product2 {
+    name: string,
+    price: number
+}
+
+class Store<T> {
+    private _objects: T[] = [];
+
+    add(obj: T): void {
+        this._objects.push(obj);
+    }
+}
