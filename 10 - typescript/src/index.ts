@@ -212,7 +212,7 @@ let log: any = null;
 log?.("a"); //solo se ejecuta si log hace referencia a una funcion
 
 
-// Nullish Coaelscing Operator
+// Nullish Coalescing Operator
 // chequea que el valor sea null o undefined
 // sirve para casos donde queres cheqeuar los falsy pero hay un valor
 // falsy valid, como el 0
