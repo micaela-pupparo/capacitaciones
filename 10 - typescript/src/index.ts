@@ -908,4 +908,9 @@ import { calculateTax1 } from './tax'
 let tax = calculateTax1(1000);
 console.log(tax);
 
+// librerias - lodash-----------------------------------------------
+// muchas librerias vienen con su declaration files (como tax.d.ts)
+import * as _ from 'lodash'
+// -----------------------------------------------------------------
+
 // ----------------------------------------------------------------------
