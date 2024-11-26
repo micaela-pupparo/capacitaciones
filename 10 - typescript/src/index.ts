@@ -587,10 +587,92 @@ interface Product2 {
     price: number
 }
 
+// type mapping --------------------------------------------------------
+// si queremos que un producto pueda tener las propiedades solo
+// readonly, podemos usar el type mapping para hacer dinaicamente
+// cada propiedad readonly 
+type ReadOnlyProduct = {
+    // iteramos las propiedades de product con el operador keyof
+    readonly [Property in keyof Product]: Product[Property]
+}
+
+// para hacerlo generico:
+type ReadOnly<T> = {
+    // iteramos las propiedades de product con el operador keyof
+    readonly [K in keyof T]: T[K]
+}
+
+let producto: ReadOnly<Product2> = {
+    name: 'a',
+    price: 1
+}
+
+// para hacer las propiedades opcionales
+type Optional<T> = {
+    [K in keyof T]?: T[K]
+}
+
+type Nullable<T> = {
+    [K in keyof T]: T[K] | null
+}
+// ---------------------------------------------------------------------
+
 class Store<T> {
-    private _objects: T[] = [];
+    protected _objects: T[] = [];
 
     add(obj: T): void {
         this._objects.push(obj);
     }
+
+    // the keyof operator ---------------------------------------
+    // find(property: string, value: unknown): T | undefined {
+    //     // con esta implementacion podemos pasarle una propiedad
+    //     // que no existe y que se crashee el programa
+    //     // ademas tira un error porque piensa que deberia ser un indice
+    //     // y no una propiedad
+    //     // return this._objects.find(obj => obj[property] === value)
+    // }
+
+    // el keyof operator retorna una union de propiedades del tipo dado
+    // T is Product
+    // keyof T => 'name' | 'price'
+    // ahora si le pasas una propiedad que no existe se va a poder saber
+    find(property: keyof T, value: unknown): T | undefined {
+        return this._objects.find(obj => obj[property] === value);
+    }
+    // ----------------------------------------------------------
 }
+
+// let store = new Store<Person>();
+
+// pass on the generic type parameter
+class CompressibleStore<T> extends Store<T> {
+    compress() {}
+}
+
+// let store = new CompressibleStore<Product>();
+
+// restrict the generic type parameter
+class SearchableStore<T extends {name: string}> extends Store<T> {
+    // el t extends un objeto es para que el compilador sepa que T va a 
+    // tener una propiedad llamada name
+    find(name: string): T | undefined {
+        return this._objects.find(obj => obj.name === name);
+    }
+}
+
+// no queremos pasar el parametro generico porque no queremos que
+// la clase lo sea
+// fijando (fixing or terminating) the generic type parameter
+class ProductStore extends Store<Product> {
+    filterByCategory(category: string): Product[] {
+        return [];
+    }
+}
+
+// RESUMEN: cuando extendemos una clase generica tenemos 3 opciones
+// - fijar el tipo generico del parametro
+// - restringirlo
+// - pasarselo a la clase hija
+
+// ----------------------------------------------------------------------
