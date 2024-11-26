@@ -676,3 +676,198 @@ class ProductStore extends Store<Product> {
 // - pasarselo a la clase hija
 
 // ----------------------------------------------------------------------
+
+// Dectorators ----------------------------------------------------------
+// los decorators son atributos que le aplicamos a las clases 
+// y a sus miembros para cambiar como se comportan
+// son funciones que son llamadas por el compilador
+
+// class decorators
+function Component(constructor: Function) {
+    console.log('compponent decorator called');
+    constructor.prototype.uniqueID = Date.now();
+    constructor.prototype.insertInDOM = () => {
+        console.log('inserting the component in the DOM');
+    }   
+}
+
+@Component
+class ProfileComponent {
+
+}
+
+// de la misma forma se puede resolver con la herencia, crendo una
+// clase. creamos una clase Component y que ProfileComponent la extienda
+
+
+
+// parameterized decorators
+// se hace utilizando un decorator factory
+function DecoratorFactory(value: number) {
+    return (constructor: Function) => {
+        console.log('compponent decorator called');
+        constructor.prototype.options = value;
+        constructor.prototype.uniqueID = Date.now();
+        constructor.prototype.insertInDOM = () => {
+            console.log('inserting the component in the DOM');
+        }   
+    }
+}
+
+// otro ejemplo:
+type ComponentOptions = {
+    selector: string
+}
+
+function DecoratorFactory1(options: ComponentOptions) {
+    return (constructor: Function) => {
+        console.log('compponent decorator called');
+        constructor.prototype.options = options;
+        constructor.prototype.uniqueID = Date.now();
+        constructor.prototype.insertInDOM = () => {
+            console.log('inserting the component in the DOM');
+        }   
+    }
+}
+
+// decorator composition--------------------------------------------
+// a la clase o a sus miembros le podemos combinar varios decorators
+function Pipe(constructor: Function) {
+    console.log('pipe decorator called');
+    constructor.prototype.pipe = true;
+}
+
+@DecoratorFactory1({ selector: '#my-profile' }) //se llama segundo
+@Pipe //primero se llama al pipe decorator
+class ProfileComponent1 {}
+// -----------------------------------------------------------------
+
+// method decorators------------------------------------------------
+// esta vez se debe de usar el tipo any, es lo que el compilador espera
+function Log(target: any, methodNaame: string, descriptor: PropertyDescriptor){
+    // se puede reemplazar directamente el metodo say
+    // descriptor.value = function() {
+    //     console.log('new implementation');  
+    // }
+
+    // se puede implementar algo antes y despues del metodo original
+    const original = descriptor.value as Function; // metodo original
+    // se debe especificar as function porque value es de tipo any
+
+    // descriptor.value = function() {
+    //     console.log('before');
+
+    //     // esta hardcodeado el parametro por lo que si se llama a la clase
+    //     // person con un mensaje, no se va a ver y va a aparecer blue sky
+    //     original.call(this, 'blue sky');
+        
+    //     console.log('after');  
+    // }
+
+    // para no hardcodear el parametro:
+    // PERO ESTA IMPLEMENTACION SOLO PODEMOS USAR EL DECORATOR
+    // CON METODOS CON PARAMETRO MESSAGE
+    // descriptor.value = function(message: string) {
+    //     console.log('before');
+    //     original.call(this, message);       
+    //     console.log('after');  
+    // }
+
+    // para hacerlo mas flexible
+    descriptor.value = function(...args: any) {
+        console.log('before');
+        original.call(this, args);       
+        console.log('after');  
+    }
+    // a tener en cuenta: para redefinir un metodo, se usa siempre 
+    // function, porque una arrow function no puede definir su propio
+    // this
+}
+
+class Person2 {
+    @Log
+    say(message: string) {
+        console.log('Person says ' + message)
+    }
+}
+// -----------------------------------------------------------------
+
+// accessor decorators----------------------------------------------
+function Capitalize(target: any, methodNaame: string, descriptor: PropertyDescriptor) {
+    // para getters y setters se utiliza lo siguiente para
+    // llamar a la funciono original
+    const original = descriptor.get;
+    descriptor.get = function() {
+        // el ? se llama optional chaining. esto es porque
+        // original pede ser undefined
+        const result = original?.call(this);
+        // el ? suplanta lo siguiente
+        // if (original !== null && original !== undefined)
+        //     original.call(this);
+        // podemos poder tambien un ! si sabemos que la funcion
+        // no es undefined
+
+        return (typeof result === 'string') ? result.toUpperCase() : result;
+    }
+}
+
+class Person3 {
+    constructor(public firstName: string, public lastName: string) {}
+
+    @Capitalize
+    get fullName() {
+        return `${this.firstName} ${this.lastName}`
+    }
+}
+// -----------------------------------------------------------------
+
+// property decorators----------------------------------------------
+function MinLength(length: number) {
+    return (target: any, propertyName: string) => {
+        let value: string;
+
+        const descriptor: PropertyDescriptor = {
+            get() {return value;},
+
+            set(newValue: string) {
+                if (newValue.length < length)
+                    throw new Error(`${propertyName} should be at least ${length} characters long`)
+                value = newValue;
+            }
+        }
+
+        Object.defineProperty(target, propertyName, descriptor);
+    }
+}
+
+class User {
+    @MinLength(4)
+    password: string;
+
+    constructor(password: string) {
+        this.password = password;
+    }
+}
+// -----------------------------------------------------------------
+
+// parameter decorators---------------------------------------------
+type WatchedParameter = {
+    methodName: string,
+    parameterIndex: number
+};
+
+const watchedParameters: WatchedParameter[] = [];
+
+function Watch(target: any, methodName: string, parameterIndex: number) {
+    watchedParameters.push({
+        methodName,
+        parameterIndex
+    })
+}
+
+class Vehicle {
+    move(@Watch speed: number) {}
+}
+// -----------------------------------------------------------------
+
+// ----------------------------------------------------------------------
