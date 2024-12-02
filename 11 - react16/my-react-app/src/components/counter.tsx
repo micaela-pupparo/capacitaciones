@@ -12,7 +12,7 @@ interface CounterState {
 
 class Counter extends React.Component<CounterProps, CounterState> {
   state: CounterState = {
-    count: 1,
+    count: 0,
     // imageUrl: "https://picsum.photos/200",
     tags: ["tag1", "tag2", "tag3"],
   };
@@ -49,16 +49,16 @@ class Counter extends React.Component<CounterProps, CounterState> {
         >
           Increment
         </button>
-        {/* otra forma de conditional rendering */}
+        {/* otra forma de conditional rendering
         {this.state.tags.length === 0 && "Please create a new tag!"}{" "}
         {/* lo que va despues del && es lo que se renderea (*) */}
-        {this.renderTags()}
+        {/* {this.renderTags()} */}
       </div>
     );
   }
 
-  private getBadgeClasses() {
-    let classes = "badge m-2 badge-";
+  getBadgeClasses() {
+    let classes = "badge m-2 bg-";
     classes += this.state.count === 0 ? "warning" : "primary";
     return classes;
   }
