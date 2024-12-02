@@ -32,7 +32,8 @@ class Counter extends React.Component<CounterProps, CounterState> {
   // ------------------------------------------------------------------
 
   // handling events --------------------------------------------------
-  handleIncrement = () => {
+  handleIncrement = (product: unknown) => {
+    console.log(product);
     return this.setState({ count: this.state.count + 1 });
   };
   // luego se utiliza en el button
@@ -43,7 +44,7 @@ class Counter extends React.Component<CounterProps, CounterState> {
       <div>
         <span className={this.getBadgeClasses()}>{this.state.count}</span>
         <button
-          onClick={() => this.handleIncrement()}
+          onClick={() => this.handleIncrement({ id: 1 })} //aca estariamos pasando el producto que estamos renderando actualmente, no se deberia hardcodear el objeto
           className="btn btn-secondary btn-sm"
         >
           Increment
