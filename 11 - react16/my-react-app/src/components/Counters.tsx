@@ -26,7 +26,11 @@ class Counters extends React.Component<CountersProps, CountersState> {
             key={counter.id}
             value={counter.value}
             selected={true}
-          ></Counter>
+            id={counter.id}
+          >
+            {/* dentro se le pasa a la propiedad props hijos, se pueden acceder a ellos con props.children */}
+            {/* <h4>Counter #{counter.id}</h4> podemos pasar directamente el id en props*/}
+          </Counter>
         ))}
       </div>
     );

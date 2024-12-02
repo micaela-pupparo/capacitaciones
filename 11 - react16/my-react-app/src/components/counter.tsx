@@ -5,6 +5,8 @@ import * as React from "react";
 interface CounterProps {
   value: number;
   selected: boolean;
+  id: number;
+  //children?: React.ReactNode; //para pasarle children
 }
 
 interface CounterState {
@@ -45,6 +47,7 @@ class Counter extends React.Component<CounterProps, CounterState> {
   render() {
     return (
       <div>
+        <h4>Counter #{this.props.id}</h4>
         <span className={this.getBadgeClasses()}>{this.state.value}</span>
         <button
           onClick={() => this.handleIncrement({ id: 1 })} //aca estariamos pasando el producto que estamos renderando actualmente, no se deberia hardcodear el objeto
