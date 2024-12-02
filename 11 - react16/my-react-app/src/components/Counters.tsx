@@ -24,9 +24,8 @@ class Counters extends React.Component<CountersProps, CountersState> {
         {this.state.counters.map((counter) => (
           <Counter
             key={counter.id}
-            value={counter.value}
-            selected={true}
-            id={counter.id}
+            onDelete={this.handleDelete}
+            counter={counter}
           >
             {/* dentro se le pasa a la propiedad props hijos, se pueden acceder a ellos con props.children */}
             {/* <h4>Counter #{counter.id}</h4> podemos pasar directamente el id en props*/}
@@ -35,6 +34,12 @@ class Counters extends React.Component<CountersProps, CountersState> {
       </div>
     );
   }
+
+  //   esto se le llama handling an event
+  handleDelete = (counterId: number) => {
+    const counters = this.state.counters.filter((c) => c.id !== counterId);
+    return this.setState({ counters });
+  };
 }
 
 export default Counters;
