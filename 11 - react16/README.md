@@ -115,3 +115,24 @@ class Counter extends React.Component<CounterProps, CounterState> {
 
 export default Counter;
 ```
+
+### Props vs State
+
+Props incluye datos que le pasamos al componente, mientras que State contiene datos que son locales o privados del componente. Esto quiere decir que otros componentes no pueden acceder a los datos dentro de State.
+Otra diferencia es que Props es readonly. No se pueden cambiar los datos de Props. Si se necesita modificar ese valor debemos crear una propiedad que lo contenga dentro de State.
+
+```js
+interface CounterProps {
+  value: number;
+}
+
+interface CounterState {
+  value: number;
+}
+
+class Counter extends React.Component<CounterProps, CounterState> {
+  state = {
+    value: this.props.value,
+  };
+}
+```
