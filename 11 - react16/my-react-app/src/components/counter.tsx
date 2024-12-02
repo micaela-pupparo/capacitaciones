@@ -2,17 +2,20 @@
 import * as React from "react";
 // import { Component } from 'react';
 
-interface CounterProps {}
+interface CounterProps {
+  value: number;
+  selected: boolean;
+}
 
 interface CounterState {
-  count: number;
+  value: number;
   // imageUrl: string;
   tags: string[];
 }
 
 class Counter extends React.Component<CounterProps, CounterState> {
   state: CounterState = {
-    count: 0,
+    value: this.props.value,
     // imageUrl: "https://picsum.photos/200",
     tags: ["tag1", "tag2", "tag3"],
   };
@@ -34,7 +37,7 @@ class Counter extends React.Component<CounterProps, CounterState> {
   // handling events --------------------------------------------------
   handleIncrement = (product: unknown) => {
     console.log(product);
-    return this.setState({ count: this.state.count + 1 });
+    return this.setState({ value: this.state.value + 1 });
   };
   // luego se utiliza en el button
   // ------------------------------------------------------------------
@@ -42,7 +45,7 @@ class Counter extends React.Component<CounterProps, CounterState> {
   render() {
     return (
       <div>
-        <span className={this.getBadgeClasses()}>{this.state.count}</span>
+        <span className={this.getBadgeClasses()}>{this.state.value}</span>
         <button
           onClick={() => this.handleIncrement({ id: 1 })} //aca estariamos pasando el producto que estamos renderando actualmente, no se deberia hardcodear el objeto
           className="btn btn-secondary btn-sm"
@@ -59,7 +62,7 @@ class Counter extends React.Component<CounterProps, CounterState> {
 
   getBadgeClasses() {
     let classes = "badge m-2 bg-";
-    classes += this.state.count === 0 ? "warning" : "primary";
+    classes += this.state.value === 0 ? "warning" : "primary";
     return classes;
   }
 }
