@@ -76,4 +76,20 @@ class Counter extends React.Component<CounterProps, CounterState> {
 // true && 'Hi -> 'Hi' (como uno es true y el otro es truthy, devuelve el ultimo elemento)
 // true && 'Hi' && 1 -> 1
 
+// que pasa cuando el estado cambia?
+// cuando apretamos el boton incrementar, se llama al metodo setState
+// este metodo le avisa a react que el componente va a cambiar.
+// react va a programar una llamada al metodo render, pero no sabemos cuando
+// (es una llamada asincrona). el metodo render devuelve un nuevo elemnto React
+// nuestro Virtual DOM se ve como un arbol del siguiente tipo:
+//        div
+// span         button
+// cuando cambia el estamo, React agarra este Virtual DOM y compara el nuevo con el viejo
+// para saber que elementos en el Virtual DOM estan modificados.
+// en este caso ve que el elemento span es el que cambia porque llama a la propiedad
+// this.state.count
+// asi que agarrara al DOM real y actualizara el span correspondiente para que
+// matchee el que tenemos en el DOM Virtual
+// SOLO se actualiza el span, nada mas.
+
 export default Counter;
