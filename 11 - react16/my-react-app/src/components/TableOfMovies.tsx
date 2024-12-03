@@ -2,6 +2,7 @@
 import * as React from "react";
 import IMovie from "../models/Movie";
 import { getMovies, deleteMovie } from "../services/fakeMovieService.js";
+import Like from "./common/Like.js";
 
 interface MoviesState {
   movies: IMovie[];
@@ -24,6 +25,14 @@ class TableOfMovies extends React.Component<{}, MoviesState> {
   //      this.setState({movies})
   // }
 
+  handleLike = (movie: IMovie) => {
+    const movies = [...this.state.movies];
+    const index = movies.indexOf(movie);
+    movies[index] = { ...movies[index] };
+    movies[index].liked = !movies[index].liked;
+    this.setState({ movies });
+  };
+
   render() {
     const { length: count } = this.state.movies;
 
@@ -39,6 +48,7 @@ class TableOfMovies extends React.Component<{}, MoviesState> {
               <th scope="col">Stock</th>
               <th scope="col">Rate</th>
               <th scope="col"></th>
+              <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
@@ -49,6 +59,12 @@ class TableOfMovies extends React.Component<{}, MoviesState> {
                   <td>{movie.genre.name}</td>
                   <td>{movie.numberInStock}</td>
                   <td>{movie.dailyRentalRate}</td>
+                  <td>
+                    <Like
+                      liked={movie.liked}
+                      onClick={() => this.handleLike(movie)}
+                    ></Like>
+                  </td>
                   <td>
                     <button
                       onClick={() => this.handleDelete(movie._id)}
