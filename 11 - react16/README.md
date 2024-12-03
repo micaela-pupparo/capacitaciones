@@ -141,11 +141,15 @@ class Counter extends React.Component<CounterProps, CounterState> {
 
 Son metodos especiales que proporciona React para que los desarrolladores puedan ejecutar logica en momentos especificos del "ciclo de vida" de un componente o aplicacion. Estos momentos representan las distintas fases que atraviesa un componente desde que se crea hasta que se elimina del DOM.
 
+No pueden ser utilizados en Stateless Functional Components.
+
 #### Montaje (Mounting)
 
 - constructor() -> se usa para inicializae el estado y enlazar metodos.
 - render()
 - componentDidMount() -> se ejecuta despues de que el componente se monta en el DOM. Ideal para hacer llamadas a APIs, incializar suscripciones o configurar eventos.
+
+Primero se llama a constructor, luego a render y por ultimo a componentDidMount. Cuando un componente es renderado, todos los hijos van a ser renderados tambien.
 
 #### Actualizacion (Updating)
 
