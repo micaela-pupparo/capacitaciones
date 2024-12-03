@@ -136,3 +136,27 @@ class Counter extends React.Component<CounterProps, CounterState> {
   };
 }
 ```
+
+### Lifecycle Hooks
+
+Son metodos especiales que proporciona React para que los desarrolladores puedan ejecutar logica en momentos especificos del "ciclo de vida" de un componente o aplicacion. Estos momentos representan las distintas fases que atraviesa un componente desde que se crea hasta que se elimina del DOM.
+
+#### Montaje (Mounting)
+
+- constructor() -> se usa para inicializae el estado y enlazar metodos.
+- render()
+- componentDidMount() -> se ejecuta despues de que el componente se monta en el DOM. Ideal para hacer llamadas a APIs, incializar suscripciones o configurar eventos.
+
+#### Actualizacion (Updating)
+
+- render()
+- shouldComponentUpdate(nextProps, nextState) -> controla si el componente debe actualizarse, util para optimizar el rendimiento.
+- componentDidUpdate(prevProps, prevState) -> se ejecuta despues de actualizarse. Ideal para realizar efectos secundarios basados en los cambios de datos.
+
+#### Desmontaje (Unmounting)
+
+- componentWillUnmount() -> ideal para limpiar recursos como cancelar solicitudes, desactivar suscripciones o eliminar eventos.
+
+#### Errores (Error Boundaries)
+
+- componentDidCatch(error, info) -> permite manejar errores en componentes hijos.
