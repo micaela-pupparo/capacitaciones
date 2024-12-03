@@ -7,6 +7,7 @@ interface CounterProps {
   counter: ICounter;
   onDelete: (counterId: number) => void;
   onIncrement: (counterObject: ICounter) => void;
+  onDecrement: (counterObject: ICounter) => void;
   // value: number;
   // selected: boolean;
   // id: number; es al pedo pasar por separado todas las propiedades, mejor pasar directamente el objeto counter
@@ -53,24 +54,36 @@ class Counter extends React.Component<CounterProps, CounterState> {
 
   render() {
     return (
-      <div>
-        <h4>Counter #{this.props.counter.id}</h4>
-        <span className={this.getBadgeClasses()}>
-          {this.props.counter.value}
-        </span>
-        <button
-          onClick={() => this.props.onIncrement(this.props.counter)} //aca estariamos pasando el producto que estamos renderando actualmente, no se deberia hardcodear el objeto
-          className="btn btn-secondary btn-sm"
-        >
-          Increment
-        </button>
-        <button
-          // esto se le llama raising an event
-          onClick={() => this.props.onDelete(this.props.counter.id)}
-          className="btn btn-danger btn-sm m-2"
-        >
-          Delete
-        </button>
+      <div className="row">
+        <div className="col-1">
+          {/* <h4>Counter #{this.props.counter.id}</h4> */}
+          <span className={this.getBadgeClasses()}>
+            {this.props.counter.value}
+          </span>
+        </div>
+        <div className="col">
+          <button
+            onClick={() => this.props.onIncrement(this.props.counter)} //aca estariamos pasando el producto que estamos renderando actualmente, no se deberia hardcodear el objeto
+            className="btn btn-secondary btn-sm"
+          >
+            +
+          </button>
+          <button
+            onClick={() => this.props.onDecrement(this.props.counter)}
+            className="btn btn-secondary btn-sm m-2"
+            disabled={this.props.counter.value === 0 ? true : false}
+          >
+            -
+          </button>
+          <button
+            // esto se le llama raising an event
+            onClick={() => this.props.onDelete(this.props.counter.id)}
+            className="btn btn-danger btn-sm"
+          >
+            x
+          </button>
+        </div>
+
         {/* otra forma de conditional rendering
         {this.state.tags.length === 0 && "Please create a new tag!"}{" "}
         {/* lo que va despues del && es lo que se renderea (*) */}

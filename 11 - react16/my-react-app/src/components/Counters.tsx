@@ -8,11 +8,13 @@ interface CountersProps {
   onReset: () => void;
   onDelete: (id: number) => void;
   onIncrement: (counter: ICounter) => void;
+  onDecrement: (counter: ICounter) => void;
 }
 
 class Counters extends React.Component<CountersProps, object> {
   render() {
-    const { onReset, onDelete, counters, onIncrement } = this.props;
+    const { onReset, onDelete, counters, onIncrement, onDecrement } =
+      this.props;
     return (
       <div>
         <button
@@ -26,6 +28,7 @@ class Counters extends React.Component<CountersProps, object> {
             key={counter.id}
             onDelete={onDelete}
             onIncrement={onIncrement}
+            onDecrement={onDecrement}
             counter={counter}
           >
             {/* dentro se le pasa a la propiedad props hijos, se pueden acceder a ellos con props.children */}
