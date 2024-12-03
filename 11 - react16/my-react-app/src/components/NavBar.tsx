@@ -17,3 +17,8 @@ const NavBar: React.FC<NavBarProps> = ({ totalCounters }): JSX.Element => {
 };
 
 export default NavBar;
+
+// si queremos pasar varias propiedades como parametros:
+// props
+// y luego usamos props.totalCounters por ejemplo
+// lo que usamos en la funcion es destructuring
