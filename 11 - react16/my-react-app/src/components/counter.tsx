@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 import * as React from "react";
+import ICounter from "../types/counterType";
 // import { Component } from 'react';
 
 interface CounterProps {
-  counter: { id: number; value: number };
+  counter: ICounter;
   onDelete: (counterId: number) => void;
+  onIncrement: (counterObject: ICounter) => void;
   // value: number;
   // selected: boolean;
   // id: number; es al pedo pasar por separado todas las propiedades, mejor pasar directamente el objeto counter
@@ -19,7 +21,10 @@ interface CounterState {
 
 class Counter extends React.Component<CounterProps, CounterState> {
   state: CounterState = {
-    value: this.props.counter.value,
+    // single source of truth -------------
+    value: this.props.counter.value, //esto se ejecuta solo una vez cuando una instancia de Counter es creada. Por lo que si queremos resetear todos los valores al mismo tiempo, no va a ser posible ya que el estado local no va a ser actualizado. PAra esto, necesitamos remover el estado y que value solo dependa de props
+    // con esto Counter pasa a ser un Controlled Component: deja de tener un estado local, recibe todos los datos via props y eleva los eventos cuando los datos deben ser modificados. ASi, este componente esta totalmente controlado por su componente padre
+    // ------------------------------------
     // imageUrl: "https://picsum.photos/200",
     tags: ["tag1", "tag2", "tag3"],
   };
@@ -39,10 +44,10 @@ class Counter extends React.Component<CounterProps, CounterState> {
   // ------------------------------------------------------------------
 
   // handling events --------------------------------------------------
-  handleIncrement = (product: unknown) => {
-    console.log(product);
-    return this.setState({ value: this.state.value + 1 });
-  };
+  // handleIncrement = (product: unknown) => {
+  //   console.log(product);
+  //   return this.setState({ value: this.state.value + 1 });
+  // };
   // luego se utiliza en el button
   // ------------------------------------------------------------------
 
@@ -50,9 +55,11 @@ class Counter extends React.Component<CounterProps, CounterState> {
     return (
       <div>
         <h4>Counter #{this.props.counter.id}</h4>
-        <span className={this.getBadgeClasses()}>{this.state.value}</span>
+        <span className={this.getBadgeClasses()}>
+          {this.props.counter.value}
+        </span>
         <button
-          onClick={() => this.handleIncrement({ id: 1 })} //aca estariamos pasando el producto que estamos renderando actualmente, no se deberia hardcodear el objeto
+          onClick={() => this.props.onIncrement(this.props.counter)} //aca estariamos pasando el producto que estamos renderando actualmente, no se deberia hardcodear el objeto
           className="btn btn-secondary btn-sm"
         >
           Increment
@@ -77,7 +84,7 @@ class Counter extends React.Component<CounterProps, CounterState> {
 
   getBadgeClasses() {
     let classes = "badge m-2 bg-";
-    classes += this.state.value === 0 ? "warning" : "primary";
+    classes += this.props.counter.value === 0 ? "warning" : "primary";
     return classes;
   }
 }

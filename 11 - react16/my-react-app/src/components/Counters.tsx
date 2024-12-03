@@ -1,30 +1,30 @@
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 import * as React from "react";
 import Counter from "./Counter";
+import ICounter from "../types/counterType";
 
-interface CountersProps {}
-
-interface CountersState {
-  counters: object[];
+interface CountersProps {
+  counters: ICounter[];
+  onReset: () => void;
+  onDelete: (id: number) => void;
+  onIncrement: (counter: ICounter) => void;
 }
 
-class Counters extends React.Component<CountersProps, CountersState> {
-  state = {
-    counters: [
-      { id: 1, value: 4 },
-      { id: 2, value: 0 },
-      { id: 3, value: 0 },
-      { id: 4, value: 0 },
-    ],
-  };
-
+class Counters extends React.Component<CountersProps, object> {
   render() {
     return (
       <div>
-        {this.state.counters.map((counter) => (
+        <button
+          onClick={() => this.props.onReset()}
+          className="btn btn-primary btn-sm m-2"
+        >
+          Reset
+        </button>
+        {this.props.counters.map((counter) => (
           <Counter
             key={counter.id}
-            onDelete={this.handleDelete}
+            onDelete={this.props.onDelete}
+            onIncrement={this.props.onIncrement}
             counter={counter}
           >
             {/* dentro se le pasa a la propiedad props hijos, se pueden acceder a ellos con props.children */}
@@ -34,12 +34,6 @@ class Counters extends React.Component<CountersProps, CountersState> {
       </div>
     );
   }
-
-  //   esto se le llama handling an event
-  handleDelete = (counterId: number) => {
-    const counters = this.state.counters.filter((c) => c.id !== counterId);
-    return this.setState({ counters });
-  };
 }
 
 export default Counters;
