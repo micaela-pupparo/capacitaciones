@@ -3,15 +3,18 @@ import * as React from "react";
 import IMovie from "../models/Movie";
 import { getMovies, deleteMovie } from "../services/fakeMovieService.js";
 import Like from "./common/Like.js";
+import Pagination from "./common/Pagination.js";
 
 interface MoviesState {
   movies: IMovie[];
+  pageSize: number;
 }
 
 // debemos aclararle con un objeto que no vamos a recibir props
 class TableOfMovies extends React.Component<{}, MoviesState> {
   state: MoviesState = {
     movies: getMovies(),
+    pageSize: 9,
   };
 
   handleDelete = (id: string) => {
@@ -31,6 +34,10 @@ class TableOfMovies extends React.Component<{}, MoviesState> {
     movies[index] = { ...movies[index] };
     movies[index].liked = !movies[index].liked;
     this.setState({ movies });
+  };
+
+  handlePageChange = (page: number) => {
+    console.log(page);
   };
 
   render() {
@@ -80,6 +87,11 @@ class TableOfMovies extends React.Component<{}, MoviesState> {
             })}
           </tbody>
         </table>
+        <Pagination
+          itemsCount={count}
+          pageSize={this.state.pageSize}
+          onPageChange={this.handlePageChange}
+        ></Pagination>
       </div>
     );
   }
