@@ -8,13 +8,15 @@ import Pagination from "./common/Pagination.js";
 interface MoviesState {
   movies: IMovie[];
   pageSize: number;
+  currentPage: number;
 }
 
 // debemos aclararle con un objeto que no vamos a recibir props
 class TableOfMovies extends React.Component<{}, MoviesState> {
   state: MoviesState = {
     movies: getMovies(),
-    pageSize: 9,
+    pageSize: 4,
+    currentPage: 1,
   };
 
   handleDelete = (id: string) => {
@@ -37,11 +39,12 @@ class TableOfMovies extends React.Component<{}, MoviesState> {
   };
 
   handlePageChange = (page: number) => {
-    console.log(page);
+    this.setState({ currentPage: page });
   };
 
   render() {
     const { length: count } = this.state.movies;
+    const { pageSize, currentPage } = this.state;
 
     if (count === 0) return <p>There are no movies in the database.</p>;
     return (
@@ -89,8 +92,9 @@ class TableOfMovies extends React.Component<{}, MoviesState> {
         </table>
         <Pagination
           itemsCount={count}
-          pageSize={this.state.pageSize}
+          pageSize={pageSize}
           onPageChange={this.handlePageChange}
+          currentPage={currentPage}
         ></Pagination>
       </div>
     );
