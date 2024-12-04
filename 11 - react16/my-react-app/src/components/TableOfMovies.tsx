@@ -2,16 +2,17 @@
 import * as React from "react";
 import IMovie from "../models/Movie";
 import IGenre from "../models/Genre.js";
-import { getMovies, deleteMovie } from "../services/fakeMovieService.js";
+import { getMovies } from "../services/fakeMovieService.js";
 import { getGenres } from "../services/fakeGenreService.js";
 import Like from "./common/Like.js";
 import Pagination from "./common/Pagination.js";
 import { paginate } from "../utils/paginate.js";
-import ListGroup from "./common/ListGroup.jsx";
+import ListGroup from "./common/listGroup.jsx";
 
 interface MoviesState {
   movies: IMovie[];
   genres: IGenre[];
+  selectedGenre: IGenre | undefined;
   pageSize: number;
   currentPage: number;
 }
@@ -22,6 +23,7 @@ class TableOfMovies extends React.Component<{}, MoviesState> {
   state: MoviesState = {
     movies: [],
     genres: [],
+    selectedGenre: undefined,
     pageSize: 4,
     currentPage: 1,
   };
@@ -55,26 +57,37 @@ class TableOfMovies extends React.Component<{}, MoviesState> {
   };
 
   handleGenreSelect = (genre: IGenre) => {
-    console.log(genre);
+    this.setState({ selectedGenre: genre });
   };
 
   render() {
     const { length: count } = this.state.movies;
-    const { pageSize, currentPage, movies: allMovies } = this.state;
+    const {
+      pageSize,
+      currentPage,
+      movies: allMovies,
+      selectedGenre,
+    } = this.state;
 
     if (count === 0) return <p>There are no movies in the database.</p>;
 
-    const movies = paginate(allMovies, currentPage, pageSize);
+    const filtered = selectedGenre
+      ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
+      : allMovies;
+
+    const movies = paginate(filtered, currentPage, pageSize);
+
     return (
       <div className="row">
         <div className="col-3">
           <ListGroup
             items={this.state.genres}
+            selectedItem={this.state.selectedGenre}
             onItemSelect={this.handleGenreSelect}
           ></ListGroup>
         </div>
         <div className="col">
-          <p>Showing {count} movies in the database.</p>
+          <p>Showing {filtered.length} movies in the database.</p>
           <table className="table">
             <thead>
               <tr>
@@ -116,7 +129,7 @@ class TableOfMovies extends React.Component<{}, MoviesState> {
             </tbody>
           </table>
           <Pagination
-            itemsCount={count}
+            itemsCount={filtered.length}
             pageSize={pageSize}
             onPageChange={this.handlePageChange}
             currentPage={currentPage}
