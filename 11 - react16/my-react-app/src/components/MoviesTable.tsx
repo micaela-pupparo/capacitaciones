@@ -2,8 +2,7 @@ import React from "react";
 import IMovie from "../models/Movie";
 import SortColumn from "../types/sortColumnType";
 import Like from "./common/Like";
-import TableHeader from "./common/TableHeader";
-import TableBody from "./common/TableBody";
+import Table from "./common/table";
 
 interface MoviesTableProps {
   movies: IMovie[];
@@ -48,14 +47,12 @@ class MoviesTable extends React.Component<MoviesTableProps, object> {
     const { movies, sortColumn, onSort } = this.props;
 
     return (
-      <table className="table">
-        <TableHeader
-          columns={this.columns}
-          sortColumn={sortColumn}
-          onSort={onSort}
-        ></TableHeader>
-        <TableBody data={movies} columns={this.columns}></TableBody>
-      </table>
+      <Table
+        columns={this.columns}
+        data={movies}
+        sortColumn={sortColumn}
+        onSort={onSort}
+      ></Table>
     );
   }
 }
