@@ -29,7 +29,9 @@ class TableOfMovies extends React.Component<{}, MoviesState> {
   };
 
   componentDidMount(): void {
-    this.setState({ movies: getMovies(), genres: getGenres() });
+    const genres = [{ _id: "", name: "All Genres" }, ...getGenres()];
+
+    this.setState({ movies: getMovies(), genres });
   }
 
   // mi implementacion esta mal, no se debe modificar directamente de la base de datos
@@ -57,7 +59,7 @@ class TableOfMovies extends React.Component<{}, MoviesState> {
   };
 
   handleGenreSelect = (genre: IGenre) => {
-    this.setState({ selectedGenre: genre });
+    this.setState({ selectedGenre: genre, currentPage: 1 });
   };
 
   render() {
@@ -71,9 +73,10 @@ class TableOfMovies extends React.Component<{}, MoviesState> {
 
     if (count === 0) return <p>There are no movies in the database.</p>;
 
-    const filtered = selectedGenre
-      ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
-      : allMovies;
+    const filtered =
+      selectedGenre && selectedGenre._id
+        ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
+        : allMovies;
 
     const movies = paginate(filtered, currentPage, pageSize);
 
