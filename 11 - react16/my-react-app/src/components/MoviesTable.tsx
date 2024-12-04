@@ -6,21 +6,31 @@ interface MoviesTableProps {
   movies: IMovie[];
   onDelete: (movie: IMovie) => void;
   onLike: (movie: IMovie) => void;
+  onSort: (path: string) => void;
 }
 
 const MoviesTable: React.FC<MoviesTableProps> = ({
   movies,
   onDelete,
   onLike,
+  onSort,
 }) => {
   return (
     <table className="table">
       <thead>
         <tr>
-          <th scope="col">Title</th>
-          <th scope="col">Genre</th>
-          <th scope="col">Stock</th>
-          <th scope="col">Rate</th>
+          <th scope="col" onClick={() => onSort("title")}>
+            Title
+          </th>
+          <th scope="col" onClick={() => onSort("genre.name")}>
+            Genre
+          </th>
+          <th scope="col" onClick={() => onSort("numberInStock")}>
+            Stock
+          </th>
+          <th scope="col" onClick={() => onSort("dailyRentalRate")}>
+            Rate
+          </th>
           <th scope="col"></th>
           <th scope="col"></th>
         </tr>

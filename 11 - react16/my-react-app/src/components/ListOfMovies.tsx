@@ -8,6 +8,7 @@ import Pagination from "./common/Pagination.js";
 import { paginate } from "../utils/paginate.js";
 import ListGroup from "./common/listGroup.jsx";
 import MoviesTable from "./MoviesTable.js";
+import _ from "lodash";
 
 interface MoviesState {
   movies: IMovie[];
@@ -15,6 +16,7 @@ interface MoviesState {
   selectedGenre: IGenre | undefined;
   pageSize: number;
   currentPage: number;
+  sortColumn: { path: string; order: "asc" | "desc" };
 }
 
 // debemos aclararle con un objeto que no vamos a recibir props
@@ -26,6 +28,7 @@ class TableOfMovies extends React.Component<{}, MoviesState> {
     selectedGenre: undefined,
     pageSize: 4,
     currentPage: 1,
+    sortColumn: { path: "title", order: "asc" },
   };
 
   componentDidMount(): void {
@@ -62,6 +65,19 @@ class TableOfMovies extends React.Component<{}, MoviesState> {
     this.setState({ selectedGenre: genre, currentPage: 1 });
   };
 
+  handleSort = (path: string) => {
+    const sortColumn = { ...this.state.sortColumn };
+    console.log(sortColumn);
+    if (sortColumn.path === path)
+      sortColumn.order = sortColumn.order === "asc" ? "desc" : "asc";
+    else {
+      sortColumn.path = path;
+      sortColumn.order = "asc";
+    }
+
+    this.setState({ sortColumn });
+  };
+
   render() {
     const { length: count } = this.state.movies;
     const {
@@ -69,6 +85,7 @@ class TableOfMovies extends React.Component<{}, MoviesState> {
       currentPage,
       movies: allMovies,
       selectedGenre,
+      sortColumn,
     } = this.state;
 
     if (count === 0) return <p>There are no movies in the database.</p>;
@@ -78,7 +95,9 @@ class TableOfMovies extends React.Component<{}, MoviesState> {
         ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
         : allMovies;
 
-    const movies = paginate(filtered, currentPage, pageSize);
+    const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
+
+    const movies = paginate(sorted, currentPage, pageSize);
 
     return (
       <div className="row">
@@ -95,6 +114,7 @@ class TableOfMovies extends React.Component<{}, MoviesState> {
             movies={movies}
             onDelete={this.handleDelete}
             onLike={this.handleLike}
+            onSort={this.handleSort}
           ></MoviesTable>
           <Pagination
             itemsCount={filtered.length}
