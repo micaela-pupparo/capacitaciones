@@ -8,8 +8,12 @@ interface PaginationProps {
   currentPage: number;
 }
 
-const Pagination: React.FC<PaginationProps> = (props): JSX.Element | null => {
-  const { itemsCount, pageSize, onPageChange, currentPage } = props;
+const Pagination: React.FC<PaginationProps> = ({
+  itemsCount,
+  pageSize,
+  onPageChange,
+  currentPage,
+}): JSX.Element | null => {
   const pagesCount = Math.ceil(itemsCount / pageSize);
   if (pagesCount === 1) return null;
   const pages = _.range(1, pagesCount + 1);
