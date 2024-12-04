@@ -80,7 +80,7 @@ import { Component } from "react";
 //   }
 // }
 
-import TableOfMovies from "./components/TableOfMovies";
+import TableOfMovies from "./components/ListOfMovies";
 
 class App extends Component<object, object> {
   render() {
