@@ -7,7 +7,7 @@ import { getGenres } from "../services/fakeGenreService.js";
 import Like from "./common/Like.js";
 import Pagination from "./common/Pagination.js";
 import { paginate } from "../utils/paginate.js";
-import ListGroup from "./common/ListGroup.js";
+import ListGroup from "./common/ListGroup.jsx";
 
 interface MoviesState {
   movies: IMovie[];
@@ -68,10 +68,8 @@ class TableOfMovies extends React.Component<{}, MoviesState> {
     return (
       <div className="row">
         <div className="col-3">
-          <ListGroup<IGenre>
+          <ListGroup
             items={this.state.genres}
-            textProperty="name"
-            valueProperty="_id"
             onItemSelect={this.handleGenreSelect}
           ></ListGroup>
         </div>
