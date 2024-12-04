@@ -3,6 +3,7 @@ import IMovie from "../models/Movie";
 import SortColumn from "../types/sortColumnType";
 import Like from "./common/Like";
 import TableHeader from "./common/TableHeader";
+import TableBody from "./common/TableBody";
 
 interface MoviesTableProps {
   movies: IMovie[];
@@ -19,12 +20,32 @@ class MoviesTable extends React.Component<MoviesTableProps, object> {
     { path: "genre.name", label: "Genre" },
     { path: "numberInStock", label: "Stock" },
     { path: "dailyRentalRate", label: "Rate" },
-    { key: "like" },
-    { key: "delete" },
+    {
+      key: "like",
+      content: (movie: IMovie) => (
+        <Like
+          liked={movie.liked}
+          onClick={() => this.props.onLike(movie)}
+        ></Like>
+      ),
+    },
+    {
+      key: "delete",
+      content: (movie: IMovie) => (
+        <button
+          onClick={() => this.props.onDelete(movie)}
+          type="button"
+          className="btn btn-danger btn-sm"
+          key={movie._id}
+        >
+          Delete
+        </button>
+      ),
+    },
   ];
 
   render() {
-    const { movies, onDelete, onLike, sortColumn, onSort } = this.props;
+    const { movies, sortColumn, onSort } = this.props;
 
     return (
       <table className="table">
@@ -33,34 +54,7 @@ class MoviesTable extends React.Component<MoviesTableProps, object> {
           sortColumn={sortColumn}
           onSort={onSort}
         ></TableHeader>
-        <tbody>
-          {movies.map((movie) => {
-            return (
-              <tr key={movie._id}>
-                <td>{movie.title}</td>
-                <td>{movie.genre.name}</td>
-                <td>{movie.numberInStock}</td>
-                <td>{movie.dailyRentalRate}</td>
-                <td>
-                  <Like
-                    liked={movie.liked}
-                    onClick={() => onLike(movie)}
-                  ></Like>
-                </td>
-                <td>
-                  <button
-                    onClick={() => onDelete(movie)}
-                    type="button"
-                    className="btn btn-danger btn-sm"
-                    key={movie._id}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
+        <TableBody data={movies} columns={this.columns}></TableBody>
       </table>
     );
   }
