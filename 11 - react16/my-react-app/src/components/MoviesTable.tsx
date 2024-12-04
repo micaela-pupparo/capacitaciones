@@ -2,6 +2,7 @@ import React from "react";
 import IMovie from "../models/Movie";
 import SortColumn from "../types/sortColumnType";
 import Like from "./common/Like";
+import TableHeader from "./common/TableHeader";
 
 interface MoviesTableProps {
   movies: IMovie[];
@@ -12,41 +13,26 @@ interface MoviesTableProps {
 }
 
 class MoviesTable extends React.Component<MoviesTableProps, object> {
-  raiseSort = (path: string) => {
-    const sortColumn = { ...this.props.sortColumn };
-    console.log(sortColumn);
-    if (sortColumn.path === path)
-      sortColumn.order = sortColumn.order === "asc" ? "desc" : "asc";
-    else {
-      sortColumn.path = path;
-      sortColumn.order = "asc";
-    }
-    this.props.onSort(sortColumn);
-  };
+  //   columns puede inicializarse aca y no ser un estado porque nunca van a cambiar
+  columns = [
+    { path: "title", label: "Title" },
+    { path: "genre.name", label: "Genre" },
+    { path: "numberInStock", label: "Stock" },
+    { path: "dailyRentalRate", label: "Rate" },
+    { key: "like" },
+    { key: "delete" },
+  ];
 
   render() {
-    const { movies, onDelete, onLike } = this.props;
+    const { movies, onDelete, onLike, sortColumn, onSort } = this.props;
 
     return (
       <table className="table">
-        <thead>
-          <tr>
-            <th scope="col" onClick={() => this.raiseSort("title")}>
-              Title
-            </th>
-            <th scope="col" onClick={() => this.raiseSort("genre.name")}>
-              Genre
-            </th>
-            <th scope="col" onClick={() => this.raiseSort("numberInStock")}>
-              Stock
-            </th>
-            <th scope="col" onClick={() => this.raiseSort("dailyRentalRate")}>
-              Rate
-            </th>
-            <th scope="col"></th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
+        <TableHeader
+          columns={this.columns}
+          sortColumn={sortColumn}
+          onSort={onSort}
+        ></TableHeader>
         <tbody>
           {movies.map((movie) => {
             return (
