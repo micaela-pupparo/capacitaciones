@@ -4,6 +4,7 @@ import IMovie from "../models/Movie";
 import { getMovies, deleteMovie } from "../services/fakeMovieService.js";
 import Like from "./common/Like.js";
 import Pagination from "./common/Pagination.js";
+import { paginate } from "../utils/paginate.js";
 
 interface MoviesState {
   movies: IMovie[];
@@ -44,9 +45,11 @@ class TableOfMovies extends React.Component<{}, MoviesState> {
 
   render() {
     const { length: count } = this.state.movies;
-    const { pageSize, currentPage } = this.state;
+    const { pageSize, currentPage, movies: allMovies } = this.state;
 
     if (count === 0) return <p>There are no movies in the database.</p>;
+
+    const movies = paginate(allMovies, currentPage, pageSize);
     return (
       <div>
         <p>Showing {count} movies in the database.</p>
@@ -62,7 +65,7 @@ class TableOfMovies extends React.Component<{}, MoviesState> {
             </tr>
           </thead>
           <tbody>
-            {this.state.movies.map((movie) => {
+            {movies.map((movie) => {
               return (
                 <tr key={movie._id}>
                   <td>{movie.title}</td>

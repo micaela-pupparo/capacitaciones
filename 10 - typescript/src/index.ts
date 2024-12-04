@@ -4,9 +4,8 @@
 // if (age < 50)
 //     age += 10;
 
-
 // BUILT-IN TYPES---------------------------------------------------------
-let sales: number = 123_456_789;  // podemos separar los digitos cuando son muy grandes
+let sales: number = 123_456_789; // podemos separar los digitos cuando son muy grandes
 // no hace falta especificar siempre el tipo porque ya cuando le asignamos
 // un valor, ts sabe que tipo es
 
@@ -20,8 +19,6 @@ let level; //considera el tipo como any
 // por lo que pierde el uso que tiene ts.
 // es una mala practica usar esto. se debe evitar de todas formas
 // el uso de any.
-
-
 
 // Arrays
 let numbers: number[] = [1, 2, 4];
@@ -39,13 +36,15 @@ let user: [number, string] = [1, "Mosh"];
 // error
 // TODO: chequear si lo del push sigue vigente
 
-
-
 // Enums
 // representa una lista de constantes relacionadas
 
 // PascalCase
-const enum Size { Small, Medium, Large };
+const enum Size {
+  Small,
+  Medium,
+  Large,
+}
 // por defecto setea los valores en 0, 1 y 2
 // pero si queremos que empiece por 1, 2 y 3 solo le asignamos el valor
 // al primer elemento (small) y se ira sumando uno para los siguientes
@@ -53,13 +52,11 @@ const enum Size { Small, Medium, Large };
 // podemos tener tambien strings de valores. pero de ser asi, debemos
 // asignarle un valor a todos los miembros
 // importante: el const fue agregado despues, esto es para que cuando
-// se compile y se genere el archivo js no aparezca tanto codigo 
+// se compile y se genere el archivo js no aparezca tanto codigo
 // o sea, genere un codigo mas optimizado.
 // probar si es que no se entiende sacando el const y ejecutando tsc
 let mySize: Size = Size.Medium;
 console.log(mySize); //2
-
-
 
 // Funciones
 // debemos definir qué tipo de valor devuelve la funcion. si no retorna
@@ -68,26 +65,23 @@ console.log(mySize); //2
 // esto nos va a tirar un error
 // si el parametro no es usado, podemos setear en configuracion de ts
 // que nos salte un error para esto. se llama noUnusedParameters
-// tambien hay una configuracion para cuando nos olvidamos de 
+// tambien hay una configuracion para cuando nos olvidamos de
 // retornar un valor noImplicitReturns
 function calculateTax(income: number, taxYear?: number): number {
-    if ((taxYear || 2022) < 2022)
-        return income * 1.2;
-    return income * 1.3;
+  if ((taxYear || 2022) < 2022) return income * 1.2;
+  return income * 1.3;
 }
 // con noUnusedLocals tambien podemos ver si hay variables que no se usan
 // hay que tener en cuenta que ahora sí importa que le pasemos exactamente
 // un parametro a la funcion.
 
-// si queremos un parametro opcional podemos ver el segundo parametro 
+// si queremos un parametro opcional podemos ver el segundo parametro
 // de la funcion
 // o darle un valor opcional
 function ejemplo(edad: number, nombre = "mica"): string {
-    return "Hola " + nombre + " de edad " + edad;
+  return "Hola " + nombre + " de edad " + edad;
 }
 ejemplo(19);
-
-
 
 // Objetos
 // ya no se pueden crear propiedades o metodos de la forma
@@ -96,8 +90,8 @@ ejemplo(19);
 //     readonly id: number, // para no poder modificar esto en un futuro
 //     name: string,
 //     retire: (date: Date) => void
-// } = { 
-//     id: 1, 
+// } = {
+//     id: 1,
 //     name: "Mosh",
 //     retire: (date: Date) => {
 //         console.log(date)
@@ -105,26 +99,24 @@ ejemplo(19);
 // };
 // -----------------------------------------------------------------------
 
-
 // ADVANCED TYPES--------------------------------------------------------
 
 // Type aliases
 // podemos definir un tipo custom. esto es mas que nada porque el objeto
 // creado antes es muy dificil de leer.
 type Employee = {
-    readonly id: number,
-    name: string,
-    retire: (date: Date) => void
-}
+  readonly id: number;
+  name: string;
+  retire: (date: Date) => void;
+};
 
 let employee: Employee = {
-    id: 1, 
-    name: "Mosh",
-    retire: (date: Date) => {
-        console.log(date)
-    }
-}
-
+  id: 1,
+  name: "Mosh",
+  retire: (date: Date) => {
+    console.log(date);
+  },
+};
 
 // Union Types
 // para que un parametro/variable pueda tener mas de un tipo
@@ -137,30 +129,26 @@ let employee: Employee = {
 // arriba, solo weight puede acceder a los metodos que comparten
 // los numeros y los strings
 function kgToLbs(weight: number | string): number {
-    if (typeof weight === "number")
-        return weight * 2.2;
-    else 
-        return parseInt(weight) * 2.2;
+  if (typeof weight === "number") return weight * 2.2;
+  else return parseInt(weight) * 2.2;
 }
-
 
 // Intersection Types
 // una variable puede ser dos tipos al mismo tiempo
 type Draggable = {
-    drag: () => void
+  drag: () => void;
 };
 
 type Resizable = {
-    resize: () => void
+  resize: () => void;
 };
 
 type UIWidget = Draggable & Resizable;
 
 let textBox: UIWidget = {
-    drag: () => {},
-    resize: () => {}
-}
-
+  drag: () => {},
+  resize: () => {},
+};
 
 // Literal Types
 // a veces queremos limitar los valores que le queremos asignar a una variable
@@ -170,20 +158,16 @@ let login: "y" | "n" = "y";
 type Quantity = 50 | 100;
 let quantity: Quantity = 100;
 
-
 // Nullable Types
 // para poder pasar un valor null en una funcion sin que nos tire error
 // podemos usar el operador de union types
 function greet(name: string | null | undefined) {
-    if(name)
-        console.log(name.toUpperCase());
-    else
-        console.log("Hola!");
+  if (name) console.log(name.toUpperCase());
+  else console.log("Hola!");
 }
 
 greet(null);
 greet(undefined);
-
 
 // Optional Chaining
 // type Customer = {
@@ -191,7 +175,7 @@ greet(undefined);
 // };
 
 function getCustomer(id: number): Customer | null {
-    return id === 0 ? null : { birthday: new Date() }
+  return id === 0 ? null : { birthday: new Date() };
 }
 
 let customer = getCustomer(0);
@@ -199,7 +183,7 @@ let customer = getCustomer(0);
 console.log(customer?.birthday); // solo se ejecuta si existe la propiedad
 
 type Customer = {
-    birthday?: Date
+  birthday?: Date;
 };
 console.log(customer?.birthday?.getFullYear());
 
@@ -211,16 +195,14 @@ console.log(customer?.birthday?.getFullYear());
 let log: any = null;
 log?.("a"); //solo se ejecuta si log hace referencia a una funcion
 
-
 // Nullish Coalescing Operator
 // chequea que el valor sea null o undefined
 // sirve para casos donde queres cheqeuar los falsy pero hay un valor
 // falsy valid, como el 0
 let speed: number | null = null;
 let ride = {
-    speed: speed ?? 30
-}
-
+  speed: speed ?? 30,
+};
 
 // Type Assertions
 // a veces sabemos mas del tipo de un objeto que ts
@@ -234,23 +216,21 @@ $phone.value;
 // hay otra sintax para lograr lo mismo
 // let $phone = <HTMLInputElement> document.getElementById("phone");
 
-
-// The unknown type 
-// si queremos tener valores de tipo any pero no queremos que el 
+// The unknown type
+// si queremos tener valores de tipo any pero no queremos que el
 // programa crashee si es que accede a metodos que no existen
 // podemos utilizar el tipo unknown y narrowing
 function render(document: unknown) {
-    if (typeof document === "string")
-        document.toUpperCase();
+  if (typeof document === "string") document.toUpperCase();
 }
-
 
 // The never type
 // representa valores que nunca ocurren
-function processEvents(): never { // para indicar que nunca retorna
-    while (true){
-        //dkasdklaklsd
-    }
+function processEvents(): never {
+  // para indicar que nunca retorna
+  while (true) {
+    //dkasdklaklsd
+  }
 }
 // processEvents();
 
@@ -260,13 +240,12 @@ function processEvents(): never { // para indicar que nunca retorna
 // error de que no se puede ejecutar el codigo de abajo
 
 function reject(): never {
-    throw new Error("error");
+  throw new Error("error");
 }
 
 // reject();
 // console.log("hola") tira error
 // ------------------------------------------------------------------------
-
 
 // OBJECT-ORIENTED PROGRAMMING--------------------------------------------
 // Classes
@@ -296,7 +275,6 @@ function reject(): never {
 // let account = new Account(1, "Mosh", 0);
 // console.log(account instanceof Account); //true
 
-
 // Read only and optional properties
 // readonly id: number; readonly
 // nickname?: string; optional property
@@ -312,36 +290,34 @@ function reject(): never {
 
 // Parameter properties
 class Account {
-    nickname?: string;
+  nickname?: string;
 
-    constructor(
-        public readonly id: number, 
-        public owner: string, 
-        private _balance: number) {
-    }
+  constructor(
+    public readonly id: number,
+    public owner: string,
+    private _balance: number
+  ) {}
 
-    // Getters y Setters
-    get balance(): number {
-        return this._balance;
-    }
+  // Getters y Setters
+  get balance(): number {
+    return this._balance;
+  }
 
-    set balance(value: number) {
-        if (value < 0)
-            throw new Error("invalid value")
-        this._balance = value;
-    }
+  set balance(value: number) {
+    if (value < 0) throw new Error("invalid value");
+    this._balance = value;
+  }
 }
 
 let account = new Account(1, "Mosh", 0);
 console.log(account.balance);
 
-
 // Index Signatures
 // para agregar propiedades dinamicamente a un objeto
 class SeatAssigment {
-    // A1: "Mosh"
-    // A2: "Moshi"
-    [seatNumber: string]: string;
+  // A1: "Mosh"
+  // A2: "Moshi"
+  [seatNumber: string]: string;
 }
 
 let seats = new SeatAssigment();
@@ -349,16 +325,21 @@ seats.A1 = "Mosh";
 seats.A2 = "Moshi";
 seats["A3"] = "John";
 
-
 // Static Members
 // propiedad que es de una clase y no de un objeto
 class Ride {
-    private static /* (*) */ _activeRides: number = 0;
+  private static /* (*) */ _activeRides: number = 0;
 
-    start() {Ride._activeRides++;}
-    stop() {Ride._activeRides--;}
+  start() {
+    Ride._activeRides++;
+  }
+  stop() {
+    Ride._activeRides--;
+  }
 
-    static get activeRides() {return Ride._activeRides}
+  static get activeRides() {
+    return Ride._activeRides;
+  }
 }
 
 let ride1 = new Ride();
@@ -374,93 +355,80 @@ ride2.start();
 // necesitamos un lugar global para llevar registro de los active rides
 // (*) SE HACE PRIVATE TAMBIEN
 // para ue no se pueda Ride.activeRides = 2324435;
-console.log(Ride.activeRides) //2
-
+console.log(Ride.activeRides); //2
 
 // Inheritance
 class Person {
-    constructor(public firstName: string, public lastName: string) {
-    }
-        
-    get fullName() : string {
-        return this.firstName + " " + this.lastName
-    }
-    
-    walk() {
-        console.log("walking");
-    }
+  constructor(public firstName: string, public lastName: string) {}
+
+  get fullName(): string {
+    return this.firstName + " " + this.lastName;
+  }
+
+  walk() {
+    console.log("walking");
+  }
 }
 
 class Student extends Person {
-    constructor(public studentId: number, firstName: string, lastName: string) {
-        super(firstName, lastName);
-    }
+  constructor(public studentId: number, firstName: string, lastName: string) {
+    super(firstName, lastName);
+  }
 
-    takeTest() {
-        console.log("taking a test");
-    }
+  takeTest() {
+    console.log("taking a test");
+  }
 }
-
 
 // Method overriding
 class Teacher extends Person {
-    // se puede no usar el override pero puede traer problemas
-    // lo configuramos para que salte error si no lo ponemos
-    override get fullName() : string {
-        return "Professor" + super.fullName;
-    }
+  // se puede no usar el override pero puede traer problemas
+  // lo configuramos para que salte error si no lo ponemos
+  override get fullName(): string {
+    return "Professor" + super.fullName;
+  }
 }
 
 let teacher = new Teacher("John", "Smith");
 
-
 // Polymorphism
-printNames([
-    new Student(1, "John", "Smith"),
-    new Teacher("Mosh", "Moshi")
-])
+printNames([new Student(1, "John", "Smith"), new Teacher("Mosh", "Moshi")]);
 
 function printNames(people: Person[]) {
-    for (let person of people)
-        console.log(person.fullName);
+  for (let person of people) console.log(person.fullName);
 }
-
 
 // Private vs Protected Members
 // las propiedades protegidas tienen en comun con las privadas que se pueden acceder
 // dentro de la clase pero no por fuera
 // la diferencia es que las protegidas son heredadas y las privadas no
-// no suelen ser usadas. 
-
-
+// no suelen ser usadas.
 
 // Abstract CLasses and Methods
 abstract class Shape {
-    constructor(public color: string) {}
+  constructor(public color: string) {}
 
-    // render() {}; //es ilogico pensar que si hacemos una instancia
-    // de shape, se pueda renderear.
-    // una clase abstracta necesita si o si de otra que la extienda
+  // render() {}; //es ilogico pensar que si hacemos una instancia
+  // de shape, se pueda renderear.
+  // una clase abstracta necesita si o si de otra que la extienda
 
-    // tambien se puede crear un metodo abstracto
-    abstract render(): void;
-    // los metodos abstractos solo pueden existir dentro de una clase
-    // abstracta
+  // tambien se puede crear un metodo abstracto
+  abstract render(): void;
+  // los metodos abstractos solo pueden existir dentro de una clase
+  // abstracta
 }
 
 class Circle extends Shape {
-    constructor(public radius: number, color: string) {
-        super(color);
-    }
+  constructor(public radius: number, color: string) {
+    super(color);
+  }
 
-    override render(): void {
-        console.log("rendering a circle")
-    }
+  override render(): void {
+    console.log("rendering a circle");
+  }
 }
 
 // let shape = new Shape("red"); tira error
-
-
 
 // Interfaces
 // classes --> blueprints for creating objects
@@ -469,83 +437,79 @@ class Circle extends Shape {
 // abstract class Calendar {
 //     constructor(public name: string) {}
 
-//     // debemos abstraer los metodos porque cada calendario puede 
+//     // debemos abstraer los metodos porque cada calendario puede
 //     // tener una implementacion distinta
 //     abstract addEvent(): void;
 //     abstract removeEvent(): void;
 // }
 
-// esto a la hora de crear el archivo js no aparece porque las 
+// esto a la hora de crear el archivo js no aparece porque las
 // interfaces no existen en js. esto es algo bueno porque estariamos
 // optimizando el codigo
 interface Calendar {
-    name: string;
-    addEvent(): void;
-    removeEvent(): void;
+  name: string;
+  addEvent(): void;
+  removeEvent(): void;
 }
 
 // inheritance
 interface CloudCalendar extends Calendar {
-    sync(): void;
+  sync(): void;
 }
 
 // implementacion
 class GoogleCalendar implements Calendar {
-    constructor(public name: string) {}
+  constructor(public name: string) {}
 
-    addEvent(): void {
-        throw new Error("Method not implemented.");
-    }
-    removeEvent(): void {
-        throw new Error("Method not implemented.");
-    }
+  addEvent(): void {
+    throw new Error("Method not implemented.");
+  }
+  removeEvent(): void {
+    throw new Error("Method not implemented.");
+  }
 }
 // -----------------------------------------------------------------------
-
-
 
 // GENERICS---------------------------------------------------------------
 // en vez de usar el tipo any podemos usar una clase generica
 class KeyValuePair<K, V> {
-    constructor(public key: K, public value: V) {}
+  constructor(public key: K, public value: V) {}
 }
 
 let pair = new KeyValuePair<string, string>("1", "a");
 
 // Funciones Genericas
 class ArrayUtils {
-    static wrapInArray<T>(value: T) {
-        return [value];
-    }
+  static wrapInArray<T>(value: T) {
+    return [value];
+  }
 }
 
 let numbers1 = ArrayUtils.wrapInArray(1);
-
 
 // Interfaces Genericas
 // http://website.com/users
 // http://website.com/products
 
 interface Result<T> {
-    data: T | null,
-    error: string | null
+  data: T | null;
+  error: string | null;
 }
 
 function fetch<T>(url: string): Result<T> {
-    return { data: null, error: null };
+  return { data: null, error: null };
 }
 
 interface User {
-    username: string;
+  username: string;
 }
 
 interface Product {
-    title: string;
+  title: string;
 }
 
 let result = fetch<Product>("url");
 result.data?.title;
-
 
 // Generic Constraints
 // solo permite usar o numeros o strings
@@ -572,102 +536,101 @@ result.data?.title;
 
 // clases
 class Person1 {
-    constructor(public name: string) {}
+  constructor(public name: string) {}
 }
 
 function echo<T extends Person1>(value: T): T {
-    return value;
+  return value;
 }
 echo(new Person1("a"));
 
-
 // Generic Classes and Inheritance
 interface Product2 {
-    name: string,
-    price: number
+  name: string;
+  price: number;
 }
 
 // type mapping --------------------------------------------------------
 // si queremos que un producto pueda tener las propiedades solo
 // readonly, podemos usar el type mapping para hacer dinaicamente
-// cada propiedad readonly 
+// cada propiedad readonly
 type ReadOnlyProduct = {
-    // iteramos las propiedades de product con el operador keyof
-    readonly [Property in keyof Product]: Product[Property]
-}
+  // iteramos las propiedades de product con el operador keyof
+  readonly [Property in keyof Product]: Product[Property];
+};
 
 // para hacerlo generico:
 type ReadOnly<T> = {
-    // iteramos las propiedades de product con el operador keyof
-    readonly [K in keyof T]: T[K]
-}
+  // iteramos las propiedades de product con el operador keyof
+  readonly [K in keyof T]: T[K];
+};
 
 let producto: ReadOnly<Product2> = {
-    name: 'a',
-    price: 1
-}
+  name: "a",
+  price: 1,
+};
 
 // para hacer las propiedades opcionales
 type Optional<T> = {
-    [K in keyof T]?: T[K]
-}
+  [K in keyof T]?: T[K];
+};
 
 type Nullable<T> = {
-    [K in keyof T]: T[K] | null
-}
+  [K in keyof T]: T[K] | null;
+};
 // ---------------------------------------------------------------------
 
 class Store<T> {
-    protected _objects: T[] = [];
+  protected _objects: T[] = [];
 
-    add(obj: T): void {
-        this._objects.push(obj);
-    }
+  add(obj: T): void {
+    this._objects.push(obj);
+  }
 
-    // the keyof operator ---------------------------------------
-    // find(property: string, value: unknown): T | undefined {
-    //     // con esta implementacion podemos pasarle una propiedad
-    //     // que no existe y que se crashee el programa
-    //     // ademas tira un error porque piensa que deberia ser un indice
-    //     // y no una propiedad
-    //     // return this._objects.find(obj => obj[property] === value)
-    // }
+  // the keyof operator ---------------------------------------
+  // find(property: string, value: unknown): T | undefined {
+  //     // con esta implementacion podemos pasarle una propiedad
+  //     // que no existe y que se crashee el programa
+  //     // ademas tira un error porque piensa que deberia ser un indice
+  //     // y no una propiedad
+  //     // return this._objects.find(obj => obj[property] === value)
+  // }
 
-    // el keyof operator retorna una union de propiedades del tipo dado
-    // T is Product
-    // keyof T => 'name' | 'price'
-    // ahora si le pasas una propiedad que no existe se va a poder saber
-    find(property: keyof T, value: unknown): T | undefined {
-        return this._objects.find(obj => obj[property] === value);
-    }
-    // ----------------------------------------------------------
+  // el keyof operator retorna una union de propiedades del tipo dado
+  // T is Product
+  // keyof T => 'name' | 'price'
+  // ahora si le pasas una propiedad que no existe se va a poder saber
+  find(property: keyof T, value: unknown): T | undefined {
+    return this._objects.find((obj) => obj[property] === value);
+  }
+  // ----------------------------------------------------------
 }
 
 // let store = new Store<Person>();
 
 // pass on the generic type parameter
 class CompressibleStore<T> extends Store<T> {
-    compress() {}
+  compress() {}
 }
 
 // let store = new CompressibleStore<Product>();
 
 // restrict the generic type parameter
-class SearchableStore<T extends {name: string}> extends Store<T> {
-    // el t extends un objeto es para que el compilador sepa que T va a 
-    // tener una propiedad llamada name
-    find(name: string): T | undefined {
-        return this._objects.find(obj => obj.name === name);
-    }
+class SearchableStore<T extends { name: string }> extends Store<T> {
+  // el t extends un objeto es para que el compilador sepa que T va a
+  // tener una propiedad llamada name
+  find(name: string): T | undefined {
+    return this._objects.find((obj) => obj.name === name);
+  }
 }
 
 // no queremos pasar el parametro generico porque no queremos que
 // la clase lo sea
 // fijando (fixing or terminating) the generic type parameter
 class ProductStore extends Store<Product> {
-    filterByCategory(category: string): Product[] {
-        return [];
-    }
+  filterByCategory(category: string): Product[] {
+    return [];
+  }
 }
 
 // RESUMEN: cuando extendemos una clase generica tenemos 3 opciones
@@ -678,200 +641,203 @@ class ProductStore extends Store<Product> {
 // ----------------------------------------------------------------------
 
 // Dectorators ----------------------------------------------------------
-// los decorators son atributos que le aplicamos a las clases 
+// los decorators son atributos que le aplicamos a las clases
 // y a sus miembros para cambiar como se comportan
 // son funciones que son llamadas por el compilador
 
 // class decorators
 function Component(constructor: Function) {
-    console.log('compponent decorator called');
-    constructor.prototype.uniqueID = Date.now();
-    constructor.prototype.insertInDOM = () => {
-        console.log('inserting the component in the DOM');
-    }   
+  console.log("compponent decorator called");
+  constructor.prototype.uniqueID = Date.now();
+  constructor.prototype.insertInDOM = () => {
+    console.log("inserting the component in the DOM");
+  };
 }
 
 @Component
-class ProfileComponent {
-
-}
+class ProfileComponent {}
 
 // de la misma forma se puede resolver con la herencia, crendo una
 // clase. creamos una clase Component y que ProfileComponent la extienda
 
-
-
 // parameterized decorators
 // se hace utilizando un decorator factory
 function DecoratorFactory(value: number) {
-    return (constructor: Function) => {
-        console.log('compponent decorator called');
-        constructor.prototype.options = value;
-        constructor.prototype.uniqueID = Date.now();
-        constructor.prototype.insertInDOM = () => {
-            console.log('inserting the component in the DOM');
-        }   
-    }
+  return (constructor: Function) => {
+    console.log("compponent decorator called");
+    constructor.prototype.options = value;
+    constructor.prototype.uniqueID = Date.now();
+    constructor.prototype.insertInDOM = () => {
+      console.log("inserting the component in the DOM");
+    };
+  };
 }
 
 // otro ejemplo:
 type ComponentOptions = {
-    selector: string
-}
+  selector: string;
+};
 
 function DecoratorFactory1(options: ComponentOptions) {
-    return (constructor: Function) => {
-        console.log('compponent decorator called');
-        constructor.prototype.options = options;
-        constructor.prototype.uniqueID = Date.now();
-        constructor.prototype.insertInDOM = () => {
-            console.log('inserting the component in the DOM');
-        }   
-    }
+  return (constructor: Function) => {
+    console.log("compponent decorator called");
+    constructor.prototype.options = options;
+    constructor.prototype.uniqueID = Date.now();
+    constructor.prototype.insertInDOM = () => {
+      console.log("inserting the component in the DOM");
+    };
+  };
 }
 
 // decorator composition--------------------------------------------
 // a la clase o a sus miembros le podemos combinar varios decorators
 function Pipe(constructor: Function) {
-    console.log('pipe decorator called');
-    constructor.prototype.pipe = true;
+  console.log("pipe decorator called");
+  constructor.prototype.pipe = true;
 }
 
-@DecoratorFactory1({ selector: '#my-profile' }) //se llama segundo
+@DecoratorFactory1({ selector: "#my-profile" }) //se llama segundo
 @Pipe //primero se llama al pipe decorator
 class ProfileComponent1 {}
 // -----------------------------------------------------------------
 
 // method decorators------------------------------------------------
 // esta vez se debe de usar el tipo any, es lo que el compilador espera
-function Log(target: any, methodNaame: string, descriptor: PropertyDescriptor){
-    // se puede reemplazar directamente el metodo say
-    // descriptor.value = function() {
-    //     console.log('new implementation');  
-    // }
+function Log(target: any, methodNaame: string, descriptor: PropertyDescriptor) {
+  // se puede reemplazar directamente el metodo say
+  // descriptor.value = function() {
+  //     console.log('new implementation');
+  // }
 
-    // se puede implementar algo antes y despues del metodo original
-    const original = descriptor.value as Function; // metodo original
-    // se debe especificar as function porque value es de tipo any
+  // se puede implementar algo antes y despues del metodo original
+  const original = descriptor.value as Function; // metodo original
+  // se debe especificar as function porque value es de tipo any
 
-    // descriptor.value = function() {
-    //     console.log('before');
+  // descriptor.value = function() {
+  //     console.log('before');
 
-    //     // esta hardcodeado el parametro por lo que si se llama a la clase
-    //     // person con un mensaje, no se va a ver y va a aparecer blue sky
-    //     original.call(this, 'blue sky');
-        
-    //     console.log('after');  
-    // }
+  //     // esta hardcodeado el parametro por lo que si se llama a la clase
+  //     // person con un mensaje, no se va a ver y va a aparecer blue sky
+  //     original.call(this, 'blue sky');
 
-    // para no hardcodear el parametro:
-    // PERO ESTA IMPLEMENTACION SOLO PODEMOS USAR EL DECORATOR
-    // CON METODOS CON PARAMETRO MESSAGE
-    // descriptor.value = function(message: string) {
-    //     console.log('before');
-    //     original.call(this, message);       
-    //     console.log('after');  
-    // }
+  //     console.log('after');
+  // }
 
-    // para hacerlo mas flexible
-    descriptor.value = function(...args: any) {
-        console.log('before');
-        original.call(this, args);       
-        console.log('after');  
-    }
-    // a tener en cuenta: para redefinir un metodo, se usa siempre 
-    // function, porque una arrow function no puede definir su propio
-    // this
+  // para no hardcodear el parametro:
+  // PERO ESTA IMPLEMENTACION SOLO PODEMOS USAR EL DECORATOR
+  // CON METODOS CON PARAMETRO MESSAGE
+  // descriptor.value = function(message: string) {
+  //     console.log('before');
+  //     original.call(this, message);
+  //     console.log('after');
+  // }
+
+  // para hacerlo mas flexible
+  descriptor.value = function (...args: any) {
+    console.log("before");
+    original.call(this, args);
+    console.log("after");
+  };
+  // a tener en cuenta: para redefinir un metodo, se usa siempre
+  // function, porque una arrow function no puede definir su propio
+  // this
 }
 
 class Person2 {
-    @Log
-    say(message: string) {
-        console.log('Person says ' + message)
-    }
+  @Log
+  say(message: string) {
+    console.log("Person says " + message);
+  }
 }
 // -----------------------------------------------------------------
 
 // accessor decorators----------------------------------------------
-function Capitalize(target: any, methodNaame: string, descriptor: PropertyDescriptor) {
-    // para getters y setters se utiliza lo siguiente para
-    // llamar a la funciono original
-    const original = descriptor.get;
-    descriptor.get = function() {
-        // el ? se llama optional chaining. esto es porque
-        // original pede ser undefined
-        const result = original?.call(this);
-        // el ? suplanta lo siguiente
-        // if (original !== null && original !== undefined)
-        //     original.call(this);
-        // podemos poder tambien un ! si sabemos que la funcion
-        // no es undefined
+function Capitalize(
+  target: any,
+  methodNaame: string,
+  descriptor: PropertyDescriptor
+) {
+  // para getters y setters se utiliza lo siguiente para
+  // llamar a la funciono original
+  const original = descriptor.get;
+  descriptor.get = function () {
+    // el ? se llama optional chaining. esto es porque
+    // original pede ser undefined
+    const result = original?.call(this);
+    // el ? suplanta lo siguiente
+    // if (original !== null && original !== undefined)
+    //     original.call(this);
+    // podemos poder tambien un ! si sabemos que la funcion
+    // no es undefined
 
-        return (typeof result === 'string') ? result.toUpperCase() : result;
-    }
+    return typeof result === "string" ? result.toUpperCase() : result;
+  };
 }
 
 class Person3 {
-    constructor(public firstName: string, public lastName: string) {}
+  constructor(public firstName: string, public lastName: string) {}
 
-    @Capitalize
-    get fullName() {
-        return `${this.firstName} ${this.lastName}`
-    }
+  @Capitalize
+  get fullName() {
+    return `${this.firstName} ${this.lastName}`;
+  }
 }
 // -----------------------------------------------------------------
 
 // property decorators----------------------------------------------
 function MinLength(length: number) {
-    return (target: any, propertyName: string) => {
-        let value: string;
+  return (target: any, propertyName: string) => {
+    let value: string;
 
-        const descriptor: PropertyDescriptor = {
-            get() {return value;},
+    const descriptor: PropertyDescriptor = {
+      get() {
+        return value;
+      },
 
-            set(newValue: string) {
-                if (newValue.length < length)
-                    throw new Error(`${propertyName} should be at least ${length} characters long`)
-                value = newValue;
-            }
-        }
+      set(newValue: string) {
+        if (newValue.length < length)
+          throw new Error(
+            `${propertyName} should be at least ${length} characters long`
+          );
+        value = newValue;
+      },
+    };
 
-        Object.defineProperty(target, propertyName, descriptor);
-    }
+    Object.defineProperty(target, propertyName, descriptor);
+  };
 }
 
 class User {
-    @MinLength(4)
-    password: string;
+  @MinLength(4)
+  password: string;
 
-    constructor(password: string) {
-        this.password = password;
-    }
+  constructor(password: string) {
+    this.password = password;
+  }
 }
 // -----------------------------------------------------------------
 
 // parameter decorators---------------------------------------------
 type WatchedParameter = {
-    methodName: string,
-    parameterIndex: number
+  methodName: string;
+  parameterIndex: number;
 };
 
 const watchedParameters: WatchedParameter[] = [];
 
 function Watch(target: any, methodName: string, parameterIndex: number) {
-    watchedParameters.push({
-        methodName,
-        parameterIndex
-    })
+  watchedParameters.push({
+    methodName,
+    parameterIndex,
+  });
 }
 
 class Vehicle {
-    move(@Watch speed: number) {}
+  move(@Watch speed: number) {}
 }
 // -----------------------------------------------------------------
 
 // ----------------------------------------------------------------------
-
 
 // modules---------------------------------------------------------------
 
@@ -884,7 +850,7 @@ class Vehicle {
 
 // default exports--------------------------------------------------
 // se utiliza para exportar solo una cosa de un modulo
-import Store3, {Format} from './storage';
+import Store3, { Format } from "./storage";
 // -----------------------------------------------------------------
 
 // wildcard imports-------------------------------------------------
@@ -893,24 +859,23 @@ import Store3, {Format} from './storage';
 // -----------------------------------------------------------------
 
 // re-exporting-----------------------------------------------------
-// podemos tener un solo modulo que combine los exports de distintos 
+// podemos tener un solo modulo que combine los exports de distintos
 // modulos
-import { Circle1, Square } from './shapes';
+import { Circle1, Square } from "./shapes";
 
 // -----------------------------------------------------------------
 
 // ----------------------------------------------------------------------
 
-
 // integration with javascript-------------------------------------------
-import { calculateTax1 } from './tax'
+import { calculateTax1 } from "./tax";
 
 let tax = calculateTax1(1000);
 console.log(tax);
 
 // librerias - lodash-----------------------------------------------
 // muchas librerias vienen con su declaration files (como tax.d.ts)
-import * as _ from 'lodash'
+import * as _ from "lodash";
 // -----------------------------------------------------------------
 
 // ----------------------------------------------------------------------
