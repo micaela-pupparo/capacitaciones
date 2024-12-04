@@ -2,6 +2,7 @@
 import * as React from "react";
 import IMovie from "../models/Movie.js";
 import IGenre from "../models/Genre.js";
+import SortColumn from "../types/sortColumnType.js";
 import { getMovies } from "../services/fakeMovieService.js";
 import { getGenres } from "../services/fakeGenreService.js";
 import Pagination from "./common/Pagination.js";
@@ -16,7 +17,7 @@ interface MoviesState {
   selectedGenre: IGenre | undefined;
   pageSize: number;
   currentPage: number;
-  sortColumn: { path: string; order: "asc" | "desc" };
+  sortColumn: SortColumn;
 }
 
 // debemos aclararle con un objeto que no vamos a recibir props
@@ -65,16 +66,7 @@ class TableOfMovies extends React.Component<{}, MoviesState> {
     this.setState({ selectedGenre: genre, currentPage: 1 });
   };
 
-  handleSort = (path: string) => {
-    const sortColumn = { ...this.state.sortColumn };
-    console.log(sortColumn);
-    if (sortColumn.path === path)
-      sortColumn.order = sortColumn.order === "asc" ? "desc" : "asc";
-    else {
-      sortColumn.path = path;
-      sortColumn.order = "asc";
-    }
-
+  handleSort = (sortColumn: SortColumn) => {
     this.setState({ sortColumn });
   };
 
@@ -112,6 +104,7 @@ class TableOfMovies extends React.Component<{}, MoviesState> {
           <p>Showing {filtered.length} movies in the database.</p>
           <MoviesTable
             movies={movies}
+            sortColumn={sortColumn}
             onDelete={this.handleDelete}
             onLike={this.handleLike}
             onSort={this.handleSort}
