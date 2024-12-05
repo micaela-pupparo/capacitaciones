@@ -8,7 +8,7 @@ import { getGenres } from "../services/fakeGenreService.js";
 import Pagination from "./common/Pagination.js";
 import { paginate } from "../utils/paginate.js";
 import ListGroup from "./common/listGroup.jsx";
-import MoviesTable from "./MoviesTable.js";
+import MoviesTable from "./MoviesTable.jsx";
 import _ from "lodash";
 
 interface MoviesState {

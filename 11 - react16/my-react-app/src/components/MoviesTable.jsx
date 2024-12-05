@@ -1,27 +1,24 @@
 import React from "react";
-import IMovie from "../models/Movie";
-import SortColumn from "../types/sortColumnType";
 import Like from "./common/Like";
-import Table from "./common/table";
+import Table from "./common/Table";
+import { Link } from "react-router-dom";
 
-interface MoviesTableProps {
-  movies: IMovie[];
-  sortColumn: { path: string; order: "asc" | "desc" };
-  onDelete: (movie: IMovie) => void;
-  onLike: (movie: IMovie) => void;
-  onSort: (sortColumn: SortColumn) => void;
-}
-
-class MoviesTable extends React.Component<MoviesTableProps, object> {
+class MoviesTable extends React.Component {
   //   columns puede inicializarse aca y no ser un estado porque nunca van a cambiar
   columns = [
-    { path: "title", label: "Title" },
+    {
+      path: "title",
+      label: "Title",
+      content: (movie) => (
+        <Link to={`/movies/${movie._id}`}>{movie.title}</Link>
+      ),
+    },
     { path: "genre.name", label: "Genre" },
     { path: "numberInStock", label: "Stock" },
     { path: "dailyRentalRate", label: "Rate" },
     {
       key: "like",
-      content: (movie: IMovie) => (
+      content: (movie) => (
         <Like
           liked={movie.liked}
           onClick={() => this.props.onLike(movie)}
@@ -30,7 +27,7 @@ class MoviesTable extends React.Component<MoviesTableProps, object> {
     },
     {
       key: "delete",
-      content: (movie: IMovie) => (
+      content: (movie) => (
         <button
           onClick={() => this.props.onDelete(movie)}
           type="button"

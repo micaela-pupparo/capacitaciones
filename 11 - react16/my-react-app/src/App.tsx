@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 // import { useState } from "react";
 // import "./App.css";
 
@@ -80,16 +79,32 @@ import { Component } from "react";
 //   }
 // }
 
+import { Route, Redirect, Switch } from "react-router-dom";
+import Customers from "./components/Customers";
+import Rentals from "./components/Rentals";
+import NotFound from "./components/notFound";
+import NavBarMovies from "./components/NavBarMovies";
+import MovieForm from "./components/MovieForm";
+import React from "react";
 import TableOfMovies from "./components/ListOfMovies";
 
 class App extends Component<object, object> {
   render() {
     return (
-      <div>
-        <main className="container">
-          <TableOfMovies></TableOfMovies>
+      <React.Fragment>
+        <NavBarMovies />
+        <main style={{ marginTop: 30 }} className="container">
+          <Switch>
+            <Route path="/movies/:id" component={MovieForm} />
+            <Route path="/movies" component={TableOfMovies} />
+            <Route path="/customers" component={Customers} />
+            <Route path="/rentals" component={Rentals} />
+            <Route path="/not-found" component={NotFound} />
+            <Redirect from="/" exact to="movies" />
+            <Redirect to="/not-found" />
+          </Switch>
         </main>
-      </div>
+      </React.Fragment>
     );
   }
 }
