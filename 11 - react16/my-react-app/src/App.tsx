@@ -87,6 +87,7 @@ import NavBarMovies from "./components/NavBarMovies";
 import MovieForm from "./components/MovieForm";
 import React from "react";
 import TableOfMovies from "./components/ListOfMovies";
+import LoginForm from "./components/LoginForm";
 
 class App extends Component<object, object> {
   render() {
@@ -95,6 +96,7 @@ class App extends Component<object, object> {
         <NavBarMovies />
         <main style={{ marginTop: 30 }} className="container">
           <Switch>
+            <Route path="/login" component={LoginForm} />
             <Route path="/movies/:id" component={MovieForm} />
             <Route path="/movies" component={TableOfMovies} />
             <Route path="/customers" component={Customers} />
