@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 
 class LoginForm extends Component {
+  // para poder acceder a un elemento del dom sin document.queryselector, creamos una referencia con react
+  username = React.createRef();
+
   handleSubmit = (e) => {
     e.preventDefault();
     console.log("submitted");
