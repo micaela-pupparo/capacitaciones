@@ -1,6 +1,8 @@
 import React, { Component } from "react";
+import { ToastContainer } from "react-toastify";
 import httpService from "./services/httpService";
 import config from "./config.json";
+import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 
 // los parametros son funciones que se ejecutan si fue exitosa la respuesta o no
@@ -44,7 +46,7 @@ class App extends Component {
     this.setState({ posts });
 
     try {
-      await httpService.delete(config.apiEndpoint + "/" + post.id);
+      await httpService.delete("s" + config.apiEndpoint + "/" + post.id);
     } catch (ex) {
       console.log("handle delete catch block");
       if (ex.response && ex.response.status === 404)
@@ -56,6 +58,7 @@ class App extends Component {
   render() {
     return (
       <React.Fragment>
+        <ToastContainer></ToastContainer>
         <button className="btn btn-primary" onClick={this.handleAdd}>
           Add
         </button>
