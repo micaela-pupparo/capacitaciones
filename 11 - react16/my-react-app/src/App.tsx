@@ -88,6 +88,7 @@ import MovieForm from "./components/MovieForm";
 import React from "react";
 import TableOfMovies from "./components/ListOfMovies";
 import LoginForm from "./components/LoginForm";
+import RegisterForm from "./components/RegisterForm";
 
 class App extends Component<object, object> {
   render() {
@@ -96,6 +97,7 @@ class App extends Component<object, object> {
         <NavBarMovies />
         <main style={{ marginTop: 30 }} className="container">
           <Switch>
+            <Route path="/register" component={RegisterForm} />
             <Route path="/login" component={LoginForm} />
             <Route path="/movies/:id" component={MovieForm} />
             <Route path="/movies" component={TableOfMovies} />
