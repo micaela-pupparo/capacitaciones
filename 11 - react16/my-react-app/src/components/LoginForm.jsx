@@ -65,6 +65,9 @@ class LoginForm extends Component {
 
 // cuando construimos forms usualmente estos tienen un estado que es inicializado basado en lo que obtenemos del servidor
 // deberiamos tener solo el estado del componente login y deshacernos de los estados que tienen los input fields para tener un single source of truth
-// para eso debemos convertir al input en un control element: no tienen su propio estado y obtienen todos los datos via props
+// para eso debemos convertir al input en un controlled element: no tienen su propio estado y obtienen todos los datos via props
+// null y undefined no pueden ser usados como valores iniciales para los elementos controlados porque react no los toma
+// y asume que los inputs tienen su propio estado.
+// entonces, debemos inicializar los valores con un string vacio o con un valor que traemos del servidor
 
 export default LoginForm;
