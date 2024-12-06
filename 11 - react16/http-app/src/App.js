@@ -1,22 +1,8 @@
 import React, { Component } from "react";
-import axios from "axios";
 import "./App.css";
 
 // los parametros son funciones que se ejecutan si fue exitosa la respuesta o no
 // el primero es null porque no queremos saber si fue exitoso
-axios.interceptors.response.use(null, (error) => {
-  const expectedError =
-    error.response &&
-    error.response.status >= 400 &&
-    error.response.status < 500;
-
-  if (!expectedError) {
-    console.log("Logging the error", error);
-    alert("An unexpected error occurred.");
-  }
-
-  return Promise.reject(error);
-});
 
 const apiEndpoint = "https://jsonplaceholder.typicode.com/posts";
 
