@@ -4,6 +4,7 @@ import Input from "./common/Input";
 class LoginForm extends Component {
   state = {
     account: { username: "", password: "" },
+    errors: {},
   };
 
   // para poder acceder a un elemento del dom sin document.queryselector, creamos una referencia con react
@@ -13,11 +14,20 @@ class LoginForm extends Component {
   //   this.username.current.focus();
   // } esto es totalmente al pedo porque podemos usar el atributo autofocus
 
+  validate = () => {
+    return { username: "Username is required" };
+  };
+
   handleSubmit = (e) => {
     e.preventDefault();
 
     // luego con esa referencia podemos acceder al elemento con current z de ahi sacamos su valor
     // const username = this.username.current.value;
+
+    const errors = this.validate();
+    this.setState({ errors });
+    if (errors) return;
+
     console.log("submitted");
   };
 
