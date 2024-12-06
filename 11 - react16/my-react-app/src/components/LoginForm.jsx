@@ -89,7 +89,13 @@ class LoginForm extends Component {
             error={errors.password}
           />
 
-          <button className="btn btn-primary">Login</button>
+          <button
+            // si no hay errores deuelve null (falsy) y si no un obejto (truthy)
+            disabled={this.validate()}
+            className="btn btn-primary"
+          >
+            Login
+          </button>
         </form>
       </div>
     );
