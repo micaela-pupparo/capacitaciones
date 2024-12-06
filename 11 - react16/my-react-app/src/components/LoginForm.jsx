@@ -1,10 +1,16 @@
 import React, { Component } from "react";
+import Joi from "joi-browser";
 import Input from "./common/Input";
 
 class LoginForm extends Component {
   state = {
     account: { username: "", password: "" },
     errors: {},
+  };
+
+  schema = {
+    username: Joi.string().required(),
+    password: Joi.string().required(),
   };
 
   // para poder acceder a un elemento del dom sin document.queryselector, creamos una referencia con react
@@ -15,6 +21,12 @@ class LoginForm extends Component {
   // } esto es totalmente al pedo porque podemos usar el atributo autofocus
 
   validate = () => {
+    // por default Joi terminates las validaciones cuando encuentra un error, por eso debemos sacare ese comportamiento para obtener todos los errores
+    const result = Joi.validate(this.state.account, this.schema, {
+      abortEarly: false,
+    });
+    console.log(result);
+
     const errors = {};
 
     const { account } = this.state;
