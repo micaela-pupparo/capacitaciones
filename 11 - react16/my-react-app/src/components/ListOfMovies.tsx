@@ -9,6 +9,7 @@ import Pagination from "./common/Pagination.js";
 import { paginate } from "../utils/paginate.js";
 import ListGroup from "./common/listGroup.jsx";
 import MoviesTable from "./MoviesTable.jsx";
+import { Link } from "react-router-dom";
 import _ from "lodash";
 
 interface MoviesState {
@@ -109,6 +110,13 @@ class TableOfMovies extends React.Component<{}, MoviesState> {
           ></ListGroup>
         </div>
         <div className="col">
+          <Link
+            to="/movies/new"
+            className="btn btn-primary"
+            style={{ marginBottom: 20 }}
+          >
+            Add new movie
+          </Link>
           <p>Showing {totalCount} movies in the database.</p>
           <MoviesTable
             movies={movies}
