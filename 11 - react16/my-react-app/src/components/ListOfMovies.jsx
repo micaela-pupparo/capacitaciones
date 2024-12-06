@@ -1,39 +1,29 @@
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 import * as React from "react";
-import IMovie from "../models/Movie.js";
-import IGenre from "../models/Genre.js";
-import SortColumn from "../types/sortColumnType.js";
 import { getMovies } from "../services/fakeMovieService.js";
 import { getGenres } from "../services/fakeGenreService.js";
-import Pagination from "./common/Pagination.js";
+import Pagination from "./common/Pagination";
 import { paginate } from "../utils/paginate.js";
 import ListGroup from "./common/listGroup.jsx";
 import MoviesTable from "./MoviesTable.jsx";
+import SearchBox from "./common/SearchBox.jsx";
 import { Link } from "react-router-dom";
 import _ from "lodash";
 
-interface MoviesState {
-  movies: IMovie[];
-  genres: IGenre[];
-  selectedGenre: IGenre | undefined;
-  pageSize: number;
-  currentPage: number;
-  sortColumn: SortColumn;
-}
-
 // debemos aclararle con un objeto que no vamos a recibir props
-class TableOfMovies extends React.Component<{}, MoviesState> {
+class TableOfMovies extends React.Component {
   // la razon por la que se inicializa movies y genres con un array vacio es porque va a tomar tiempo el traer la informacion de una base de datos o una api. durante ese tiempo queremos asegurarnos que no sean undefined.
-  state: MoviesState = {
+  state = {
     movies: [],
     genres: [],
-    selectedGenre: undefined,
+    selectedGenre: null,
     pageSize: 4,
+    searchQuery: "",
     currentPage: 1,
     sortColumn: { path: "title", order: "asc" },
   };
 
-  componentDidMount(): void {
+  componentDidMount() {
     const genres = [{ _id: "", name: "All Genres" }, ...getGenres()];
 
     this.setState({ movies: getMovies(), genres });
@@ -46,12 +36,12 @@ class TableOfMovies extends React.Component<{}, MoviesState> {
   // };
 
   //   implementacion de mosh:
-  handleDelete = (movie: IMovie) => {
+  handleDelete = (movie) => {
     const movies = this.state.movies.filter((m) => m._id !== movie._id);
     this.setState({ movies });
   };
 
-  handleLike = (movie: IMovie) => {
+  handleLike = (movie) => {
     const movies = [...this.state.movies];
     const index = movies.indexOf(movie);
     movies[index] = { ...movies[index] };
@@ -59,15 +49,19 @@ class TableOfMovies extends React.Component<{}, MoviesState> {
     this.setState({ movies });
   };
 
-  handlePageChange = (page: number) => {
+  handlePageChange = (page) => {
     this.setState({ currentPage: page });
   };
 
-  handleGenreSelect = (genre: IGenre) => {
-    this.setState({ selectedGenre: genre, currentPage: 1 });
+  handleGenreSelect = (genre) => {
+    this.setState({ selectedGenre: genre, searchQuery: "", currentPage: 1 });
   };
 
-  handleSort = (sortColumn: SortColumn) => {
+  handleSearch = (query) => {
+    this.setState({ searchQuery: query, selectedGenre: null, currentPage: 1 });
+  };
+
+  handleSort = (sortColumn) => {
     this.setState({ sortColumn });
   };
 
@@ -77,13 +71,17 @@ class TableOfMovies extends React.Component<{}, MoviesState> {
       movies: allMovies,
       sortColumn,
       currentPage,
+      searchQuery,
       pageSize,
     } = this.state;
 
-    const filtered =
-      selectedGenre && selectedGenre._id
-        ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
-        : allMovies;
+    let filtered = allMovies;
+    if (searchQuery)
+      filtered = allMovies.filter((m) =>
+        m.title.toLowerCase().startsWith(searchQuery.toLowerCase())
+      );
+    else if (selectedGenre && selectedGenre._id)
+      filtered = allMovies.filter((m) => m.genre._id === selectedGenre._id);
 
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
 
@@ -94,7 +92,7 @@ class TableOfMovies extends React.Component<{}, MoviesState> {
 
   render() {
     const { length: count } = this.state.movies;
-    const { pageSize, currentPage, sortColumn } = this.state;
+    const { pageSize, currentPage, sortColumn, searchQuery } = this.state;
 
     if (count === 0) return <p>There are no movies in the database.</p>;
 
@@ -118,6 +116,7 @@ class TableOfMovies extends React.Component<{}, MoviesState> {
             Add new movie
           </Link>
           <p>Showing {totalCount} movies in the database.</p>
+          <SearchBox value={searchQuery} onChange={this.handleSearch} />
           <MoviesTable
             movies={movies}
             sortColumn={sortColumn}
