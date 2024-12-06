@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import httpService from "./services/httpService";
+import config from "./config.json";
 import "./App.css";
 
 // los parametros son funciones que se ejecutan si fue exitosa la respuesta o no
@@ -12,14 +14,14 @@ class App extends Component {
   };
 
   async componentDidMount() {
-    const { data: posts } = await axios.get(apiEndpoint);
+    const { data: posts } = await httpService.get(config.apiEndpoint);
 
     this.setState({ posts });
   }
 
   handleAdd = async () => {
     const obj = { title: "a", body: "b" };
-    const { data: post } = await axios.post(apiEndpoint, obj);
+    const { data: post } = await httpService.post(config.apiEndpoint, obj);
 
     const posts = [post, ...this.state.posts];
     this.setState({ posts });
@@ -27,7 +29,7 @@ class App extends Component {
 
   handleUpdate = async (post) => {
     post.title = "UPDATED";
-    await axios.put(apiEndpoint + "/" + post.id, post);
+    await httpService.put(config.apiEndpoint + "/" + post.id, post);
 
     const posts = [...this.state.posts];
     const index = posts.indexOf(post);
@@ -42,7 +44,7 @@ class App extends Component {
     this.setState({ posts });
 
     try {
-      await axios.delete(apiEndpoint + "/" + post.id);
+      await httpService.delete(config.apiEndpoint + "/" + post.id);
     } catch (ex) {
       console.log("handle delete catch block");
       if (ex.response && ex.response.status === 404)
