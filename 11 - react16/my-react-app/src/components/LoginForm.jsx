@@ -33,7 +33,8 @@ class LoginForm extends Component {
     // const username = this.username.current.value;
 
     const errors = this.validate();
-    this.setState({ errors });
+    // debemos hacer esto en setstate porque siempre se le debe pasar un objeto a errors, si se le pasa null tira error
+    this.setState({ errors: errors || {} });
     if (errors) return;
 
     console.log("submitted");
@@ -46,7 +47,7 @@ class LoginForm extends Component {
   };
 
   render() {
-    const { account } = this.state;
+    const { account, errors } = this.state;
 
     return (
       <div>
@@ -57,12 +58,14 @@ class LoginForm extends Component {
             value={account.username}
             label="Username"
             onChange={this.handleChange}
+            error={errors.username}
           />
           <Input
             name="password"
             value={account.password}
             label="Password"
             onChange={this.handleChange}
+            error={errors.password}
           />
 
           <button className="btn btn-primary">Login</button>
