@@ -80,6 +80,7 @@ import { Component } from "react";
 // }
 
 import { Route, Redirect, Switch } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import Customers from "./components/Customers";
 import Rentals from "./components/Rentals";
 import NotFound from "./components/notFound";
@@ -89,11 +90,13 @@ import React from "react";
 import TableOfMovies from "./components/ListOfMovies";
 import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
+import "react-toastify/dist/ReactToastify.css";
 
 class App extends Component<object, object> {
   render() {
     return (
       <React.Fragment>
+        <ToastContainer />
         <NavBarMovies />
         <main style={{ marginTop: 30 }} className="container">
           <Switch>
