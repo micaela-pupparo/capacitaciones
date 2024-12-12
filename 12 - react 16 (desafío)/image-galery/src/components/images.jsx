@@ -15,10 +15,9 @@ class ImagesList extends Component {
 
   render() {
     return (
-      <div>
-        imagenesss
+      <div className="container">
         {this.state.images.map((image) => (
-          <img key={image.id} src={image.urls.raw} />
+          <img key={image.id} src={image.urls.thumb} className="img-fluid" />
         ))}
       </div>
     );
