@@ -1,17 +1,38 @@
 import { Component } from "react";
-import http from "../services/httpService";
+import unsplash from "../services/apiService";
+import Pagination from "./common/pagination";
 
 class ImagesList extends Component {
   state = {
     images: [],
+    currentPage: 1,
   };
 
   async componentDidMount() {
-    const { data: images } = await http.get(
-      "https://api.unsplash.com/photos/?client_id=rikz8-JlCCNwLuK8DVuhf6dszY0dWXWop7Xm9TAxMlY"
-    );
-    this.setState({ images });
+    const { currentPage: page } = this.state;
+
+    const { response } = await unsplash.photos.list({
+      page,
+      perPage: 10,
+    });
+
+    this.setState({ images: response.results });
   }
+
+  loadImage = async (page) => {
+    const { response } = await unsplash.photos.list({
+      page,
+      perPage: 10,
+    });
+
+    this.setState({ images: response.results });
+  };
+
+  handlePageChange = async (page) => {
+    await this.loadImage(page);
+
+    this.setState({ currentPage: page });
+  };
 
   render() {
     return (
@@ -19,6 +40,10 @@ class ImagesList extends Component {
         {this.state.images.map((image) => (
           <img key={image.id} src={image.urls.thumb} className="img-fluid" />
         ))}
+        <Pagination
+          currentPage={this.state.currentPage}
+          onPageChange={this.handlePageChange}
+        />
       </div>
     );
   }
