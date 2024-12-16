@@ -13,13 +13,16 @@ class ImagesList extends Component {
     searchQuery: "",
     displayModal: false,
     categories: [
-      "popular",
-      "constructions",
       "animals",
-      "people",
-      "celebrations",
       "beach",
+      "celebrations",
+      "colors",
+      "constructions",
+      "food",
       "mountains",
+      "people",
+      "plants",
+      "popular",
     ],
   };
 
