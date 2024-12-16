@@ -1,3 +1,4 @@
+@import url("//fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,900&display=swap");
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -28,11 +29,47 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  font-size: 62.5%;
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+}
+
+.container > p {
+  margin-bottom: 0;
+  font-size: 0.8rem;
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 900;
+}
+
+#contenedor {
+  display: grid;
+  place-content: center;
+  color: #000;
+}
+
+.rueda {
+  border: 5px solid rgba(34, 32, 32, 0.3);
+  border-radius: 50%;
+  border-left-color: transparent;
+  width: 60px;
+  height: 60px;
+  animation: giro 1s linear infinite;
+}
+
+@keyframes giro {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 button {

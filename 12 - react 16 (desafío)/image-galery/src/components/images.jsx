@@ -32,10 +32,12 @@ class ImagesList extends Component {
     await this.loadImage(currentPage);
   }
 
-  loadImage = async (page) => {
+  loadImage = async () => {
+    const randomPage = Math.ceil(Math.random() * 10);
+    console.log(randomPage);
     const { response } = await unsplash.search.getPhotos({
       query: "random",
-      page,
+      page: randomPage,
       perPage: 24,
       orientation: "landscape",
     });
@@ -86,6 +88,7 @@ class ImagesList extends Component {
               display: "flex",
               justifyContent: "center",
               cursor: "pointer",
+              flexWrap: "wrap",
             }}
           >
             {this.state.categories.map((category) => (

@@ -3,23 +3,74 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
 class ImageModal extends Component {
+  state = {
+    isImageLoaded: false,
+  };
+
+  handleImageLoad = () => {
+    this.setState({ isImageLoaded: true });
+  };
+
+  handleClose = () => {
+    const { onHide } = this.props;
+
+    this.setState({ isImageLoaded: false });
+    onHide();
+  };
+
   render() {
     const { onHide, show, image } = this.props;
+    const { isImageLoaded } = this.state;
+
     console.log(image);
     return (
       <>
-        <Modal show={show} onHide={() => onHide()} centered>
+        <Modal show={show} onHide={this.handleClose} centered>
           <Modal.Header closeButton>
             <Modal.Title>Descripción de la imagen</Modal.Title>
           </Modal.Header>
-          <Modal.Body>
-            <img src={image.urls.thumb} alt={image.alt_description} />
-            <p>
-              Usuario: <span>{image.user.name}</span>
-            </p>
+          <Modal.Body
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+            }}
+          >
+            <img
+              src={image.urls.raw}
+              alt={image.alt_description}
+              onLoad={this.handleImageLoad}
+              style={{ display: isImageLoaded ? "block" : "none" }}
+            />
+            {!isImageLoaded && (
+              <div id="contenedor">
+                <div className="contenedor-loader">
+                  <div className="rueda"></div>
+                </div>
+              </div>
+            )}
+
+            <div
+              className="container"
+              style={{
+                marginTop: 10,
+                borderTop: "0.5px solid rgb(222, 226, 230)",
+                paddingTop: 10,
+              }}
+            >
+              <p>
+                <b>Usuario:</b> <span>@{image.user.username}</span>
+              </p>
+              <p>
+                <b>Descripcion:</b> <span>{image.alt_description}</span>
+              </p>
+              <p>
+                <b>Likes:</b> <span>{image.likes}</span>
+              </p>
+            </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={() => onHide()}>
+            <Button variant="secondary" onClick={this.handleClose}>
               Close
             </Button>
           </Modal.Footer>
