@@ -1,13 +1,16 @@
-const SearchBox = ({ value, onChange }) => {
+const SearchBox = ({ value, onChange, children }) => {
   return (
-    <input
-      type="text"
-      name="query"
-      className="form-control my-3"
-      placeholder="Search..."
-      value={value}
-      onChange={(e) => onChange(e.currentTarget.value)}
-    />
+    <div>
+      <input
+        type="text"
+        name="query"
+        className="form-control my-3"
+        placeholder="Search..."
+        value={value}
+        onChange={(e) => onChange(e.currentTarget.value)}
+      />
+      {children}
+    </div>
   );
 };
 

@@ -1,15 +1,26 @@
 import { Component } from "react";
 import unsplash from "../services/apiService";
 // import Pagination from "./common/pagination";
+import { Row, Col, Badge, Stack } from "react-bootstrap";
 import SearchBox from "./common/searchBox";
 import ImageModal from "./modal";
 
 class ImagesList extends Component {
   state = {
     images: [],
+    image: undefined,
     currentPage: 1,
     searchQuery: "",
     displayModal: false,
+    categories: [
+      "popular",
+      "constructions",
+      "animals",
+      "people",
+      "celebrations",
+      "beach",
+      "mountains",
+    ],
   };
 
   async componentDidMount() {
@@ -19,9 +30,11 @@ class ImagesList extends Component {
   }
 
   loadImage = async (page) => {
-    const { response } = await unsplash.photos.list({
+    const { response } = await unsplash.search.getPhotos({
+      query: "random",
       page,
-      perPage: 10,
+      perPage: 24,
+      orientation: "landscape",
     });
 
     this.setState({ images: response.results });
@@ -31,7 +44,8 @@ class ImagesList extends Component {
     const { response } = await unsplash.search.getPhotos({
       query,
       page: 1,
-      perPage: 10,
+      perPage: 24,
+      orientation: "landscape",
     });
 
     this.setState({ images: response.results });
@@ -48,8 +62,10 @@ class ImagesList extends Component {
     this.loadCategory(query);
   };
 
-  handleShowModal = () => {
+  handleShowModal = (image) => {
     this.setState({ displayModal: true });
+
+    if (image) this.setState({ image });
   };
 
   handleHideModal = () => {
@@ -59,28 +75,48 @@ class ImagesList extends Component {
   render() {
     return (
       <div className="container">
-        <SearchBox
-          value={this.state.searchQuery}
-          onChange={this.handleSearch}
-        />
-        {this.state.images.map((image) => (
-          <img
-            key={image.id}
-            src={image.urls.thumb}
-            className="img-fluid"
-            onClick={this.handleShowModal}
-            data-bs-toggle="modal"
-            data-bs-target="#staticBackdrop"
+        <SearchBox value={this.state.searchQuery} onChange={this.handleSearch}>
+          <Stack
+            direction="horizontal"
+            gap={2}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              cursor: "pointer",
+            }}
+          >
+            {this.state.categories.map((category) => (
+              <Badge
+                pill
+                bg="primary"
+                key={category}
+                onClick={() => this.handleSearch(category)}
+              >
+                {category}
+              </Badge>
+            ))}
+          </Stack>
+        </SearchBox>
+        <Row className="g-3" style={{ marginTop: 15 }}>
+          {this.state.images.map((image) => (
+            <Col key={image.id} xs={6} sm={4} md={3} lg={2}>
+              <img
+                src={image.urls.small}
+                alt={image.alt_description || "Image"}
+                className="img-fluid rounded shadow"
+                onClick={() => this.handleShowModal(image)}
+                style={{ cursor: "pointer" }}
+              />
+            </Col>
+          ))}
+        </Row>
+        {this.state.image && (
+          <ImageModal
+            show={this.state.displayModal}
+            onHide={this.handleHideModal}
+            image={this.state.image}
           />
-        ))}
-        <ImageModal
-          show={this.state.displayModal}
-          onHide={this.handleHideModal}
-        />
-        {/* <Pagination
-          currentPage={this.state.currentPage}
-          onPageChange={this.handlePageChange}
-        /> */}
+        )}
       </div>
     );
   }

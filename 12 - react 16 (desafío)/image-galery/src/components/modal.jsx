@@ -4,14 +4,20 @@ import Modal from "react-bootstrap/Modal";
 
 class ImageModal extends Component {
   render() {
-    const { onHide, show } = this.props;
+    const { onHide, show, image } = this.props;
+    console.log(image);
     return (
       <>
-        <Modal show={show} onHide={() => onHide()}>
+        <Modal show={show} onHide={() => onHide()} centered>
           <Modal.Header closeButton>
-            <Modal.Title>Modal heading</Modal.Title>
+            <Modal.Title>Descripción de la imagen</Modal.Title>
           </Modal.Header>
-          <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
+          <Modal.Body>
+            <img src={image.urls.thumb} alt={image.alt_description} />
+            <p>
+              Usuario: <span>{image.user.name}</span>
+            </p>
+          </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={() => onHide()}>
               Close
