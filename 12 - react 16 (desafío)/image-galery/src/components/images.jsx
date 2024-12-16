@@ -2,14 +2,14 @@ import { Component } from "react";
 import unsplash from "../services/apiService";
 // import Pagination from "./common/pagination";
 import SearchBox from "./common/searchBox";
-import Modal from "./modal";
+import ImageModal from "./modal";
 
 class ImagesList extends Component {
   state = {
     images: [],
     currentPage: 1,
     searchQuery: "",
-    displayModal: "none",
+    displayModal: false,
   };
 
   async componentDidMount() {
@@ -48,12 +48,12 @@ class ImagesList extends Component {
     this.loadCategory(query);
   };
 
-  handleImageClick = () => {
-    this.setState({ displayModal: "block" });
+  handleShowModal = () => {
+    this.setState({ displayModal: true });
   };
 
-  handleModal = () => {
-    this.setState({ displayModal: "none" });
+  handleHideModal = () => {
+    this.setState({ displayModal: false });
   };
 
   render() {
@@ -68,14 +68,14 @@ class ImagesList extends Component {
             key={image.id}
             src={image.urls.thumb}
             className="img-fluid"
-            onClick={this.handleImageClick}
+            onClick={this.handleShowModal}
             data-bs-toggle="modal"
             data-bs-target="#staticBackdrop"
           />
         ))}
-        <Modal
-          displayModal={this.state.displayModal}
-          onOpenModal={this.handleModal}
+        <ImageModal
+          show={this.state.displayModal}
+          onHide={this.handleHideModal}
         />
         {/* <Pagination
           currentPage={this.state.currentPage}
