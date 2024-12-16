@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Component } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
@@ -19,7 +20,7 @@ class ImageModal extends Component {
   };
 
   render() {
-    const { onHide, show, image } = this.props;
+    const { show, image } = this.props;
     const { isImageLoaded } = this.state;
 
     console.log(image);
@@ -37,7 +38,7 @@ class ImageModal extends Component {
             }}
           >
             <img
-              src={image.urls.raw}
+              src={image.urls.regular}
               alt={image.alt_description}
               onLoad={this.handleImageLoad}
               style={{ display: isImageLoaded ? "block" : "none" }}
