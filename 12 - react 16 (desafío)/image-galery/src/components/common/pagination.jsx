@@ -1,6 +1,5 @@
 const Pagination = ({ currentPage, onPageChange }) => {
   let getNumberPages = (currentPage) => {
-    console.log(currentPage);
     if (currentPage === 1)
       return [currentPage, currentPage + 1, currentPage + 2];
     return [currentPage - 1, currentPage, currentPage + 1];
@@ -11,7 +10,11 @@ const Pagination = ({ currentPage, onPageChange }) => {
   return (
     <nav
       aria-label="..."
-      style={{ display: "flex", justifyContent: "center", marginTop: 50 }}
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        marginTop: 50,
+      }}
     >
       <ul className="pagination">
         {arrayOfPages.map((page) => (
