@@ -27,7 +27,7 @@ class ImageModal extends Component {
       <>
         <Modal show={show} onHide={this.handleClose} centered>
           <Modal.Header closeButton>
-            <Modal.Title>Descripción de la imagen</Modal.Title>
+            <Modal.Title>Image description</Modal.Title>
           </Modal.Header>
           <Modal.Body
             style={{
@@ -59,10 +59,10 @@ class ImageModal extends Component {
               }}
             >
               <p>
-                <b>Usuario:</b> <span>@{image.user.username}</span>
+                <b>Username:</b> <span>@{image.user.username}</span>
               </p>
               <p>
-                <b>Descripcion:</b> <span>{image.alt_description}</span>
+                <b>Description:</b> <span>{image.alt_description}</span>
               </p>
               <p>
                 <b>Likes:</b> <span>{image.likes}</span>

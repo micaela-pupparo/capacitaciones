@@ -9,7 +9,10 @@ const Pagination = ({ currentPage, onPageChange }) => {
   let arrayOfPages = getNumberPages(currentPage);
 
   return (
-    <nav aria-label="...">
+    <nav
+      aria-label="..."
+      style={{ display: "flex", justifyContent: "center", marginTop: 50 }}
+    >
       <ul className="pagination">
         {arrayOfPages.map((page) => (
           <li

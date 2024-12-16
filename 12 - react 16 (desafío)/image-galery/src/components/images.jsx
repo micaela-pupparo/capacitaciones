@@ -1,6 +1,6 @@
 import { Component } from "react";
 import unsplash from "../services/apiService";
-// import Pagination from "./common/pagination";
+import Pagination from "./common/pagination";
 import { Row, Col, Badge, Stack } from "react-bootstrap";
 import SearchBox from "./common/searchBox";
 import ImageModal from "./modal";
@@ -27,17 +27,19 @@ class ImagesList extends Component {
   };
 
   async componentDidMount() {
-    const { currentPage } = this.state;
-
-    await this.loadImage(currentPage);
+    await this.loadImage();
   }
 
-  loadImage = async () => {
-    const randomPage = Math.ceil(Math.random() * 10);
-    console.log(randomPage);
+  loadImage = async (page = undefined) => {
+    let numberPage;
+    if (page) numberPage = page;
+    else {
+      numberPage = Math.ceil(Math.random() * 10);
+    }
+
     const { response } = await unsplash.search.getPhotos({
       query: "random",
-      page: randomPage,
+      page: numberPage,
       perPage: 24,
       orientation: "landscape",
     });
@@ -45,10 +47,10 @@ class ImagesList extends Component {
     this.setState({ images: response.results });
   };
 
-  loadCategory = async (query) => {
+  loadCategory = async (query, page = 1) => {
     const { response } = await unsplash.search.getPhotos({
       query,
-      page: 1,
+      page,
       perPage: 24,
       orientation: "landscape",
     });
@@ -57,7 +59,11 @@ class ImagesList extends Component {
   };
 
   handlePageChange = async (page) => {
-    await this.loadImage(page);
+    if (this.state.searchQuery) {
+      await this.loadCategory(this.state.searchQuery, page);
+    } else {
+      await this.loadImage(page);
+    }
 
     this.setState({ currentPage: page });
   };
@@ -123,6 +129,10 @@ class ImagesList extends Component {
             image={this.state.image}
           />
         )}
+        <Pagination
+          currentPage={this.state.currentPage}
+          onPageChange={this.handlePageChange}
+        />
       </div>
     );
   }
