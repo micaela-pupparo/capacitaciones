@@ -23,7 +23,6 @@ class ImageModal extends Component {
     const { show, image } = this.props;
     const { isImageLoaded } = this.state;
 
-    console.log(image);
     return (
       <>
         <Modal show={show} onHide={this.handleClose} centered>

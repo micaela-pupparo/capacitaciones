@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 const Pagination = ({ currentPage, onPageChange }) => {
   let getNumberPages = (currentPage) => {
     if (currentPage === 1)
