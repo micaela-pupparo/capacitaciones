@@ -24,6 +24,9 @@ store.dispatch(bugAdded({ description: "Bug 2" }));
 store.dispatch(bugAdded({ description: "Bug 3" }));
 store.dispatch(bugAssignedToUser({ bugId: 1, userId: 1 }));
 store.dispatch(bugResolved({ id: 1 }));
+store.dispatch((dispatch, getState) => {
+  dispatch({ type: "bugsReceived", bugs: [1, 2, 3] });
+});
 
 const unresolvedBugs = getUnresolvedBugs(store.getState());
 const bugsByUser = getBugsByUser(1)(store.getState());
