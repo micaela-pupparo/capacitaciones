@@ -1,8 +1,9 @@
-import { createStore } from "redux";
-import { devToolsEnhancer } from "redux-devtools-extension";
+import { configureStore } from "@reduxjs/toolkit";
 import reducer from "./bugs";
 
-export default function configureStore() {
-  const store = createStore(reducer, devToolsEnhancer({ trace: true })); //devuelve un store object
-  return store;
+export default function () {
+  return configureStore({
+    reducer,
+  }); // con toolkit ahora no hace falta especificar que queremos que se hablen con redux devtoools
+  // tambien nos deja despachar acciones asincronas
 }
