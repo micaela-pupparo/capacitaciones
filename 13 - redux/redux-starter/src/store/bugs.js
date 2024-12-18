@@ -7,7 +7,7 @@ const BUG_RESOLVED = "bugResolved";
 
 // Action creators
 // con ducks pattern se debe exportar cada action creator
-import { createAction } from "@reduxjs/toolkit";
+import { createAction, createReducer } from "@reduxjs/toolkit";
 
 // const bugUpdated = createAction("bugUpdated");
 // console.log(bugUpdated({ id: 1 })); //este objeto entra en payload
@@ -20,27 +20,43 @@ export const bugRemoved = createAction("bugRemoved");
 // con ducks pattern siempre tu reducer tiene que estar exportado en default
 let lastId = 0;
 
-export default function reducer(state = [], action) {
-  switch (action.type) {
-    case bugAdded.type:
-      return [
-        ...state,
-        {
-          id: ++lastId,
-          description: action.payload.description,
-          resolved: false,
-        },
-      ];
+// redux toolkit usa immer para que los objetos sean inmutables
+// bugs seria state
+export default createReducer([], {
+  [bugAdded.type]: (bugs, action) => {
+    bugs.push({
+      id: ++lastId,
+      description: action.payload.description,
+      resolved: false,
+    });
+  },
+  [bugResolved.type]: (bugs, action) => {
+    const index = bugs.findIndex((bug) => bug.id === action.payload.id);
+    bugs[index].resolved = true;
+  },
+});
 
-    case bugRemoved.type:
-      return state.filter((bug) => bug.id !== action.payload.id);
+// export default function reducer(state = [], action) {
+//   switch (action.type) {
+//     case bugAdded.type:
+//       return [
+//         ...state,
+//         {
+//           id: ++lastId,
+//           description: action.payload.description,
+//           resolved: false,
+//         },
+//       ];
 
-    case bugResolved.type:
-      return state.map((bug) =>
-        bug.id !== action.payload.id ? bug : { ...bug, resolved: true }
-      );
+//     case bugRemoved.type:
+//       return state.filter((bug) => bug.id !== action.payload.id);
 
-    default:
-      return state;
-  }
-}
+//     case bugResolved.type:
+//       return state.map((bug) =>
+//         bug.id !== action.payload.id ? bug : { ...bug, resolved: true }
+//       );
+
+//     default:
+//       return state;
+//   }
+// }
