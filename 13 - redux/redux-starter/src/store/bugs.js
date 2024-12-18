@@ -67,6 +67,11 @@ const slice = createSlice({
   name: "bugs",
   initialState: [],
   reducers: {
+    bugAssignedToUser: (bugs, action) => {
+      const { bugId, userId } = action.payload;
+      const index = bugs.findIndex((bug) => bug.id === bugId);
+      bugs[index].userId = userId;
+    },
     bugAdded: (bugs, action) => {
       bugs.push({
         id: ++lastId,
@@ -81,7 +86,7 @@ const slice = createSlice({
   },
 });
 
-export const { bugAdded, bugResolved } = slice.actions;
+export const { bugAdded, bugResolved, bugAssignedToUser } = slice.actions;
 export default slice.reducer;
 
 // Selector Function, funcion que toma el estado y retorna el estado computado
@@ -90,9 +95,17 @@ getUnresolvedBugsMalHecho = (state) =>
 
 // Memoization es una tecnica para optimizar estas funciones costosas (en terminos de tiempo). si la lista de unresolved bugs no cambio, podemos obtenerla desde el cache
 export const getUnresolvedBugs = createSelector(
+  // selectors functions
   (state) => state.entities.bugs,
   (state) => state.entities.projects, //(1)
+  // result function
   (bugs, projects) => bugs.filter((bug) => !bug.unresolved) //esto no se va a ejecutar si la lista de bugs no cambio
 );
 
 // podemos crear varios selectors (1). la ultima funcion toma los outputs de las otras funciones
+
+export const getBugsByUser = (userId) =>
+  createSelector(
+    (state) => state.entities.bugs,
+    (bugs) => bugs.filter((bug) => bug.userId === userId)
+  );
