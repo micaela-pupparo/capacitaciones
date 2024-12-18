@@ -17,6 +17,17 @@ store.subscribe(() => {
   console.log("Store changed!", store.getState());
 });
 
+store.dispatch({
+  type: "apiCallBegan",
+  payload: {
+    url: "/bugs",
+    method: "get",
+    data: {},
+    onSuccess: "bugsReceived",
+    onError: "apiRequestFailed",
+  },
+});
+
 store.dispatch(userAdded({ name: "User 1" }));
 store.dispatch(userAdded({ name: "User 2" }));
 store.dispatch(bugAdded({ description: "Bug 1" }));
