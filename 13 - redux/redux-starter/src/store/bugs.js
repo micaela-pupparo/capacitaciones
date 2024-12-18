@@ -7,19 +7,14 @@ const BUG_RESOLVED = "bugResolved";
 
 // Action creators
 // con ducks pattern se debe exportar cada action creator
-export const bugAdded = (description) => ({
-  type: BUD_ADDED,
-  payload: {
-    description,
-  },
-});
+import { createAction } from "@reduxjs/toolkit";
 
-export const bugResolved = (id) => ({
-  type: BUG_RESOLVED,
-  payload: {
-    id,
-  },
-});
+// const bugUpdated = createAction("bugUpdated");
+// console.log(bugUpdated({ id: 1 })); //este objeto entra en payload
+
+export const bugAdded = createAction("bugAdded");
+export const bugResolved = createAction("bugResolved");
+export const bugRemoved = createAction("bugRemoved");
 
 // Reducer
 // con ducks pattern siempre tu reducer tiene que estar exportado en default
@@ -27,7 +22,7 @@ let lastId = 0;
 
 export default function reducer(state = [], action) {
   switch (action.type) {
-    case BUD_ADDED:
+    case bugAdded.type:
       return [
         ...state,
         {
@@ -37,10 +32,10 @@ export default function reducer(state = [], action) {
         },
       ];
 
-    case BUD_REMOVED:
+    case bugRemoved.type:
       return state.filter((bug) => bug.id !== action.payload.id);
 
-    case BUG_RESOLVED:
+    case bugResolved.type:
       return state.map((bug) =>
         bug.id !== action.payload.id ? bug : { ...bug, resolved: true }
       );
