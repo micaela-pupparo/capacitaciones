@@ -1,4 +1,5 @@
 import store from "./store";
+import * as actions from "./actionTypes";
 
 // la funcion es llamada siempre que el esatdo cambia
 // los componentes UI deberian estar suscriptos. pero cuando no estan visibles
@@ -8,7 +9,7 @@ const unsubscribe = store.subscribe(() => {
 });
 
 store.dispatch({
-  type: "bugAdded",
+  type: actions.BUD_ADDED,
   payload: {
     description: "Bug1",
   },
@@ -17,7 +18,7 @@ store.dispatch({
 unsubscribe();
 
 store.dispatch({
-  type: "bugRemoved",
+  type: actions.BUD_REMOVED,
   payload: {
     id: 1,
   },
