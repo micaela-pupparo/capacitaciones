@@ -1,10 +1,12 @@
-import store from "./store";
-import * as actions from "./actions";
+import configureStore from "./store/configureStore";
+import * as actions from "./store/bugs";
 
 // la funcion es llamada siempre que el esatdo cambia
 // los componentes UI deberian estar suscriptos. pero cuando no estan visibles
 // deberian desuscribirse.
-const unsubscribe = store.subscribe(() => {
+const store = configureStore();
+
+store.subscribe(() => {
   console.log("Store changed!", store.getState());
 });
 
