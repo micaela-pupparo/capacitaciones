@@ -8,6 +8,7 @@ const BUG_RESOLVED = "bugResolved";
 // Action creators
 // con ducks pattern se debe exportar cada action creator
 import { createAction, createReducer, createSlice } from "@reduxjs/toolkit";
+import { createSelector } from "@reduxjs/toolkit";
 
 // const bugUpdated = createAction("bugUpdated");
 // console.log(bugUpdated({ id: 1 })); //este objeto entra en payload
@@ -84,5 +85,14 @@ export const { bugAdded, bugResolved } = slice.actions;
 export default slice.reducer;
 
 // Selector Function, funcion que toma el estado y retorna el estado computado
-export const getUnresolvedBugs = (state) =>
-  state.entities.bugs.filter((bug) => !bug.resolved);
+getUnresolvedBugsMalHecho = (state) =>
+  state.entities.bugs.filter((bug) => !bug.resolved); //el problema es que devuelve un array nuevo cada vez que es llamado y esto hace que se vuelva a renderizar los componentes cada vez que llamamos la funcion
+
+// Memoization es una tecnica para optimizar estas funciones costosas (en terminos de tiempo). si la lista de unresolved bugs no cambio, podemos obtenerla desde el cache
+export const getUnresolvedBugs = createSelector(
+  (state) => state.entities.bugs,
+  (state) => state.entities.projects, //(1)
+  (bugs, projects) => bugs.filter((bug) => !bug.unresolved) //esto no se va a ejecutar si la lista de bugs no cambio
+);
+
+// podemos crear varios selectors (1). la ultima funcion toma los outputs de las otras funciones
