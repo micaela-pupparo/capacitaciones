@@ -3,7 +3,8 @@ const logger = (param) => (store) => (next) => (action) => {
   console.log("next", next);
   console.log("action", action);
 
-  next(action);
+  // cada middleware debe retornar el valor del proximo middleware para saber lo que devuelve la api
+  return next(action);
 };
 
 export default logger;

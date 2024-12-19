@@ -159,6 +159,18 @@ export const addBug = (bug) =>
     onSuccess: bugAdded.type,
   });
 
+// otra implementacion
+// import axios from "axios";
+// export const addBug = (bug) => async (dispatch) => {
+//   const response = await axios.request({
+//     baseURL: "http:localhost:9001/api",
+//     url: "/bugs",
+//     method: "post",
+//     data: bug,
+//   });
+//   dispatch(bugAdded(response.data));
+// };
+
 export const resolveBug = (id) =>
   apiCallBegan({
     url: url + "/" + id,
