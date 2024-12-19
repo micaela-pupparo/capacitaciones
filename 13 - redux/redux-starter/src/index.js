@@ -7,6 +7,7 @@ import {
   getBugsByUser,
 } from "./store/bugs";
 import { userAdded } from "./store/users";
+import { apiCallBegan, apiCallFailed, apiCallSuccess } from "./store/api";
 
 // la funcion es llamada siempre que el esatdo cambia
 // los componentes UI deberian estar suscriptos. pero cuando no estan visibles
@@ -17,16 +18,14 @@ store.subscribe(() => {
   console.log("Store changed!", store.getState());
 });
 
-store.dispatch({
-  type: "apiCallBegan",
-  payload: {
+store.dispatch(
+  apiCallBegan({
     url: "/bugs",
     // method: "get", por default el metodo es get
     // data: {},
     onSuccess: "bugsReceived",
-    onError: "apiRequestFailed",
-  },
-});
+  })
+);
 
 store.dispatch(userAdded({ name: "User 1" }));
 store.dispatch(userAdded({ name: "User 2" }));

@@ -1,10 +1,11 @@
 import { axios } from "axios";
+import * as actions from "../api";
 
 const api =
   ({ dispatch }) =>
   (next) =>
   async (action) => {
-    if (action.type !== "apiCallBegan") return next(action);
+    if (action.type !== actions.apiCallBegan.type) return next(action);
 
     next(action); // esto es para que la accion de apiCallBegan aparezca en redux devtools. si no se hace esto es como que se "traga" la accion original al despacha otra accion
 
@@ -17,9 +18,15 @@ const api =
         method,
         data,
       });
-      dispatch({ type: onSuccess, payload: response.data });
+      // Success general
+      dispatch(actions.apiCallSuccess(response.data));
+      // Success mas especifico
+      if (onSuccess) dispatch({ type: onSuccess, payload: response.data });
     } catch (error) {
-      dispatch({ type: onError, payload: error });
+      // Error general
+      dispatch(actions.apiCallFailed(error));
+      // Error mas especifico
+      if (onError) dispatch({ type: onError, payload: error }); //para cheqeuar que en la accion nos estan pasando la propiedad onError
     }
   };
 
