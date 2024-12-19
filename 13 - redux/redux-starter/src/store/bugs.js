@@ -122,7 +122,7 @@ export const loadBugs = () => (dispatch, getState) => {
   // el 10 deberia estar tambien en un config file, ademas esta implementacion deberia ser generalizada
   if (diffInMinutes < 10) return;
 
-  dispatch(
+  return dispatch(
     apiCallBegan({
       url,
       // method: "get", por default el metodo es get
