@@ -1,6 +1,6 @@
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
-import { addBug, getUnresolvedBugs } from "../bugs";
+import { addBug, getUnresolvedBugs, resolveBug } from "../bugs";
 import configureStore from "../configureStore";
 import entities from "../entities";
 
@@ -23,6 +23,27 @@ describe("bugsSlice", () => {
         },
       },
     });
+
+    it("should mark the bug as resolved if its saved to the server", async () => {
+      fakeAxios.onPatch("/bugs/1").reply(200, { id: 1, resolved: true });
+      fakeAxios.onPost("/bugs").reply(200, { id: 1 });
+
+      await store.dispatch(addBug({}));
+      await store.dispatch(resolveBug(1));
+
+      expect(bugsSlice().list[0].resolved).toBe(true);
+    });
+
+    it("should not mark the bug as resolved if its not saved to the server", async () => {
+      fakeAxios.onPatch("/bugs/1").reply(500);
+      fakeAxios.onPost("/bugs").reply(200, { id: 1 });
+
+      await store.dispatch(addBug({}));
+      await store.dispatch(resolveBug(1));
+
+      expect(bugsSlice().list[0].resolved).not.toBe(true);
+    });
+
     // el problema aca es que en configureStore, en middleware tenemos la api. si lo comentamos, este test sigue pasando.
     // tambien si queremos testear lo que pasamos en middleware los test ya sabrian demasiado sobre la implementacion
     // it("addBug", () => {
