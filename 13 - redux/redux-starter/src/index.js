@@ -6,6 +6,7 @@ import {
   getUnresolvedBugs,
   getBugsByUser,
   loadBugs,
+  addBug,
 } from "./store/bugs";
 import { userAdded } from "./store/users";
 
@@ -19,6 +20,8 @@ store.subscribe(() => {
 });
 
 // aca estariamos en la UI Layer. no queremos mostrar estos datos tan especificos aca por posibilidades de cambiar la implementacion
+store.dispatch(addBug({ description: "a" }));
+
 store.dispatch(loadBugs());
 
 store.dispatch(userAdded({ name: "User 1" }));

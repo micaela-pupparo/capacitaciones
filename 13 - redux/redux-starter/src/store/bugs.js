@@ -21,7 +21,7 @@ import moment from "moment";
 
 // Reducer
 // con ducks pattern siempre tu reducer tiene que estar exportado en default
-let lastId = 0;
+// let lastId = 0;
 
 // redux toolkit usa immer para que los objetos sean inmutables
 // bugs seria state
@@ -91,11 +91,7 @@ const slice = createSlice({
       bugs.list[index].userId = userId;
     },
     bugAdded: (bugs, action) => {
-      bugs.list.push({
-        id: ++lastId,
-        description: action.payload.description,
-        resolved: false,
-      });
+      bugs.list.push(action.payload);
     },
     bugResolved: (bugs, action) => {
       const index = bugs.list.findIndex((bug) => bug.id === action.payload.id);
@@ -135,6 +131,14 @@ export const loadBugs = () => (dispatch, getState) => {
     })
   );
 };
+
+export const addBug = (bug) =>
+  apiCallBegan({
+    url,
+    method: "post",
+    data: bug,
+    onSuccess: bugAdded.type,
+  });
 
 // Selector Function, funcion que toma el estado y retorna el estado computado
 getUnresolvedBugsMalHecho = (state) =>
