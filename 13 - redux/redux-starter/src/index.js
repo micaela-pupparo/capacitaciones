@@ -1,15 +1,5 @@
 import configureStore from "./store/configureStore";
-import {
-  bugAdded,
-  bugResolved,
-  bugAssignedToUser,
-  getUnresolvedBugs,
-  getBugsByUser,
-  loadBugs,
-  addBug,
-  resolveBug,
-  assignBugToUser,
-} from "./store/bugs";
+import { loadBugs, addBug, resolveBug, assignBugToUser } from "./store/bugs";
 import { userAdded } from "./store/users";
 
 // la funcion es llamada siempre que el esatdo cambia
@@ -29,16 +19,9 @@ store.dispatch(loadBugs());
 setTimeout(() => store.dispatch(resolveBug(1)), 2000);
 setTimeout(() => store.dispatch(assignBugToUser(1, 4)), 4000);
 
-store.dispatch(userAdded({ name: "User 1" }));
-store.dispatch(userAdded({ name: "User 2" }));
-store.dispatch(bugAdded({ description: "Bug 1" }));
-store.dispatch(bugAdded({ description: "Bug 2" }));
-store.dispatch(bugAdded({ description: "Bug 3" }));
-store.dispatch(bugAssignedToUser({ bugId: 1, userId: 1 }));
-store.dispatch(bugResolved({ id: 1 }));
-store.dispatch((dispatch, getState) => {
-  dispatch({ type: "bugsReceived", bugs: [1, 2, 3] });
-});
+// store.dispatch((dispatch, getState) => {
+//   dispatch({ type: "bugsReceived", bugs: [1, 2, 3] });
+// });
 
 const unresolvedBugs = getUnresolvedBugs(store.getState());
 const bugsByUser = getBugsByUser(1)(store.getState());

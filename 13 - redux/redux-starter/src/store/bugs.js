@@ -100,7 +100,8 @@ const slice = createSlice({
   },
 });
 
-export const {
+// dejamos de exportar los eventos y solo exportamos los commands. de esta forma reducimos el coupling en nuestro sistema
+const {
   bugAdded,
   bugResolved,
   bugAssignedToUser,
