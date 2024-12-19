@@ -9,6 +9,7 @@ const BUG_RESOLVED = "bugResolved";
 // con ducks pattern se debe exportar cada action creator
 import { createAction, createReducer, createSlice } from "@reduxjs/toolkit";
 import { createSelector } from "@reduxjs/toolkit";
+import { apiCallBegan } from "./api";
 
 // const bugUpdated = createAction("bugUpdated");
 // console.log(bugUpdated({ id: 1 })); //este objeto entra en payload
@@ -71,6 +72,9 @@ const slice = createSlice({
     lastFeth: null,
   },
   reducers: {
+    bugsReceived: (bugs, action) => {
+      bugs.list = action.payload;
+    },
     bugAssignedToUser: (bugs, action) => {
       const { bugId, userId } = action.payload;
       const index = bugs.list.findIndex((bug) => bug.id === bugId);
@@ -90,8 +94,20 @@ const slice = createSlice({
   },
 });
 
-export const { bugAdded, bugResolved, bugAssignedToUser } = slice.actions;
+export const { bugAdded, bugResolved, bugAssignedToUser, bugsReceived } =
+  slice.actions;
 export default slice.reducer;
+
+// Action Creators
+const url = "/bugs"; //esto podria estar en un config file
+
+export const loadBugs = () =>
+  apiCallBegan({
+    url,
+    // method: "get", por default el metodo es get
+    // data: {},
+    onSuccess: bugsReceived.type,
+  });
 
 // Selector Function, funcion que toma el estado y retorna el estado computado
 getUnresolvedBugsMalHecho = (state) =>

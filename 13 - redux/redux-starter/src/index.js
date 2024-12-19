@@ -5,9 +5,9 @@ import {
   bugAssignedToUser,
   getUnresolvedBugs,
   getBugsByUser,
+  loadBugs,
 } from "./store/bugs";
 import { userAdded } from "./store/users";
-import { apiCallBegan, apiCallFailed, apiCallSuccess } from "./store/api";
 
 // la funcion es llamada siempre que el esatdo cambia
 // los componentes UI deberian estar suscriptos. pero cuando no estan visibles
@@ -18,14 +18,8 @@ store.subscribe(() => {
   console.log("Store changed!", store.getState());
 });
 
-store.dispatch(
-  apiCallBegan({
-    url: "/bugs",
-    // method: "get", por default el metodo es get
-    // data: {},
-    onSuccess: "bugsReceived",
-  })
-);
+// aca estariamos en la UI Layer. no queremos mostrar estos datos tan especificos aca por posibilidades de cambiar la implementacion
+store.dispatch(loadBugs());
 
 store.dispatch(userAdded({ name: "User 1" }));
 store.dispatch(userAdded({ name: "User 2" }));
