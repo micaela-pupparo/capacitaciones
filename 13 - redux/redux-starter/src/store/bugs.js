@@ -86,7 +86,7 @@ const slice = createSlice({
       bugs.loading = false;
     },
     bugAssignedToUser: (bugs, action) => {
-      const { bugId, userId } = action.payload;
+      const { id: bugId, userId } = action.payload;
       const index = bugs.list.findIndex((bug) => bug.id === bugId);
       bugs.list[index].userId = userId;
     },
@@ -152,10 +152,13 @@ export const resolveBug = (id) =>
     onSuccess: bugResolved.type,
   });
 
-// export const assignUserId = userId => apiCallBegan({
-//   url,
-//   method: "put"
-// })
+export const assignBugToUser = (bugId, userId) =>
+  apiCallBegan({
+    url: url + "/" + bugId,
+    method: "patch",
+    data: { userId },
+    onSuccess: bugAssignedToUser.type,
+  });
 
 // Selector Function, funcion que toma el estado y retorna el estado computado
 getUnresolvedBugsMalHecho = (state) =>

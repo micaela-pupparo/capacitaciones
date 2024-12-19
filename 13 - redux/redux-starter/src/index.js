@@ -8,6 +8,7 @@ import {
   loadBugs,
   addBug,
   resolveBug,
+  assignBugToUser,
 } from "./store/bugs";
 import { userAdded } from "./store/users";
 
@@ -26,6 +27,7 @@ store.dispatch(addBug({ description: "a" }));
 store.dispatch(loadBugs());
 
 setTimeout(() => store.dispatch(resolveBug(1)), 2000);
+setTimeout(() => store.dispatch(assignBugToUser(1, 4)), 4000);
 
 store.dispatch(userAdded({ name: "User 1" }));
 store.dispatch(userAdded({ name: "User 2" }));
