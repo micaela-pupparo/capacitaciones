@@ -101,7 +101,8 @@ const slice = createSlice({
 });
 
 // dejamos de exportar los eventos y solo exportamos los commands. de esta forma reducimos el coupling en nuestro sistema
-const {
+// se volvio a exportar para poder testear
+export const {
   bugAdded,
   bugResolved,
   bugAssignedToUser,
@@ -137,6 +138,19 @@ export const loadBugs = () => (dispatch, getState) => {
 // addBug - bugAdded
 // command: instruction into the system. representa lo que se debe hacer
 // event: representa lo que acaba de pasar
+// steps:
+// make an api call
+// promise resolved => dispatch(success)
+// si cambiamos la implementacion a esto:
+// const addBug = bug => {
+//   try {
+//     const response = await axios.post(url, bug)
+//     dispatch(bugAdded(bug))
+//   } catch (error) {
+//     dispatch({type: "error"})
+//   }
+// } ahora nuestra test va a fallar.
+
 export const addBug = (bug) =>
   apiCallBegan({
     url,
