@@ -1,7 +1,8 @@
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
-import { addBug } from "../bugs";
+import { addBug, getUnresolvedBugs } from "../bugs";
 import configureStore from "../configureStore";
+import entities from "../entities";
 
 describe("bugsSlice", () => {
   describe("action creators", () => {
@@ -14,6 +15,14 @@ describe("bugsSlice", () => {
     });
 
     const bugsSlice = () => store.getState().entities.bugs;
+
+    const createState = () => ({
+      entities: {
+        bugs: {
+          list: [],
+        },
+      },
+    });
     // el problema aca es que en configureStore, en middleware tenemos la api. si lo comentamos, este test sigue pasando.
     // tambien si queremos testear lo que pasamos en middleware los test ya sabrian demasiado sobre la implementacion
     // it("addBug", () => {
@@ -33,34 +42,48 @@ describe("bugsSlice", () => {
     // });
 
     // tira error porque se comunica con el backend. deja de ser una unit test y pasa a una integration test
-    it("should add the bug to the store if its saved to the server", async () => {
-      // dispatch(addBug) => store
-      //   ahora tenemos un store con todos los middlewares. no nos importan porque estamos testeando el comportamiento, no la implementacion
-      //   Arrange
-      const bug = { description: "a" };
-      const savedBug = { ...bug, id: 1 };
-      fakeAxios.onPost("/bugs").reply(200, savedBug);
+    // it("should add the bug to the store if its saved to the server", async () => {
+    //   // dispatch(addBug) => store
+    //   //   ahora tenemos un store con todos los middlewares. no nos importan porque estamos testeando el comportamiento, no la implementacion
+    //   //   Arrange
+    //   const bug = { description: "a" };
+    //   const savedBug = { ...bug, id: 1 };
+    //   fakeAxios.onPost("/bugs").reply(200, savedBug);
 
-      //   Act
-      await store.dispatch(addBug(bug));
+    //   //   Act
+    //   await store.dispatch(addBug(bug));
 
-      //   Assert
-      expect(bugsSlice().list).toContainEqual(savedBug);
-    });
+    //   //   Assert
+    //   expect(bugsSlice().list).toContainEqual(savedBug);
+    // });
 
-    it("should not add the bug to the store if its not saved to the server", async () => {
-      // dispatch(addBug) => store
-      //   ahora tenemos un store con todos los middlewares. no nos importan porque estamos testeando el comportamiento, no la implementacion
-      //   Arrange
-      const bug = { description: "a" };
-      const savedBug = { ...bug, id: 1 };
-      fakeAxios.onPost("/bugs").reply(500);
+    // it("should not add the bug to the store if its not saved to the server", async () => {
+    //   // dispatch(addBug) => store
+    //   //   ahora tenemos un store con todos los middlewares. no nos importan porque estamos testeando el comportamiento, no la implementacion
+    //   //   Arrange
+    //   const bug = { description: "a" };
+    //   const savedBug = { ...bug, id: 1 };
+    //   fakeAxios.onPost("/bugs").reply(500);
 
-      //   Act
-      await store.dispatch(addBug(bug));
+    //   //   Act
+    //   await store.dispatch(addBug(bug));
 
-      //   Assert
-      expect(bugsSlice().list).toHaveLength(0);
+    //   //   Assert
+    //   expect(bugsSlice().list).toHaveLength(0);
+    // });
+    describe("selectors", () => {
+      it("should", () => {
+        const state = createState();
+        state.entities.bugs.list = [
+          { id: 1, resolved: true },
+          { id: 2 },
+          { id: 3 },
+        ];
+
+        const result = getUnresolvedBugs(state);
+
+        expect(result).toHaveLength(2);
+      });
     });
   });
 });

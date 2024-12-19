@@ -197,7 +197,7 @@ export const getUnresolvedBugs = createSelector(
   (state) => state.entities.bugs,
   (state) => state.entities.projects, //(1)
   // result function
-  (bugs, projects) => bugs.filter((bug) => !bug.unresolved) //esto no se va a ejecutar si la lista de bugs no cambio
+  (bugs, projects) => bugs.list.filter((bug) => !bug.resolved) //esto no se va a ejecutar si la lista de bugs no cambio
 );
 
 // podemos crear varios selectors (1). la ultima funcion toma los outputs de las otras funciones
