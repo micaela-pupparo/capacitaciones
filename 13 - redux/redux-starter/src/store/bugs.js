@@ -72,8 +72,16 @@ const slice = createSlice({
     lastFeth: null,
   },
   reducers: {
+    // creando un reducer automaticamente nos crea una accion
+    bugsRequested: (bugs, action) => {
+      bugs.loading = true;
+    },
     bugsReceived: (bugs, action) => {
       bugs.list = action.payload;
+      bugs.loading = false;
+    },
+    bugsRequestFailed: (bugs, action) => {
+      bugs.loading = false;
     },
     bugAssignedToUser: (bugs, action) => {
       const { bugId, userId } = action.payload;
@@ -94,8 +102,14 @@ const slice = createSlice({
   },
 });
 
-export const { bugAdded, bugResolved, bugAssignedToUser, bugsReceived } =
-  slice.actions;
+export const {
+  bugAdded,
+  bugResolved,
+  bugAssignedToUser,
+  bugsReceived,
+  bugsRequested,
+  bugsRequestFailed,
+} = slice.actions;
 export default slice.reducer;
 
 // Action Creators
@@ -106,7 +120,9 @@ export const loadBugs = () =>
     url,
     // method: "get", por default el metodo es get
     // data: {},
+    onStart: bugsRequested.type,
     onSuccess: bugsReceived.type,
+    onError: bugsRequestFailed.type,
   });
 
 // Selector Function, funcion que toma el estado y retorna el estado computado
