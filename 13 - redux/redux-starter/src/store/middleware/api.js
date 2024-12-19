@@ -6,6 +6,8 @@ const api =
   async (action) => {
     if (action.type !== "apiCallBegan") return next(action);
 
+    next(action); // esto es para que la accion de apiCallBegan aparezca en redux devtools. si no se hace esto es como que se "traga" la accion original al despacha otra accion
+
     const { url, method, data, onSuccess, onError } = action.payload;
 
     try {

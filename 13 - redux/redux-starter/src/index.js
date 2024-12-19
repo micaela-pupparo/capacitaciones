@@ -21,8 +21,8 @@ store.dispatch({
   type: "apiCallBegan",
   payload: {
     url: "/bugs",
-    method: "get",
-    data: {},
+    // method: "get", por default el metodo es get
+    // data: {},
     onSuccess: "bugsReceived",
     onError: "apiRequestFailed",
   },
