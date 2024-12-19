@@ -7,6 +7,7 @@ import {
   getBugsByUser,
   loadBugs,
   addBug,
+  resolveBug,
 } from "./store/bugs";
 import { userAdded } from "./store/users";
 
@@ -23,6 +24,8 @@ store.subscribe(() => {
 store.dispatch(addBug({ description: "a" }));
 
 store.dispatch(loadBugs());
+
+setTimeout(() => store.dispatch(resolveBug(1)), 2000);
 
 store.dispatch(userAdded({ name: "User 1" }));
 store.dispatch(userAdded({ name: "User 2" }));

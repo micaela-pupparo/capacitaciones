@@ -132,6 +132,10 @@ export const loadBugs = () => (dispatch, getState) => {
   );
 };
 
+// command - event
+// addBug - bugAdded
+// command: instruction into the system. representa lo que se debe hacer
+// event: representa lo que acaba de pasar
 export const addBug = (bug) =>
   apiCallBegan({
     url,
@@ -139,6 +143,19 @@ export const addBug = (bug) =>
     data: bug,
     onSuccess: bugAdded.type,
   });
+
+export const resolveBug = (id) =>
+  apiCallBegan({
+    url: url + "/" + id,
+    method: "patch",
+    data: { resolved: true },
+    onSuccess: bugResolved.type,
+  });
+
+// export const assignUserId = userId => apiCallBegan({
+//   url,
+//   method: "put"
+// })
 
 // Selector Function, funcion que toma el estado y retorna el estado computado
 getUnresolvedBugsMalHecho = (state) =>
