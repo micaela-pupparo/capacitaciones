@@ -42,6 +42,8 @@
 } */
 
 .app-container {
+  display: flex;
+  align-items: center;
   max-width: 1250px;
   margin: 2rem;
   padding: 0;
