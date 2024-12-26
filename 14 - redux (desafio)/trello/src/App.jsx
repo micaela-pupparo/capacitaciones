@@ -7,6 +7,7 @@ import NavBar from "./components/navbar";
 import BoardList from "./components/boardlist";
 import RegisterForm from "./components/registerForm";
 import LoginForm from "./components/loginForm";
+import ProtectedRoute from "./components/common/protectedRoute";
 import "./App.css";
 
 const store = configureStore();
@@ -21,7 +22,14 @@ function App() {
           <Routes>
             <Route path="/register" element={<RegisterForm />} />
             <Route path="/login" element={<LoginForm />} />
-            <Route index element={<BoardList />} />
+            <Route
+              index
+              element={
+                <ProtectedRoute>
+                  <BoardList />
+                </ProtectedRoute>
+              }
+            />
             {/* <Route path="/movies/:id" component={MovieForm} /> */}
             {/* <Route path="/movies" component={TableOfMovies} /> */}
             {/* <Route path="/customers" component={Customers} /> */}
