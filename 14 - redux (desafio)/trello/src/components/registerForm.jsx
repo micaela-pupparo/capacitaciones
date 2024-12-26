@@ -15,12 +15,17 @@ class RegisterForm extends Form {
     name: Joi.string().required().label("Name"),
   };
 
+  componentDidMount() {
+    console.log(this.props);
+  }
+
   doSubmit = (event) => {
     let newUser = {
       username: event.target.username.value,
       name: event.target.name.value,
     };
 
+    sessionStorage.setItem("user", JSON.stringify(newUser));
     this.props.userAdded(newUser);
     console.log("Submitted");
   };
