@@ -1,12 +1,14 @@
 import Joi from "joi-browser";
 import { connect } from "react-redux";
+import { Navigate, redirect } from "react-router";
 import Form from "./common/Form";
-import { userAdded } from "../store/users";
+import { userAdded, userLoggedIn } from "../store/users";
 
 class RegisterForm extends Form {
   state = {
     data: { username: "", name: "" },
     errors: {},
+    redirect: false,
   };
 
   schema = {
@@ -14,10 +16,6 @@ class RegisterForm extends Form {
     password: Joi.string().required().min(5).label("Password"),
     name: Joi.string().required().label("Name"),
   };
-
-  componentDidMount() {
-    console.log(this.props);
-  }
 
   doSubmit = (event) => {
     let newUser = {
@@ -27,9 +25,13 @@ class RegisterForm extends Form {
 
     sessionStorage.setItem("user", JSON.stringify(newUser));
     this.props.userAdded(newUser);
+    this.props.userLoggedIn(newUser);
     console.log("Submitted");
+
+    this.setState({ redirect: true });
   };
   render() {
+    if (this.state.redirect) return <Navigate to="/" replace />;
     return (
       <div>
         <h1>Register</h1>
@@ -50,6 +52,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   userAdded: (user) => dispatch(userAdded(user)),
+  userLoggedIn: (user) => dispatch(userLoggedIn(user)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterForm);

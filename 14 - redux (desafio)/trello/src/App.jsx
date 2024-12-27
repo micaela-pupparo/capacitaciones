@@ -24,6 +24,7 @@ function App() {
             <Route path="/login" element={<LoginForm />} />
             <Route
               index
+              path="/"
               element={
                 <ProtectedRoute>
                   <BoardList />
