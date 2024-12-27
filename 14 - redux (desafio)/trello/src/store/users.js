@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createSelector } from "@reduxjs/toolkit";
 
 let lastId = 0;
 
@@ -31,3 +31,9 @@ const slice = createSlice({
 export const { userAdded, userLoggedIn, userLoggedOut } = slice.actions;
 
 export default slice.reducer;
+
+export const getUserId = (username) =>
+  createSelector(
+    (state) => state.users.list,
+    (users) => users.find((user) => user.username === username)
+  );
