@@ -1,11 +1,14 @@
-import Joi from "joi-browser";
+import Joi, { errors } from "joi-browser";
+import { connect } from "react-redux";
+import { Navigate } from "react-router";
 import Form from "./common/Form";
-import { userAdded } from "../store/users";
+import { userLoggedIn } from "../store/users";
 
 class LoginForm extends Form {
   state = {
     data: { username: "", password: "" },
     errors: {},
+    redirect: false,
   };
 
   schema = {
@@ -14,10 +17,23 @@ class LoginForm extends Form {
   };
 
   doSubmit = (event) => {
-    console.log(event.target.username.value);
+    let user = this.props.users.find(
+      (user) => user.username === event.target.username.value
+    );
+
+    if (!user)
+      return this.setState({
+        errors: { username: "Los datos son inválidos." },
+      });
+
+    this.props.userLoggedIn(user);
+    console.log("Submitted");
+
+    this.setState({ redirect: true });
   };
 
   render() {
+    if (this.state.redirect) return <Navigate to="/" replace />;
     return (
       <div>
         <h1>Login</h1>
@@ -38,4 +54,12 @@ class LoginForm extends Form {
 // y asume que los inputs tienen su propio estado.
 // entonces, debemos inicializar los valores con un string vacio o con un valor que traemos del servidor
 
-export default LoginForm;
+const mapStateToProps = (state) => ({
+  users: state.users.list,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  userLoggedIn: (user) => dispatch(userLoggedIn(user)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

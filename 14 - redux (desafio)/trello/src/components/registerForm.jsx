@@ -1,6 +1,6 @@
 import Joi from "joi-browser";
 import { connect } from "react-redux";
-import { Navigate, redirect } from "react-router";
+import { Navigate } from "react-router";
 import Form from "./common/Form";
 import { userAdded, userLoggedIn } from "../store/users";
 
