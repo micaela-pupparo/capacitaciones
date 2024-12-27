@@ -32,8 +32,10 @@ export const { userAdded, userLoggedIn, userLoggedOut } = slice.actions;
 
 export default slice.reducer;
 
-export const getUserId = (username) =>
-  createSelector(
-    (state) => state.users.list,
-    (users) => users.find((user) => user.username === username)
-  );
+export const getUserId = createSelector(
+  (state) => state.users,
+  (users) =>
+    users.logged
+      ? users.list.find((user) => user.username === users.logged.username)
+      : undefined
+);

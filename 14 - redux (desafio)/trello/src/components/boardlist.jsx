@@ -6,7 +6,7 @@ import Card from "react-bootstrap/Card";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { getUserId } from "../store/users";
-import { boardAdded } from "../store/boards";
+import { boardAdded, getBoardsByUser } from "../store/boards";
 
 class BoardList extends Component {
   state = {
@@ -29,6 +29,7 @@ class BoardList extends Component {
   };
 
   render() {
+    console.log(this.props);
     return (
       <React.Fragment>
         <DropdownButton id="dropdown-item-button" title="Crear">
@@ -48,30 +49,35 @@ class BoardList extends Component {
           </Dropdown.Item>
         </DropdownButton>
 
-        {this.props.boards.map((board) => (
-          <Card
-            bg="light"
-            key={board.id}
-            text="dark"
-            style={{ width: "18rem" }}
-            className="mb-2"
-          >
-            <Card.Body>
-              <Card.Title style={{ paddingBottom: 20, fontSize: 20 }}>
-                {board.name}
-              </Card.Title>
-            </Card.Body>
-          </Card>
-        ))}
+        {this.props.boards &&
+          this.props.boards.map((board) => (
+            <Card
+              bg="light"
+              key={board.id}
+              text="dark"
+              style={{ width: "18rem" }}
+              className="mb-2"
+            >
+              <Card.Body>
+                <Card.Title style={{ paddingBottom: 20, fontSize: 20 }}>
+                  {board.name}
+                </Card.Title>
+              </Card.Body>
+            </Card>
+          ))}
       </React.Fragment>
     );
   }
 }
 
-const mapStateToProps = (state) => ({
-  boards: state.boards.list,
-  user: getUserId(state.users.logged.username),
-});
+const mapStateToProps = (state) => {
+  let user = getUserId(state);
+  if (!user) return { user, boards: null };
+  return {
+    user,
+    boards: getBoardsByUser(user.id)(state),
+  };
+};
 
 const mapDispatchToProps = (dispatch) => ({
   boardAdded: (board) => dispatch(boardAdded(board)),

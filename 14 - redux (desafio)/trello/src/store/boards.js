@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createSelector } from "@reduxjs/toolkit";
 
 let lastId = 0;
 
@@ -22,3 +22,12 @@ const slice = createSlice({
 export const { boardAdded } = slice.actions;
 
 export default slice.reducer;
+
+export const getBoardsByUser = (userId) =>
+  createSelector(
+    (state) => state.boards,
+    (boards) =>
+      userId
+        ? boards.list.filter((board) => board.userId === userId)
+        : undefined
+  );
