@@ -7,6 +7,7 @@ import NavBar from "./components/navbar";
 import BoardList from "./components/boardlist";
 import RegisterForm from "./components/registerForm";
 import LoginForm from "./components/loginForm";
+import Lists from "./components/lists";
 import ProtectedRoute from "./components/common/protectedRoute";
 import "./App.css";
 
@@ -22,6 +23,7 @@ function App() {
           <Routes>
             <Route path="/register" element={<RegisterForm />} />
             <Route path="/login" element={<LoginForm />} />
+            <Route path="/lists" element={<Lists />} />
             <Route
               index
               path="/"

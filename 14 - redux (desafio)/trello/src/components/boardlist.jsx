@@ -28,6 +28,10 @@ class BoardList extends Component {
     console.log("Submitted");
   };
 
+  handleBoardClick = (e) => {
+    console.log(e.target);
+  };
+
   render() {
     console.log(this.props);
     return (
@@ -51,19 +55,23 @@ class BoardList extends Component {
 
         {this.props.boards &&
           this.props.boards.map((board) => (
-            <Card
-              bg="light"
-              key={board.id}
-              text="dark"
-              style={{ width: "18rem" }}
-              className="mb-2"
-            >
-              <Card.Body>
-                <Card.Title style={{ paddingBottom: 20, fontSize: 20 }}>
-                  {board.name}
-                </Card.Title>
-              </Card.Body>
-            </Card>
+            <Link key={board.id} to="/lists" onClick={this.handleBoardClick}>
+              <Card
+                bg="light"
+                text="dark"
+                style={{ width: "18rem" }}
+                className="mb-2"
+              >
+                <Card.Body>
+                  <Card.Title
+                    style={{ paddingBottom: 20, fontSize: 20 }}
+                    id={board.id}
+                  >
+                    {board.name}
+                  </Card.Title>
+                </Card.Body>
+              </Card>
+            </Link>
           ))}
       </React.Fragment>
     );
