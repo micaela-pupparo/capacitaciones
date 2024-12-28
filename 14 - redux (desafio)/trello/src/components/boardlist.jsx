@@ -6,12 +6,21 @@ import Card from "react-bootstrap/Card";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { getUserId } from "../store/users";
-import { boardAdded, getBoardsByUser } from "../store/boards";
+import {
+  boardAdded,
+  boardSelected,
+  boardUnselected,
+  getBoardsByUser,
+} from "../store/boards";
 
 class BoardList extends Component {
   state = {
     query: "",
   };
+
+  componentDidMount() {
+    this.props.boardUnselected();
+  }
 
   handleChange = (e) => {
     this.setState({ query: e.target.value });
@@ -28,12 +37,11 @@ class BoardList extends Component {
     console.log("Submitted");
   };
 
-  handleBoardClick = (e) => {
-    console.log(e.target);
+  handleBoardClick = (id) => {
+    this.props.boardSelected(id);
   };
 
   render() {
-    console.log(this.props);
     return (
       <React.Fragment>
         <DropdownButton id="dropdown-item-button" title="Crear">
@@ -55,7 +63,11 @@ class BoardList extends Component {
 
         {this.props.boards &&
           this.props.boards.map((board) => (
-            <Link key={board.id} to="/lists" onClick={this.handleBoardClick}>
+            <Link
+              key={board.id}
+              to="/lists"
+              onClick={this.handleBoardClick(board.id)}
+            >
               <Card
                 bg="light"
                 text="dark"
@@ -89,6 +101,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   boardAdded: (board) => dispatch(boardAdded(board)),
+  boardSelected: (boardId) => dispatch(boardSelected(boardId)),
+  boardUnselected: () => dispatch(boardUnselected()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BoardList);

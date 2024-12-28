@@ -23,7 +23,14 @@ function App() {
           <Routes>
             <Route path="/register" element={<RegisterForm />} />
             <Route path="/login" element={<LoginForm />} />
-            <Route path="/lists" element={<Lists />} />
+            <Route
+              path="/lists"
+              element={
+                <ProtectedRoute>
+                  <Lists />
+                </ProtectedRoute>
+              }
+            />
             <Route
               index
               path="/"
