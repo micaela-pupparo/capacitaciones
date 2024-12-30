@@ -1,7 +1,6 @@
 import { createSlice, createSelector, current } from "@reduxjs/toolkit";
 
 let lastId = 0;
-let lastListId = 0;
 
 const slice = createSlice({
   name: "boards",
@@ -15,7 +14,6 @@ const slice = createSlice({
         id: ++lastId,
         name: action.payload.name,
         userId: action.payload.userId,
-        lists: [],
       });
     },
     boardSelected: (boards, action) => {
@@ -23,21 +21,6 @@ const slice = createSlice({
     },
     boardUnselected: (boards, action) => {
       boards.selectedId = null;
-    },
-    listAdded: (boards, action) => {
-      console.log("estado: ", current(boards));
-      const board = boards.list.find((board) => board.id === boards.selectedId);
-      console.log(current(board));
-      console.log(action.payload);
-      if (board) {
-        board.lists.push({
-          id: ++lastListId,
-          name: action.payload.name,
-          tasks: [],
-        });
-      } else {
-        console.error("Board no encontrado con selectedId:", boards.selectedId);
-      }
     },
   },
 });
@@ -61,15 +44,3 @@ export const getBoardById = (boardId) =>
     (state) => state.boards,
     (boards) => boards.list.find((board) => board.id === boardId)
   );
-
-export const getListsByBoardId = createSelector(
-  (state) => state.boards,
-  (boards) => {
-    console.log(boards);
-    const result = boards.list.filter(
-      (board) => board.id === boards.selectedId
-    );
-    console.log(result);
-    return result[0].lists;
-  }
-);

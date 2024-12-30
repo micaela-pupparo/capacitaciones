@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { listAdded, getListsByBoardId } from "../store/boards";
+import { listAdded, getListsByBoard } from "../store/lists";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 
@@ -31,6 +31,7 @@ class Lists extends Component {
     e.preventDefault();
     const newList = {
       name: e.target.name.value,
+      boardId: this.props.boardId,
     };
 
     console.log(e);
@@ -41,6 +42,7 @@ class Lists extends Component {
 
   render() {
     const { showInput } = this.state;
+    console.log(this.props);
     return (
       <React.Fragment>
         {this.props.lists.map((list) => (
@@ -79,9 +81,15 @@ class Lists extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  lists: getListsByBoardId(state),
-});
+const mapStateToProps = (state) => {
+  const boardId = state.boards.selectedId;
+
+  if (boardId)
+    return {
+      lists: getListsByBoard(boardId)(state),
+      boardId,
+    };
+};
 
 const mapDispatchToProps = (dispatch) => ({
   listAdded: (newList) => dispatch(listAdded(newList)),
