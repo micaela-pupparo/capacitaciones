@@ -1,4 +1,4 @@
-import { createSlice, createSelector } from "@reduxjs/toolkit";
+import { createSlice, createSelector, current } from "@reduxjs/toolkit";
 
 let lastId = 0;
 let lastListId = 0;
@@ -15,7 +15,7 @@ const slice = createSlice({
         id: ++lastId,
         name: action.payload.name,
         userId: action.payload.userId,
-        lists: ["hola"],
+        lists: [],
       });
     },
     boardSelected: (boards, action) => {
@@ -25,18 +25,25 @@ const slice = createSlice({
       boards.selectedId = null;
     },
     listAdded: (boards, action) => {
-      const board = getBoardById(boards.selectedId);
-      console.log(board);
-      board.lists.push({
-        id: ++lastListId,
-        name: action.payload.name,
-        tasks: [],
-      });
+      console.log("estado: ", current(boards));
+      const board = boards.list.find((board) => board.id === boards.selectedId);
+      console.log(current(board));
+      console.log(action.payload);
+      if (board) {
+        board.lists.push({
+          id: ++lastListId,
+          name: action.payload.name,
+          tasks: [],
+        });
+      } else {
+        console.error("Board no encontrado con selectedId:", boards.selectedId);
+      }
     },
   },
 });
 
-export const { boardAdded, boardSelected, boardUnselected } = slice.actions;
+export const { boardAdded, boardSelected, boardUnselected, listAdded } =
+  slice.actions;
 
 export default slice.reducer;
 
@@ -58,9 +65,11 @@ export const getBoardById = (boardId) =>
 export const getListsByBoardId = createSelector(
   (state) => state.boards,
   (boards) => {
+    console.log(boards);
     const result = boards.list.filter(
       (board) => board.id === boards.selectedId
     );
+    console.log(result);
     return result[0].lists;
   }
 );
