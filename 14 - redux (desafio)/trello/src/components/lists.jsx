@@ -1,12 +1,18 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { listAdded, getListsByBoard } from "../store/lists";
+import {
+  listAdded,
+  getListsByBoard,
+  listSelected,
+  listUnselected,
+} from "../store/lists";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 
 class Lists extends Component {
   state = {
     showInput: false,
+    showInputTask: false,
   };
 
   // componentDidMount() {
@@ -34,22 +40,55 @@ class Lists extends Component {
       boardId: this.props.boardId,
     };
 
-    console.log(e);
-    console.log(newList);
-
     this.props.listAdded(newList);
   };
 
+  handleListClick = (id) => {
+    this.setState({ showInputTask: true });
+    if (this.props.selectedList !== id) this.props.listSelected(id);
+  };
+
   render() {
-    const { showInput } = this.state;
-    console.log(this.props);
+    const { showInput, showInputTask } = this.state;
     return (
       <React.Fragment>
         {this.props.lists.map((list) => (
-          <Card style={{ width: "18rem" }} key={list.id}>
+          <Card
+            style={{ width: "18rem", paddingBottom: 16, marginBottom: 16 }}
+            key={list.id}
+          >
             <Card.Body>
               <Card.Title>{list.name}</Card.Title>
             </Card.Body>
+            <Card style={{ width: "14rem", margin: "auto" }}>
+              <Card.Body>
+                {this.props.selectedList !== list.id && (
+                  <Card.Text onClick={() => this.handleListClick(list.id)}>
+                    Añade otra tarea
+                  </Card.Text>
+                )}
+                {this.props.selectedList === list.id && !showInputTask && (
+                  <Card.Text onClick={() => this.handleListClick(list.id)}>
+                    Añade otra tarea
+                  </Card.Text>
+                )}
+                {this.props.selectedList === list.id && showInputTask && (
+                  <form>
+                    <Card.Text>
+                      <input
+                        type="text"
+                        placeholder="Introduce el nombre de la lista..."
+                        name="name"
+                        autoFocus
+                      />
+                    </Card.Text>
+                    <Button variant="primary" type="submit">
+                      Añadir tarea
+                    </Button>
+                  </form>
+                )}
+              </Card.Body>
+            </Card>
           </Card>
         ))}
         <Card style={{ width: "18rem" }}>
@@ -88,11 +127,14 @@ const mapStateToProps = (state) => {
     return {
       lists: getListsByBoard(boardId)(state),
       boardId,
+      selectedList: state.lists.selectedId,
     };
 };
 
 const mapDispatchToProps = (dispatch) => ({
   listAdded: (newList) => dispatch(listAdded(newList)),
+  listSelected: (id) => dispatch(listSelected(id)),
+  listUnselected: (lists) => dispatch(listUnselected(lists)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Lists);

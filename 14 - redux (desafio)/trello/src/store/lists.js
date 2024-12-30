@@ -32,11 +32,8 @@ export default slice.reducer;
 export const getListsByBoard = (boardId) =>
   createSelector(
     (state) => state.lists,
-    (lists) => {
-      const result = boardId
+    (lists) =>
+      boardId
         ? lists.list.filter((list) => list.boardId === boardId)
-        : undefined;
-      console.log(result);
-      return result;
-    }
+        : undefined
   );
