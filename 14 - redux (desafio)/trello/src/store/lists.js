@@ -29,11 +29,22 @@ export const { listAdded, listSelected, listUnselected } = slice.actions;
 
 export default slice.reducer;
 
-export const getListsByBoard = (boardId) =>
+export const getListIdByBoardId = (boardId) =>
   createSelector(
     (state) => state.lists,
-    (lists) =>
-      boardId
-        ? lists.list.filter((list) => list.boardId === boardId)
-        : undefined
+    (lists) => {
+      const result = lists.list
+        .filter((list) => list.boardId === boardId)
+        .map((list) => list.id);
+      return result ? result : [];
+    }
+  );
+
+export const getListById = (listId) =>
+  createSelector(
+    (state) => state.lists,
+    (lists) => {
+      const result = lists.list.find((list) => list.id === listId);
+      return result ? result : [];
+    }
   );

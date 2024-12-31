@@ -2,26 +2,26 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
   listAdded,
-  getListsByBoard,
-  listSelected,
+  getListIdByBoardId,
   listUnselected,
 } from "../store/lists";
+import List from "./list";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 
 class Lists extends Component {
   state = {
     showInput: false,
-    showInputTask: false,
   };
 
   // componentDidMount() {
   //   document.addEventListener("click", this.handleInputClose);
   // }
 
-  // componentWillUnmount() {
-  //   document.removeEventListener("click", this.handleInputClose);
-  // }
+  componentWillUnmount() {
+    // document.removeEventListener("click", this.handleInputClose);
+    this.props.listUnselected();
+  }
 
   handleAddClick = (e) => {
     e.stopPropagation();
@@ -43,53 +43,12 @@ class Lists extends Component {
     this.props.listAdded(newList);
   };
 
-  handleListClick = (id) => {
-    this.setState({ showInputTask: true });
-    if (this.props.selectedList !== id) this.props.listSelected(id);
-  };
-
   render() {
-    const { showInput, showInputTask } = this.state;
+    const { showInput } = this.state;
     return (
       <React.Fragment>
-        {this.props.lists.map((list) => (
-          <Card
-            style={{ width: "18rem", paddingBottom: 16, marginBottom: 16 }}
-            key={list.id}
-          >
-            <Card.Body>
-              <Card.Title>{list.name}</Card.Title>
-            </Card.Body>
-            <Card style={{ width: "14rem", margin: "auto" }}>
-              <Card.Body>
-                {this.props.selectedList !== list.id && (
-                  <Card.Text onClick={() => this.handleListClick(list.id)}>
-                    Añade otra tarea
-                  </Card.Text>
-                )}
-                {this.props.selectedList === list.id && !showInputTask && (
-                  <Card.Text onClick={() => this.handleListClick(list.id)}>
-                    Añade otra tarea
-                  </Card.Text>
-                )}
-                {this.props.selectedList === list.id && showInputTask && (
-                  <form>
-                    <Card.Text>
-                      <input
-                        type="text"
-                        placeholder="Introduce el nombre de la lista..."
-                        name="name"
-                        autoFocus
-                      />
-                    </Card.Text>
-                    <Button variant="primary" type="submit">
-                      Añadir tarea
-                    </Button>
-                  </form>
-                )}
-              </Card.Body>
-            </Card>
-          </Card>
+        {this.props.lists.map((id) => (
+          <List id={id} key={id}></List>
         ))}
         <Card style={{ width: "18rem" }}>
           <Card.Body>
@@ -125,15 +84,13 @@ const mapStateToProps = (state) => {
 
   if (boardId)
     return {
-      lists: getListsByBoard(boardId)(state),
+      lists: getListIdByBoardId(boardId)(state),
       boardId,
-      selectedList: state.lists.selectedId,
     };
 };
 
 const mapDispatchToProps = (dispatch) => ({
   listAdded: (newList) => dispatch(listAdded(newList)),
-  listSelected: (id) => dispatch(listSelected(id)),
   listUnselected: (lists) => dispatch(listUnselected(lists)),
 });
 
