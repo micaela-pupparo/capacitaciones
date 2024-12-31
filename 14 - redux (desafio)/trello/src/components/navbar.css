@@ -1,0 +1,11 @@
+.navbar {
+    display: flex;
+    padding: 8px;
+    border-bottom: 0.9px solid rgba(23, 43, 77, 0.16);
+}
+
+.navbar__items {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}

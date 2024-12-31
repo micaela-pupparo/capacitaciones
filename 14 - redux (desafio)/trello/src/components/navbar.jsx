@@ -1,12 +1,11 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { NavLink } from "react-router";
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
+import { NavLink, Link } from "react-router";
 import { screenChanged } from "../store/ui";
 import { userLoggedOut } from "../store/users";
+import { VscAccount } from "react-icons/vsc";
+import "./navbar.css"
 
 class NavBar extends Component {
   componentDidMount() {
@@ -32,40 +31,24 @@ class NavBar extends Component {
   };
   render() {
     return (
-      <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
-        <Container>
-          <Navbar.Brand>
-            <NavLink to="/">Trello</NavLink>
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-          <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className="me-auto">
-              {/* <Nav.Link href="#features">Features</Nav.Link>
-              <Nav.Link href="#pricing">Pricing</Nav.Link> */}
-            </Nav>
-            <Nav>
-              {this.props.user ? (
-                <React.Fragment>
-                  <NavLink>{this.props.user.name}</NavLink>
-                  {/* TODO: pagina de inicio cuando no hay usuario */}
-                  <NavLink to="/login" onClick={this.handleLogOut}>
-                    Cerrar Sesión
-                  </NavLink>
-                </React.Fragment>
-              ) : (
-                <React.Fragment>
-                  <Nav.Link>
-                    <NavLink to="/login">Iniciar Sesion</NavLink>
-                  </Nav.Link>
-                  <Nav.Link eventKey={2}>
-                    <NavLink to="/register">Registrarse</NavLink>
-                  </Nav.Link>
-                </React.Fragment>
-              )}
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
+      <nav className="navbar">
+        <div><h1><Link to="/">Trello</Link></h1></div>
+        {this.props.user ? (
+          <div className="navbar__items">
+            <NavLink><VscAccount />{this.props.user.name}</NavLink>
+            <NavLink to="/login" onClick={this.handleLogOut}>
+              Cerrar Sesión
+            </NavLink>
+          </div>
+        ) : (
+          <div className="navbar__items">
+            
+              <NavLink to="/login">Iniciar Sesion</NavLink>
+              <NavLink to="/register">Registrarse</NavLink>
+            
+          </div>
+        )}
+      </nav>
     );
   }
 }
