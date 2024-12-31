@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router";
 import { ToastContainer } from "react-toastify";
 import configureStore from "./store/configureStore";
 import NavBar from "./components/navbar";
+import Home from "./components/home";
 import BoardList from "./components/boardlist";
 import RegisterForm from "./components/registerForm";
 import LoginForm from "./components/loginForm";
@@ -21,6 +22,7 @@ function App() {
         <NavBar></NavBar>
         <div className="app-container">
           <Routes>
+            <Route path="/" element={<Home />}/>
             <Route path="/register" element={<RegisterForm />} />
             <Route path="/login" element={<LoginForm />} />
             <Route
@@ -33,7 +35,7 @@ function App() {
             />
             <Route
               index
-              path="/"
+              path="/boards"
               element={
                 <ProtectedRoute>
                   <BoardList />

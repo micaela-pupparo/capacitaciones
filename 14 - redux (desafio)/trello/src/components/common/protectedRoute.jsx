@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 class ProtectedRoute extends Component {
   render() {
     if (!this.props.user) {
-      return <Navigate to="/landing" replace />;
+      return <Navigate to="/" replace />;
     }
 
     return this.props.children;
