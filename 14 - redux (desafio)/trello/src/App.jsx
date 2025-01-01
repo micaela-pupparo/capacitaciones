@@ -17,7 +17,7 @@ const store = configureStore();
 
 function App() {
   return (
-    <React.Fragment>
+    <div className="container" style={{maxWidth: "100%", padding: 0}}>
       <ToastContainer />
       <Provider store={store}>
         <NavBar></NavBar>
@@ -46,7 +46,7 @@ function App() {
           </Routes>
         </div>
       </Provider>
-    </React.Fragment>
+    </div>
   );
 }
 
