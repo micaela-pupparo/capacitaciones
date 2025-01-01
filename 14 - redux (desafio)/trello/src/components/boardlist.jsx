@@ -43,7 +43,7 @@ class BoardList extends Component {
 
   render() {
     return (
-      <div>
+      <div style={{display: "flex", flexWrap: "wrap"}}>
         {this.props.boards &&
           this.props.boards.map((board) => (
             <Link
@@ -69,7 +69,7 @@ class BoardList extends Component {
               </Card>
             </Link>
           ))}
-        <Dropdown style={{ width: "18rem"}}>
+        <Dropdown style={{ width: "18rem", margin: 8}}>
           <Dropdown.Toggle id="dropdown-basic" style={{width: "100%"}}>
             Crear un tablero nuevo
           </Dropdown.Toggle>

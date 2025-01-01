@@ -2,12 +2,14 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { listSelected, listUnselected, getListById } from "../store/lists";
 import { taskAdded, getTasksByList } from "../store/tasks";
+import Task from "./task";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 
 class List extends Component {
   state = {
     showInputTask: false,
+    modalShow: false,
   };
 
   componentWillUnmount() {
@@ -30,43 +32,65 @@ class List extends Component {
     this.props.taskAdded(newTask);
   };
 
+  handleModalShow = () => {
+    console.log("clicked")
+    return this.state.modalShow
+      ? this.setState({ modalShow: false })
+      : this.setState({ modalShow: true });
+  };
+
   render() {
     const { list, tasks } = this.props;
     const { showInputTask } = this.state;
     return (
-      <Card style={{  padding: 8, height: "min-content", width:"18rem", boxSizing:"border-box" }} className="m-2">
-        
-          <Card.Title className="mb-4">{list.name}</Card.Title>
-        
+      <Card
+        style={{
+          padding: 8,
+          height: "min-content",
+          width: "18rem",
+          boxSizing: "border-box",
+        }}
+        className="m-2"
+      >
+        <Card.Title className="mb-4">{list.name}</Card.Title>
+
         {tasks &&
           tasks.map((task) => (
-            <Card style={{ width: "14rem", margin: "auto", padding: 4 }} key={task.id} className="mb-2">
-                <Card.Text>{task.name}</Card.Text>
-            </Card>
-          ))}
-        <Card style={{ width: "14rem", margin: "auto", padding: 4 }}>
-          
-            {!showInputTask && (
-              <Card.Text onClick={() => this.handleNewTaskClick(list.id)}>
-                Añade otra tarea
-              </Card.Text>
-            )}
-            {showInputTask && (
-              <form onSubmit={this.handleAddTask}>
-                <Card.Text>
-                  <input
-                    type="text"
-                    placeholder="Introduce el nombre de la lista..."
-                    name="name"
-                    autoFocus
-                  />
+            <React.Fragment key={task}>
+              <Card
+                style={{ width: "100%", margin: "auto", padding: 4 }}
+                key={task.id}
+                className="mb-2"
+                onClick={this.handleModalShow}
+              >
+                <Card.Text >
+                  {task.name}
                 </Card.Text>
-                <Button variant="primary" type="submit">
-                  Añadir tarea
-                </Button>
-              </form>
-            )}
-          
+              </Card>
+              <Task show={this.state.modalShow} onHide={this.handleModalShow} name={task.name} listName={list.name}/>
+            </React.Fragment>
+          ))}
+        <Card style={{ width: "100%", margin: "auto", padding: 4 }}>
+          {!showInputTask && (
+            <Card.Text onClick={() => this.handleNewTaskClick(list.id)}>
+              Añade otra tarea
+            </Card.Text>
+          )}
+          {showInputTask && (
+            <form onSubmit={this.handleAddTask}>
+              <Card.Text>
+                <input
+                  type="text"
+                  placeholder="Introduce el nombre de la lista..."
+                  name="name"
+                  autoFocus
+                />
+              </Card.Text>
+              <Button variant="primary" type="submit">
+                Añadir tarea
+              </Button>
+            </form>
+          )}
         </Card>
       </Card>
     );

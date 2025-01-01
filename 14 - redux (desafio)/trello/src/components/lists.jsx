@@ -50,9 +50,8 @@ class Lists extends Component {
         {this.props.lists.map((id) => (
           <List id={id} key={id}></List>
         ))}
-        <Card style={{ width: "18rem", height: 75 }} className="m-2" bg="light"
-                text="dark">
-          <Card.Body>
+        <Card style={{ width: "18rem", height: 75 }} className="m-2" >
+          <Card.Body style={{padding: 8}}>
             {!showInput && (
               <Card.Text onClick={this.handleAddClick}>
                 Añade otra lista
