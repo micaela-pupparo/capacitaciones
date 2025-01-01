@@ -35,7 +35,9 @@ class NavBar extends Component {
         <div><h1><Link to="/">Trello</Link></h1></div>
         {this.props.user ? (
           <div className="navbar__items">
-            <NavLink><VscAccount />{this.props.user.name}</NavLink>
+            <div>
+              <NavLink style={{display:"flex", alignItems:"center"}}><VscAccount style={{marginRight: 3, fontSize: 15}}/>{this.props.user.name}</NavLink>
+            </div>
             <NavLink to="/login" onClick={this.handleLogOut}>
               Cerrar Sesión
             </NavLink>

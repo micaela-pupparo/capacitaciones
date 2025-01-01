@@ -4,7 +4,7 @@ import { Link } from "react-router";
 import { connect } from "react-redux";
 import Card from "react-bootstrap/Card";
 import Dropdown from "react-bootstrap/Dropdown";
-import DropdownButton from "react-bootstrap/DropdownButton";
+import Button from "react-bootstrap/Button";
 import { getUserId } from "../store/users";
 import {
   boardAdded,
@@ -43,36 +43,20 @@ class BoardList extends Component {
 
   render() {
     return (
-      <React.Fragment>
-        <DropdownButton id="dropdown-item-button" title="Crear">
-          <Dropdown.ItemText>Crear tablero</Dropdown.ItemText>
-          <Dropdown.ItemText>
-            <label>
-              Título del tablero
-              <input type="text" onChange={this.handleChange} />
-            </label>
-          </Dropdown.ItemText>
-          <Dropdown.Item
-            as="button"
-            disabled={!(this.state.query && true)}
-            onClick={this.handleSubmit}
-          >
-            Crear
-          </Dropdown.Item>
-        </DropdownButton>
-
+      <div>
         {this.props.boards &&
           this.props.boards.map((board) => (
             <Link
               key={board.id}
               to="/lists"
-              onClick={this.handleBoardClick(board.id)}
+              onClick={() => this.handleBoardClick(board.id)}
+              style={{margin: 8}}
             >
               <Card
                 bg="light"
                 text="dark"
                 style={{ width: "18rem" }}
-                className="mb-2"
+                className="mb-2 ml-2 mr-2"
               >
                 <Card.Body>
                   <Card.Title
@@ -85,7 +69,31 @@ class BoardList extends Component {
               </Card>
             </Link>
           ))}
-      </React.Fragment>
+        <Dropdown style={{ width: "18rem"}}>
+          <Dropdown.Toggle id="dropdown-basic" style={{width: "100%"}}>
+            Crear un tablero nuevo
+          </Dropdown.Toggle>
+          <Dropdown.Menu style={{minWidth: "200px", width:"50%"}}>
+            <Dropdown.ItemText style={{fontSize: "1.1rem", color:"#44546f", textAlign: "center"}}>Crear tablero</Dropdown.ItemText>
+            <Dropdown.ItemText style={{margin:"2rem auto"}}>
+              <label style={{display: "block", width: "100%"}}>
+                Título del tablero
+                <input style={{display:"block", width: "100%", border: "0.5px solid #091e4224", borderRadius: 1}} type="text" onChange={this.handleChange} autoFocus />
+              </label>
+            </Dropdown.ItemText>
+            <Dropdown.Item
+              as="button"
+              style={{textAlign: "center"}}
+              disabled={!(this.state.query && true)}
+              onClick={this.handleSubmit}
+            >
+              Crear
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+
+        
+      </div>
     );
   }
 }
@@ -102,7 +110,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
   boardAdded: (board) => dispatch(boardAdded(board)),
   boardSelected: (boardId) => dispatch(boardSelected(boardId)),
-  boardUnselected: () => dispatch(boardUnselected()),
+  boardUnselected: (boards) => dispatch(boardUnselected(boards)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BoardList);

@@ -9,6 +9,7 @@ import BoardList from "./components/boardlist";
 import RegisterForm from "./components/registerForm";
 import LoginForm from "./components/loginForm";
 import Lists from "./components/lists";
+import NotFound from "./components/notFound";
 import ProtectedRoute from "./components/common/protectedRoute";
 import "./App.css";
 
@@ -34,7 +35,6 @@ function App() {
               }
             />
             <Route
-              index
               path="/boards"
               element={
                 <ProtectedRoute>
@@ -42,6 +42,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route path="*" element={<NotFound />}/>
           </Routes>
         </div>
       </Provider>

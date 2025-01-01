@@ -34,20 +34,18 @@ class List extends Component {
     const { list, tasks } = this.props;
     const { showInputTask } = this.state;
     return (
-      <Card style={{ width: "18rem", paddingBottom: 16, marginBottom: 16 }}>
-        <Card.Body>
-          <Card.Title>{list.name}</Card.Title>
-        </Card.Body>
+      <Card style={{  padding: 8, height: "min-content", width:"18rem", boxSizing:"border-box" }} className="m-2">
+        
+          <Card.Title className="mb-4">{list.name}</Card.Title>
+        
         {tasks &&
           tasks.map((task) => (
-            <Card style={{ width: "14rem", margin: "auto" }} key={task.id}>
-              <Card.Body>
-                <Card.Title>{task.name}</Card.Title>
-              </Card.Body>
+            <Card style={{ width: "14rem", margin: "auto", padding: 4 }} key={task.id} className="mb-2">
+                <Card.Text>{task.name}</Card.Text>
             </Card>
           ))}
-        <Card style={{ width: "14rem", margin: "auto" }}>
-          <Card.Body>
+        <Card style={{ width: "14rem", margin: "auto", padding: 4 }}>
+          
             {!showInputTask && (
               <Card.Text onClick={() => this.handleNewTaskClick(list.id)}>
                 Añade otra tarea
@@ -68,7 +66,7 @@ class List extends Component {
                 </Button>
               </form>
             )}
-          </Card.Body>
+          
         </Card>
       </Card>
     );

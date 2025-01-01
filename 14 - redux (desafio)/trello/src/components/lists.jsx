@@ -46,11 +46,12 @@ class Lists extends Component {
   render() {
     const { showInput } = this.state;
     return (
-      <React.Fragment>
+      <div style={{display: "flex", flexWrap: "wrap", justifyContent: "center", alignContent: "baseline"}}>
         {this.props.lists.map((id) => (
           <List id={id} key={id}></List>
         ))}
-        <Card style={{ width: "18rem" }}>
+        <Card style={{ width: "18rem", height: 75 }} className="m-2" bg="light"
+                text="dark">
           <Card.Body>
             {!showInput && (
               <Card.Text onClick={this.handleAddClick}>
@@ -74,7 +75,7 @@ class Lists extends Component {
             )}
           </Card.Body>
         </Card>
-      </React.Fragment>
+      </div>
     );
   }
 }

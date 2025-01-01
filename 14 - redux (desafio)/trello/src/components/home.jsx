@@ -13,7 +13,7 @@ class Home extends Component {
           </Link>
 
           <Link to="/login">
-            <Button size="lg">Iniciar Sesion</Button>
+            <Button size="lg" variant="secondary">Iniciar Sesion</Button>
           </Link>
         </div>
       </article>

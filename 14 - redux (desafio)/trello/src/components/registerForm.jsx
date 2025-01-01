@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Navigate } from "react-router";
 import Form from "./common/Form";
 import { userAdded, userLoggedIn } from "../store/users";
+import "./form.css"
 
 class RegisterForm extends Form {
   state = {
@@ -31,11 +32,11 @@ class RegisterForm extends Form {
     this.setState({ redirect: true });
   };
   render() {
-    if (this.state.redirect) return <Navigate to="/" replace />;
+    if (this.state.redirect) return <Navigate to="/boards" replace />;
     return (
-      <div>
+      <div className="form-container">
         <h1>Register</h1>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit} className="form">
           {this.renderInput("username", "Username")}
           {this.renderInput("password", "Password", "password")}
           {this.renderInput("name", "Name")}
