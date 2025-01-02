@@ -1,13 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  listAdded,
-  getListIdByBoardId,
-  listUnselected,
-} from "../store/lists";
 import List from "./list";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
+import { listAdded, getListIdByBoardId, listUnselected } from "../store/lists";
 
 class Lists extends Component {
   state = {
@@ -46,12 +42,19 @@ class Lists extends Component {
   render() {
     const { showInput } = this.state;
     return (
-      <div style={{display: "flex", flexWrap: "wrap", justifyContent: "center", alignContent: "baseline"}}>
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          alignContent: "baseline",
+        }}
+      >
         {this.props.lists.map((id) => (
           <List id={id} key={id}></List>
         ))}
-        <Card style={{ width: "18rem", height: 75 }} className="m-2" >
-          <Card.Body style={{padding: 8}}>
+        <Card style={{ width: "18rem", height: 75 }} className="m-2">
+          <Card.Body style={{ padding: 8 }}>
             {!showInput && (
               <Card.Text onClick={this.handleAddClick}>
                 Añade otra lista

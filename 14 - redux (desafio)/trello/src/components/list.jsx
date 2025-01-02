@@ -1,10 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { listSelected, listUnselected, getListById } from "../store/lists";
+import {
+  listSelected,
+  listUnselected,
+  getListById,
+  listDeleted,
+} from "../store/lists";
 import { taskAdded, getTasksByList } from "../store/tasks";
 import Task from "./task";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
+import { SlTrash } from "react-icons/sl";
 
 class List extends Component {
   state = {
@@ -33,10 +39,16 @@ class List extends Component {
   };
 
   handleModalShow = () => {
-    console.log("clicked")
+    console.log("clicked");
     return this.state.modalShow
       ? this.setState({ modalShow: false })
       : this.setState({ modalShow: true });
+  };
+
+  handleDelete = (e, id) => {
+    e.preventDefault();
+    e.stopPropagation();
+    this.props.listDeleted(id);
   };
 
   render() {
@@ -52,7 +64,22 @@ class List extends Component {
         }}
         className="m-2"
       >
-        <Card.Title className="mb-4">{list.name}</Card.Title>
+        <Card.Title
+          style={{
+            paddingBottom: 20,
+            fontSize: 20,
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "baseline",
+          }}
+          id={list.id}
+        >
+          <p>{list.name}</p>
+          <SlTrash
+            style={{ fontSize: 15 }}
+            onClick={(e) => this.handleDelete(e, list.id)}
+          />
+        </Card.Title>
 
         {tasks &&
           tasks.map((task) => (
@@ -63,11 +90,14 @@ class List extends Component {
                 className="mb-2"
                 onClick={this.handleModalShow}
               >
-                <Card.Text >
-                  {task.name}
-                </Card.Text>
+                <Card.Text>{task.name}</Card.Text>
               </Card>
-              <Task show={this.state.modalShow} onHide={this.handleModalShow} name={task.name} listName={list.name}/>
+              <Task
+                show={this.state.modalShow}
+                onHide={this.handleModalShow}
+                name={task.name}
+                listName={list.name}
+              />
             </React.Fragment>
           ))}
         <Card style={{ width: "100%", margin: "auto", padding: 4 }}>
@@ -104,6 +134,7 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  listDeleted: (id) => dispatch(listDeleted(id)),
   listSelected: (id) => dispatch(listSelected(id)),
   listUnselected: (lists) => dispatch(listUnselected(lists)),
   taskAdded: (newTask) => dispatch(taskAdded(newTask)),

@@ -16,6 +16,14 @@ const slice = createSlice({
         boardId: action.payload.boardId,
       });
     },
+    listDeleted: (lists, action) => {
+      const listIndex = lists.list.findIndex(
+        (board) => board.id === action.payload
+      );
+
+      lists.selectedId = null;
+      lists.list.splice(listIndex, 1);
+    },
     listSelected: (lists, action) => {
       lists.selectedId = action.payload;
     },
@@ -25,7 +33,8 @@ const slice = createSlice({
   },
 });
 
-export const { listAdded, listSelected, listUnselected } = slice.actions;
+export const { listAdded, listDeleted, listSelected, listUnselected } =
+  slice.actions;
 
 export default slice.reducer;
 
