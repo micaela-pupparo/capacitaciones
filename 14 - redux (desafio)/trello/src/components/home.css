@@ -1,0 +1,35 @@
+.hero {
+  margin: 0 150px;
+  padding: 0 16px;
+  color: #fff;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.hero__column {
+  padding: 128px 16px;
+}
+
+.hero__image {
+  margin-left: -16.6%;
+  left: 16.6%;
+  flex: 0 0 auto;
+  width: 58.3%;
+  margin-top: 0;
+  padding-top: 8rem;
+}
+
+.hero__image img {
+  max-width: 100%;
+  height: auto;
+}
+
+h2 {
+  font-size: 3rem;
+  line-height: 1.25;
+  font-weight: 500;
+}
+
+p {
+  font-size: 1.25rem;
+}
