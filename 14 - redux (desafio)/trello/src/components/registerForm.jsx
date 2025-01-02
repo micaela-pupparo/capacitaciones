@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Navigate } from "react-router";
 import Form from "./common/Form";
 import { userAdded, userLoggedIn } from "../store/users";
-import "./form.css"
+import "./form.css";
 
 class RegisterForm extends Form {
   state = {
@@ -23,6 +23,15 @@ class RegisterForm extends Form {
       username: event.target.username.value,
       name: event.target.name.value,
     };
+
+    const existingUsername = this.props.users.list.find(
+      (user) => user.username === newUser.username
+    );
+
+    if (existingUsername)
+      return this.setState({
+        errors: { username: "Nombre de usuario se encuentra en uso" },
+      });
 
     sessionStorage.setItem("user", JSON.stringify(newUser));
     this.props.userAdded(newUser);

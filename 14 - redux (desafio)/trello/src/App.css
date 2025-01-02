@@ -1,7 +1,8 @@
 .app-container {
   height: 100vh;
   max-width: 1250px;
-  margin: 2rem auto;
+  margin: 0 auto;
+  margin-top: 6rem;
   padding: 0;
   display: flex;
   flex-wrap: nowrap;

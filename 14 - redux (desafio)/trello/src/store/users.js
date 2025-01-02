@@ -1,4 +1,4 @@
-import { createSlice, createSelector } from "@reduxjs/toolkit";
+import { createSlice, createSelector, current } from "@reduxjs/toolkit";
 
 let lastId = 0;
 
@@ -11,12 +11,28 @@ const slice = createSlice({
   reducers: {
     // action => action handler
     userAdded: (users, action) => {
-      console.log(action);
       users.list.push({
         id: ++lastId,
         name: action.payload.name,
         username: action.payload.username,
       });
+    },
+    userModified: (users, action) => {
+      const user = users.list.find(
+        (user) => user.username === action.payload.username
+      );
+      user.name = action.payload.name;
+      user.username = action.payload.username;
+      users.logged = action.payload;
+    },
+    userDeleted: (users, action) => {
+      const user = users.list.findIndex(
+        (user) => user.username === action.payload.username
+      );
+      console.log(user);
+
+      users.list.splice(user, 1);
+      users.logged = null;
     },
     userLoggedIn: (users, action) => {
       console.log(action);
@@ -28,7 +44,13 @@ const slice = createSlice({
   },
 });
 
-export const { userAdded, userLoggedIn, userLoggedOut } = slice.actions;
+export const {
+  userAdded,
+  userLoggedIn,
+  userLoggedOut,
+  userModified,
+  userDeleted,
+} = slice.actions;
 
 export default slice.reducer;
 

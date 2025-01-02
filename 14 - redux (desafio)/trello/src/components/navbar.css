@@ -1,12 +1,24 @@
 .navbar {
-    display: flex;
-    padding: 8px;
-    border-bottom: 0.9px solid rgba(23, 43, 77, 0.16);
+  background-color: #fff;
+  position: fixed;
+  top: 0px;
+  width: 100%;
+  z-index: 100;
+}
+
+.navbar-container {
+  display: flex;
+  height: 60px;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1320px;
 }
 
 .navbar__items {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    gap: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 1rem;
 }

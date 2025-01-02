@@ -5,7 +5,7 @@ import { NavLink, Link } from "react-router";
 import { screenChanged } from "../store/ui";
 import { userLoggedOut } from "../store/users";
 import { VscAccount } from "react-icons/vsc";
-import "./navbar.css"
+import "./navbar.css";
 
 class NavBar extends Component {
   componentDidMount() {
@@ -32,24 +32,34 @@ class NavBar extends Component {
   render() {
     return (
       <nav className="navbar">
-        <div><h1><Link to="/">Trello</Link></h1></div>
-        {this.props.user ? (
-          <div className="navbar__items">
-            <div>
-              <NavLink style={{display:"flex", alignItems:"center"}}><VscAccount style={{marginRight: 3, fontSize: 15}}/>{this.props.user.name}</NavLink>
-            </div>
-            <NavLink to="/login" onClick={this.handleLogOut}>
-              Cerrar Sesión
-            </NavLink>
+        <div className="navbar-container">
+          <div>
+            <h1>
+              <Link to="/boards">Trello</Link>
+            </h1>
           </div>
-        ) : (
-          <div className="navbar__items">
-            
+          {this.props.user ? (
+            <div className="navbar__items">
+              <div>
+                <NavLink
+                  to={`/user/${this.props.user.name}`}
+                  style={{ display: "flex", alignItems: "center" }}
+                >
+                  <VscAccount style={{ marginRight: 3, fontSize: 15 }} />
+                  {this.props.user.name}
+                </NavLink>
+              </div>
+              <NavLink to="/login" onClick={this.handleLogOut}>
+                Cerrar Sesión
+              </NavLink>
+            </div>
+          ) : (
+            <div className="navbar__items">
               <NavLink to="/login">Iniciar Sesion</NavLink>
               <NavLink to="/register">Registrarse</NavLink>
-            
-          </div>
-        )}
+            </div>
+          )}
+        </div>
       </nav>
     );
   }

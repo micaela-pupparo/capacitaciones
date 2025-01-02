@@ -12,18 +12,19 @@ import Lists from "./components/lists";
 import NotFound from "./components/notFound";
 import ProtectedRoute from "./components/common/protectedRoute";
 import "./App.css";
+import User from "./components/user";
 
 const store = configureStore();
 
 function App() {
   return (
-    <div className="container" style={{maxWidth: "100%", padding: 0}}>
+    <div className="container" style={{ maxWidth: "100%", padding: 0 }}>
       <ToastContainer />
       <Provider store={store}>
         <NavBar></NavBar>
         <div className="app-container">
           <Routes>
-            <Route path="/" element={<Home />}/>
+            <Route path="/" element={<Home />} />
             <Route path="/register" element={<RegisterForm />} />
             <Route path="/login" element={<LoginForm />} />
             <Route
@@ -42,7 +43,15 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route path="*" element={<NotFound />}/>
+            <Route
+              path="/user/:userName"
+              element={
+                <ProtectedRoute>
+                  <User />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
       </Provider>
