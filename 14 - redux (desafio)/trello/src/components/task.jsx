@@ -14,14 +14,16 @@ class Task extends Component {
       >
         <Modal.Header closeButton></Modal.Header>
         <Modal.Body>
-          <h4 style={{fontSize: "2rem"}}>{this.props.name}</h4>
+          <h4 style={{ fontSize: "2rem" }}>{this.props.name}</h4>
           <span>en la lista {this.props.listName}</span>
-          <Form style={{marginTop: 10, fontSize: "1.8rem", fontWeight: "500"}}>
+          <Form
+            style={{ marginTop: 10, fontSize: "1.8rem", fontWeight: "500" }}
+          >
             <Form.Group
               className="mb-3"
               controlId="exampleForm.ControlTextarea1"
             >
-              <Form.Label>Descripcion</Form.Label>
+              <Form.Label>Descripción</Form.Label>
               <Form.Control as="textarea" rows={3} />
             </Form.Group>
           </Form>

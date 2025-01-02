@@ -18,9 +18,23 @@ class List extends Component {
     modalShow: false,
   };
 
+  wrapperRef = React.createRef();
+
+  componentDidMount() {
+    document.addEventListener("mousedown", this.handleInputClose);
+  }
+
   componentWillUnmount() {
+    document.removeEventListener("mousedown", this.handleInputClose);
     this.props.listUnselected();
   }
+
+  handleInputClose = (event) => {
+    if (this.wrapperRef && !this.wrapperRef.current.contains(event.target)) {
+      this.setState({ showInputTask: false });
+    }
+    console.log("clicked");
+  };
 
   handleNewTaskClick = (id) => {
     this.setState({ showInputTask: true });
@@ -100,7 +114,10 @@ class List extends Component {
               />
             </React.Fragment>
           ))}
-        <Card style={{ width: "100%", margin: "auto", padding: 4 }}>
+        <Card
+          style={{ width: "100%", margin: "auto", padding: 4 }}
+          ref={this.wrapperRef}
+        >
           {!showInputTask && (
             <Card.Text onClick={() => this.handleNewTaskClick(list.id)}>
               Añade otra tarea

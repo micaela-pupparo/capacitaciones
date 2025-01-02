@@ -10,12 +10,14 @@ class Lists extends Component {
     showInput: false,
   };
 
-  // componentDidMount() {
-  //   document.addEventListener("click", this.handleInputClose);
-  // }
+  wrapperRef = React.createRef();
+
+  componentDidMount() {
+    document.addEventListener("mousedown", this.handleInputClose);
+  }
 
   componentWillUnmount() {
-    // document.removeEventListener("click", this.handleInputClose);
+    document.removeEventListener("mousedown", this.handleInputClose);
     this.props.listUnselected();
   }
 
@@ -24,8 +26,10 @@ class Lists extends Component {
     this.setState({ showInput: true });
   };
 
-  handleInputClose = () => {
-    // if (this.state.showInput) this.setState({ showInput: false });
+  handleInputClose = (event) => {
+    if (this.wrapperRef && !this.wrapperRef.current.contains(event.target)) {
+      this.setState({ showInput: false });
+    }
     console.log("clicked");
   };
 
@@ -53,7 +57,11 @@ class Lists extends Component {
         {this.props.lists.map((id) => (
           <List id={id} key={id}></List>
         ))}
-        <Card style={{ width: "18rem", height: 75 }} className="m-2">
+        <Card
+          style={{ width: "18rem", height: "fit-content", minHeight: 75 }}
+          className="m-2"
+          ref={this.wrapperRef}
+        >
           <Card.Body style={{ padding: 8 }}>
             {!showInput && (
               <Card.Text onClick={this.handleAddClick}>
