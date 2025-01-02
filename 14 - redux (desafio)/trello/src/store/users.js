@@ -29,7 +29,6 @@ const slice = createSlice({
       const user = users.list.findIndex(
         (user) => user.username === action.payload.username
       );
-      console.log(user);
 
       users.list.splice(user, 1);
       users.logged = null;
