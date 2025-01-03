@@ -1,11 +1,11 @@
 :root {
   --color-text: rgb(23, 43, 77);
-  font-size: 14px;
+  font-size: 16px;
 }
 
 body {
   font-size: 1.25rem;
-  font-family: sans-serif;
+  font-family: "Lato", sans-serif;
   color: var(--color-text);
   width: 100%;
   letter-spacing: 0.3px;

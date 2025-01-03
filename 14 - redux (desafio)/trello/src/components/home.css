@@ -1,25 +1,8 @@
-.hero {
-  margin: 0 150px;
-  padding: 0 16px;
-  color: #fff;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+:root {
+  --color-text: rgb(9, 30, 66);
 }
 
-.hero__column {
-  padding: 128px 16px;
-}
-
-.hero__image {
-  margin-left: -16.6%;
-  left: 16.6%;
-  flex: 0 0 auto;
-  width: 58.3%;
-  margin-top: 0;
-  padding-top: 8rem;
-}
-
-.hero__image img {
+img {
   max-width: 100%;
   height: auto;
 }
@@ -32,4 +15,114 @@ h2 {
 
 p {
   font-size: 1.25rem;
+}
+
+.hero {
+  margin: 0 150px;
+  padding: 0 16px;
+  color: #fff;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 1140px;
+}
+
+.hero__column {
+  padding: 128px 16px;
+}
+
+.hero__form {
+  display: flex;
+  justify-content: start;
+  gap: 1rem;
+  font-size: 0.8rem;
+}
+
+.hero__form-input {
+  padding: 0.7rem 0.75rem 0.8rem;
+  border: 1px solid rgb(223, 225, 230);
+  border-radius: 0.3rem;
+  max-width: 300px;
+  width: 375px;
+}
+
+.hero__form-button {
+  background-color: rgb(0, 101, 255);
+  border: 1px solid rgb(0, 101, 255);
+  color: #fff;
+  padding: 0.7rem 1rem 0.8rem;
+  border-radius: 0.3rem;
+  white-space-collapse: preserve;
+  width: 60%;
+}
+
+.hero__image {
+  margin-left: -16.6%;
+  left: 16.6%;
+  flex: 0 0 auto;
+  width: 58.3%;
+  margin-top: 0;
+  padding-top: 8rem;
+}
+
+/* ACTIVEEEE */
+.badge--active {
+  font-size: 1rem;
+  display: inline;
+  background-color: rgb(64, 50, 148);
+  color: #fff;
+  border-radius: 21px;
+  border: 3px solid transparent;
+  padding: 0.5rem 1.2rem;
+}
+
+.badge {
+  display: inline;
+  font-size: 1rem;
+  background-color: rgb(192, 182, 242);
+  color: rgb(9, 30, 66);
+  border-radius: 21px;
+  border: 3px solid transparent;
+  padding: 0.7rem 1.2rem;
+}
+
+.badges {
+  max-width: 1140px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.info {
+  background-color: #fff;
+}
+
+.title__info {
+  max-width: 1140px;
+  padding: 3rem 1rem 1rem;
+  text-align: center;
+  color: var(--color-text);
+}
+
+.tasks-info {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  margin: 1rem 0 2rem 0;
+}
+
+.task-info__text {
+  margin-left: 16.66%;
+  /* width: 33.33%; */
+  padding: 3rem 1rem;
+  color: var(--color-text);
+  letter-spacing: 1px;
+}
+
+.task-info__text__title {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.task-info__image {
+  padding: 3rem 0;
 }

@@ -23,7 +23,18 @@ class Home extends Component {
               <li>Unlimited cards</li>
               <li>Unlimited Power-Ups per board</li>
             </ul>
-            <article
+
+            <form className="hero__form">
+              <input
+                type="text"
+                placeholder="Correo electrónico"
+                className="hero__form-input"
+              />
+              <button type="submit" className="hero__form-button">
+                Regístrate, ¡es gratis!
+              </button>
+            </form>
+            {/* <article
               style={{ width: "100%", textAlign: "center", marginTop: "4rem" }}
             >
               <h2>Regístrate o Inicia Sesión</h2>
@@ -46,12 +57,62 @@ class Home extends Component {
                   </Button>
                 </Link>
               </div>
-            </article>
+            </article> */}
           </div>
           <div className="hero__column" id="hero__image">
-            <img src="/hero.webp" alt="" />
+            <img
+              sizes="(max-width: 1300px) 100vw, 1300px"
+              srcSet="
+            01_Hero_2x_q4wg87_c_scale,w_300.webp 300w,
+            01_Hero_2x_q4wg87_c_scale,w_765.webp 765w,
+            01_Hero_2x_q4wg87_c_scale,w_1300.webp 1300w"
+              src="01_Hero_2x_q4wg87_c_scale,w_1300.webp"
+              alt=""
+            />
           </div>
         </div>
+        <section className="info">
+          <div className="title__info">
+            <h3>Explore Trello’s features that help your team succeed</h3>
+          </div>
+          <div className="badges">
+            <div className="badge--active">Cards</div>
+            <div className="badge">Views</div>
+            <div className="badge">Automation</div>
+          </div>
+          <div className="tasks-info">
+            <div className="task-info__text">
+              <h4 className="task-info__text__title">
+                Manage tasks with ease.
+              </h4>
+              <ul>
+                <li>
+                  <strong>Members:</strong> Keep everyone accountable and never
+                  have to ask “who’s doing that” by adding members to cards for
+                  their projects and tasks.{" "}
+                </li>
+                <li>
+                  <strong>Due dates:</strong> They're easy to set, hard to miss
+                  (with reminders!), and oh-so-satisfying to mark as “done.”{" "}
+                </li>
+                <li>
+                  <strong>Attachments:</strong> No more digging through endless
+                  email chains to find attachments. Just drag and drop them onto
+                  a card so the right files stay with the right tasks.{" "}
+                </li>
+                <li>
+                  <strong>Checklists:</strong> Your best tool to overpower
+                  overwhelming asks. Break big tasks into small ones, check
+                  things off the list, and watch that status bar go to 100%
+                  complete.{" "}
+                </li>
+              </ul>
+            </div>
+            <div className="task-info__image">
+              <img src="/tasks.webp" alt="" />
+            </div>
+          </div>
+        </section>
       </section>
     );
   }
