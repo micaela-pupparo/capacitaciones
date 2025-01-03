@@ -38,9 +38,9 @@ function App() {
             <Route
               path="/boards"
               element={
-                <ProtectedRoute>
-                  <BoardList />
-                </ProtectedRoute>
+                // <ProtectedRoute>
+                <BoardList />
+                // {/* </ProtectedRoute> */}
               }
             />
             <Route

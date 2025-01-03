@@ -6,69 +6,69 @@ import "./home.css";
 class Home extends Component {
   render() {
     return (
-      <section>
-        <div className="hero">
-          <div className="hero__column">
-            <h2>
-              Trello makes it easier for teams to manage projects and tasks
-            </h2>
-            <p>
-              Simple, flexible, and powerful. All it takes are boards, lists,
-              and cards to get a clear view of who’s doing what and what needs
-              to get done.
-            </p>
-
-            <p>WHAT YOU GET ON THE FREE PLAN:</p>
-            <ul>
-              <li>Unlimited cards</li>
-              <li>Unlimited Power-Ups per board</li>
-            </ul>
-
-            <form className="hero__form">
-              <input
-                type="text"
-                placeholder="Correo electrónico"
-                className="hero__form-input"
-              />
-              <button type="submit" className="hero__form-button">
-                Regístrate, ¡es gratis!
-              </button>
-            </form>
-            {/* <article
-              style={{ width: "100%", textAlign: "center", marginTop: "4rem" }}
-            >
-              <h2>Regístrate o Inicia Sesión</h2>
-              <div
-                style={{
-                  margin: "1rem auto",
-                  padding: "2rem",
-                  display: "flex",
-                  flexWrap: "wrap",
-                  justifyContent: "center",
-                  gap: 10,
-                }}
+      <section className="home">
+        <div className="hero-container">
+          <div className="hero">
+            <div className="hero__column">
+              <h2>
+                Trello makes it easier for teams to manage projects and tasks
+              </h2>
+              <p>
+                Simple, flexible, and powerful. All it takes are boards, lists,
+                and cards to get a clear view of who’s doing what and what needs
+                to get done.
+              </p>
+              <p>WHAT YOU GET ON THE FREE PLAN:</p>
+              <ul>
+                <li>Unlimited cards</li>
+                <li>Unlimited Power-Ups per board</li>
+              </ul>
+              <form className="hero__form">
+                <input
+                  type="text"
+                  placeholder="Correo electrónico"
+                  className="hero__form-input"
+                />
+                <button type="submit" className="hero__form-button">
+                  Regístrate, ¡es gratis!
+                </button>
+              </form>
+              {/* <article
+                style={{ width: "100%", textAlign: "center", marginTop: "4rem" }}
               >
-                <Link to="/register">
-                  <Button size="lg">Registrarse</Button>
-                </Link>
-                <Link to="/login">
-                  <Button size="lg" variant="secondary">
-                    Iniciar Sesion
-                  </Button>
-                </Link>
-              </div>
-            </article> */}
-          </div>
-          <div className="hero__column" id="hero__image">
-            <img
-              sizes="(max-width: 1300px) 100vw, 1300px"
-              srcSet="
-            01_Hero_2x_q4wg87_c_scale,w_300.webp 300w,
-            01_Hero_2x_q4wg87_c_scale,w_765.webp 765w,
-            01_Hero_2x_q4wg87_c_scale,w_1300.webp 1300w"
-              src="01_Hero_2x_q4wg87_c_scale,w_1300.webp"
-              alt=""
-            />
+                <h2>Regístrate o Inicia Sesión</h2>
+                <div
+                  style={{
+                    margin: "1rem auto",
+                    padding: "2rem",
+                    display: "flex",
+                    flexWrap: "wrap",
+                    justifyContent: "center",
+                    gap: 10,
+                  }}
+                >
+                  <Link to="/register">
+                    <Button size="lg">Registrarse</Button>
+                  </Link>
+                  <Link to="/login">
+                    <Button size="lg" variant="secondary">
+                      Iniciar Sesion
+                    </Button>
+                  </Link>
+                </div>
+              </article> */}
+            </div>
+            <div className="hero__column" id="hero__image">
+              <img
+                sizes="(max-width: 1300px) 100vw, 1300px"
+                srcSet="
+              01_Hero_2x_q4wg87_c_scale,w_300.webp 300w,
+              01_Hero_2x_q4wg87_c_scale,w_765.webp 765w,
+              01_Hero_2x_q4wg87_c_scale,w_1300.webp 1300w"
+                src="01_Hero_2x_q4wg87_c_scale,w_1300.webp"
+                alt=""
+              />
+            </div>
           </div>
         </div>
         <section className="info">

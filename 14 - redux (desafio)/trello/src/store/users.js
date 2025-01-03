@@ -6,7 +6,7 @@ const slice = createSlice({
   name: "users",
   initialState: {
     list: [],
-    logged: null,
+    logged: { username: "mica@gmail.com", name: "Micaela" },
   },
   reducers: {
     // action => action handler

@@ -1,19 +1,49 @@
+img {
+  width: auto;
+  height: 60px;
+  object-fit: contain;
+}
+
 .navbar {
   background-color: #fff;
   position: fixed;
   top: 0px;
   width: 100%;
   z-index: 100;
+  padding: 0;
 }
 
 .navbar-container {
   display: flex;
-  height: 60px;
+  height: 48px;
   margin: 0 auto;
+  padding: 0 1rem;
   align-items: center;
   justify-content: space-between;
   width: 100%;
   max-width: 1320px;
+}
+
+.navbar__logo-link {
+  height: 32px;
+  padding: 0 8px;
+}
+
+.navbar__logo-container {
+  width: 75px;
+  height: 16px;
+  opacity: 1;
+  padding: 8px 0;
+  filter: brightness(0) saturate(100%) invert(30%) sepia(53%) saturate(323%)
+    hue-rotate(179deg) brightness(91%) contrast(88%);
+  background-image: url(/trellologo.gif);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.navbar__logo-container:hover {
+  background-image: url(/trellologovideo.gif);
 }
 
 .navbar__items {
@@ -21,4 +51,16 @@
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: 1rem;
+}
+
+.navbar__home {
+  width: 100%;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  max-width: 1320px;
+}
+
+.navbar__home__link {
+  padding: 1rem;
 }

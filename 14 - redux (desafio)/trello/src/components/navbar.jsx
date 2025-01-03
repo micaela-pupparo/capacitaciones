@@ -30,35 +30,42 @@ class NavBar extends Component {
     this.props.userLoggedOut();
   };
   render() {
-    return (
+    return this.props.user ? (
       <nav className="navbar">
         <div className="navbar-container">
           <div>
-            <h1>
-              <Link to="/boards">Trello</Link>
-            </h1>
+            <Link to="/boards" className="navbar__logo-link">
+              <div className="navbar__logo-container"></div>
+            </Link>
           </div>
-          {this.props.user ? (
-            <div className="navbar__items">
-              <div>
-                <NavLink
-                  to={`/user/${this.props.user.name}`}
-                  style={{ display: "flex", alignItems: "center" }}
-                >
-                  <VscAccount style={{ marginRight: 3, fontSize: 15 }} />
-                  {this.props.user.name}
-                </NavLink>
-              </div>
-              <NavLink to="/login" onClick={this.handleLogOut}>
-                Cerrar Sesión
+          <div className="navbar__items">
+            <div>
+              <NavLink
+                to={`/user/${this.props.user.name}`}
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                <VscAccount style={{ marginRight: 3, fontSize: 15 }} />
+                {this.props.user.name}
               </NavLink>
             </div>
-          ) : (
-            <div className="navbar__items">
-              <NavLink to="/login">Iniciar Sesion</NavLink>
-              <NavLink to="/register">Registrarse</NavLink>
-            </div>
-          )}
+            <NavLink to="/login" onClick={this.handleLogOut}>
+              Cerrar Sesión
+            </NavLink>
+          </div>
+        </div>
+      </nav>
+    ) : (
+      <nav className="navbar">
+        <div className="navbar__home">
+          <div>
+            <Link to="/" className="navbar__home__link">
+              <img src="/trello-atlassian.png" alt="" />
+            </Link>
+          </div>
+          {/* <div className="navbar__items">
+            <NavLink to="/login">Iniciar Sesion</NavLink>
+            <NavLink to="/register">Registrarse</NavLink>
+          </div> */}
         </div>
       </nav>
     );
