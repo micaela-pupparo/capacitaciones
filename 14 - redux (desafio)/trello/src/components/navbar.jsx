@@ -5,6 +5,7 @@ import { NavLink, Link } from "react-router";
 import { screenChanged } from "../store/ui";
 import { userLoggedOut } from "../store/users";
 import { VscAccount } from "react-icons/vsc";
+import { MdApps, MdExpandMore } from "react-icons/md";
 import "./navbar.css";
 
 class NavBar extends Component {
@@ -33,10 +34,15 @@ class NavBar extends Component {
     return this.props.user ? (
       <nav className="navbar">
         <div className="navbar-container">
-          <div>
+          <div className="navbar__leftside">
+            <MdApps />
             <Link to="/boards" className="navbar__logo-link">
               <div className="navbar__logo-container"></div>
             </Link>
+            <div className="navbar__link">
+              <span>Espacios de trabajo</span>
+              <MdExpandMore style={{ minWidth: 16 }} />
+            </div>
           </div>
           <div className="navbar__items">
             <div>
