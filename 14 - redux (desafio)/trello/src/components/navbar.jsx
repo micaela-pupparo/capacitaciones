@@ -4,7 +4,8 @@ import { connect } from "react-redux";
 import { NavLink, Link } from "react-router";
 import { screenChanged } from "../store/ui";
 import { userLoggedOut } from "../store/users";
-import { VscAccount } from "react-icons/vsc";
+import { FaSistrix } from "react-icons/fa6";
+import { BsBell, BsQuestionCircle } from "react-icons/bs";
 import { MdApps, MdExpandMore } from "react-icons/md";
 import "./navbar.css";
 
@@ -43,9 +44,37 @@ class NavBar extends Component {
               <span>Espacios de trabajo</span>
               <MdExpandMore style={{ minWidth: 16 }} />
             </div>
+            <div className="navbar__link">
+              <span>Reciente</span>
+              <MdExpandMore style={{ minWidth: 16 }} />
+            </div>
+            <div className="navbar__link">
+              <span>Marcado</span>
+              <MdExpandMore style={{ minWidth: 16 }} />
+            </div>
+            <div className="navbar__link">
+              <span>Plantillas</span>
+              <MdExpandMore style={{ minWidth: 16 }} />
+            </div>
+            <div className="navbar__button-container">
+              <button className="navbar__button">Crear</button>
+            </div>
           </div>
           <div className="navbar__items">
-            <div>
+            <div className="navbar__search-container">
+              <FaSistrix className="navbar__search-icon"/>
+              <input type="text" className="navbar__search" placeholder="Search"/>
+            </div>
+            <div className="navbar__icon">
+              <button><BsBell style={{transform: "rotate(45deg)"}}/></button>
+            </div>
+            <div className="navbar__icon">
+              <button><BsQuestionCircle /></button>
+            </div>
+            <div className="navbar__user">
+              <button>MP</button>
+            </div>
+            {/* <div>
               <NavLink
                 to={`/user/${this.props.user.name}`}
                 style={{ display: "flex", alignItems: "center" }}
@@ -56,7 +85,7 @@ class NavBar extends Component {
             </div>
             <NavLink to="/login" onClick={this.handleLogOut}>
               Cerrar Sesión
-            </NavLink>
+            </NavLink> */}
           </div>
         </div>
       </nav>
