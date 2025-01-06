@@ -1,0 +1,65 @@
+p {
+    margin: 0;
+}
+
+.board-page__container {
+    margin-top: 88px;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.board-page__aside {
+    box-sizing: content-box;
+    padding: 0 16px;
+    height: 85vh;
+    width: 256px;
+}
+
+.aside__link {
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    min-height: 20px;
+    margin: 0 0 4px 0;
+    padding: 6px 8px;
+    overflow: hidden;
+    border-radius: 8px;
+    gap: 8px;
+    color: rgb(23, 43, 77);
+}
+
+.aside__link:hover {
+    background-color: #091e4224;
+}
+
+.aside__link--selected{
+    background-color: rgb(233, 242, 255);
+    color: rgb(12, 102, 228);
+}
+
+.aside__link--selected:hover {
+    background-color: rgb(233, 242, 255);
+    color: rgb(12, 102, 228);
+}
+
+.aside__link > p {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.aside__link__logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    margin: 0;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 800;
+    background: linear-gradient(rgb(174, 71, 135), rgb(231, 116, 187));
+    color: #fff;
+}
