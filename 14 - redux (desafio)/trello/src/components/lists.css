@@ -1,0 +1,90 @@
+p {
+    font-size: 14px;
+}
+
+input {
+    outline: none;
+}
+
+.lists__container {
+    width: 100%;
+    margin-top: 48px;
+    display: flex;
+}
+
+.nav-lists__container {
+    width: 260px;
+    height: 100vh;
+    background-color: hsla(323, 70.6%, 34.8%, 0.9);;
+}
+
+.lists {
+    margin-top: 12px;
+    padding: 0 6px;
+}
+
+.main-lists__container {
+    width: 100%;
+    height: 100%;
+    background-image: url(/flower.svg);
+}
+
+.list__container {
+    padding: 0 6px;
+}
+
+.list__button {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 272px;
+    padding: 12px;
+    border-radius: 12px;
+    background-color: #ffffff3d;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.list__inputs {
+    width: 272px;
+    padding: 12px;
+    font-size: 14px;
+    background-color: #f1f2f4;
+    border-radius: 12px;
+    box-shadow: 0px 1px 1px #091e4240, 0px 0px 1px #091e424f;
+}
+
+.list__input {
+    height: 32px;
+    width: 100%;
+    min-height: 20px;
+    padding: 6px 12px;
+    overflow: hidden;
+    border-radius: 4px;
+    overflow-wrap: break-word;
+    color: var(--ds-text, #172b4d);
+    font-weight: 600;
+    border: 1px solid transparent;
+}
+
+.list__input:focus {
+    border: 1px solid #0c66e4;
+}
+
+.list__add-button {
+    border-radius: 3px;
+    border: none;
+    background-color: #0c66e4;
+    color: #fff;
+    padding: 6px 12px;
+}
+
+.list__controls {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 8px;
+    border-radius: 4px;
+    gap: 4px;
+}
