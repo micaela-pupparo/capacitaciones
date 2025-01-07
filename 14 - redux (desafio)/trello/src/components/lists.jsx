@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import List from "./list";
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
 import { VscAdd, VscChromeClose } from "react-icons/vsc";
 import { listAdded, getListIdByBoardId, listUnselected } from "../store/lists";
 import "./lists.css";
@@ -37,6 +35,8 @@ class Lists extends Component {
 
   handleAddList = (e) => {
     e.preventDefault();
+    e.stopPropagation();
+    console.log(e);
     const newList = {
       name: e.target.name.value,
       boardId: this.props.boardId,
@@ -52,6 +52,12 @@ class Lists extends Component {
         <aside className="nav-lists__container"></aside>
         <main className="main-lists__container">
           <div className="lists">
+            {this.props.lists.map((id) => (
+              <article className="list__container">
+                <List id={id} key={id}></List>
+              </article>
+            ))}
+
             <article className="list__container" ref={this.wrapperRef}>
               {!showInput && (
                 <button className="list__button" onClick={this.handleAddClick}>
@@ -60,15 +66,29 @@ class Lists extends Component {
                 </button>
               )}
               {showInput && (
-                <div className="list__inputs">
-                  <input type="text" className="list__input" placeholder="Introduce el nombre de la lista..." autoFocus/>
+                <form className="list__inputs" onSubmit={this.handleAddList}>
+                  <input
+                    name="name"
+                    type="text"
+                    className="list__input"
+                    placeholder="Introduce el nombre de la lista..."
+                    autoFocus
+                  />
                   <div className="list__controls">
-                    <button className="list__add-button">Añadir lista</button>
-                    <div style={{padding: 6, display: "flex", alignItems: "center"}}>
-                      <VscChromeClose style={{fontSize: 18}}/>
+                    <button className="list__add-button" type="submit">
+                      Añadir lista
+                    </button>
+                    <div
+                      style={{
+                        padding: 6,
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      <VscChromeClose style={{ fontSize: 18 }} />
                     </div>
                   </div>
-                </div>
+                </form>
               )}
             </article>
           </div>
