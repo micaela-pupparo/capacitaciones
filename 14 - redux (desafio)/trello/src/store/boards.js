@@ -5,7 +5,7 @@ let lastId = 0;
 const slice = createSlice({
   name: "boards",
   initialState: {
-    list: [],
+    list: [{ id: 1, name: "tablero", userId: 1 }],
     selectedId: null,
   },
   reducers: {

@@ -25,7 +25,7 @@ import "./boardlist.css";
 class BoardList extends Component {
   state = {
     query: "",
-    toggle: "none"
+    toggle: "none",
   };
 
   componentDidMount() {
@@ -59,10 +59,13 @@ class BoardList extends Component {
 
   // TODO: crear componente reutilizable para el toggle
   handleTogle = () => {
-    this.state.toggle === 'none' ? this.setState({toggle: "block"}) : this.setState({toggle: "none"})
-  }
+    this.state.toggle === "none"
+      ? this.setState({ toggle: "block" })
+      : this.setState({ toggle: "none" });
+  };
 
   render() {
+    console.log(this.props.boards)
     return (
       <div className="board-page__container">
         <aside className="board-page__aside">
@@ -89,31 +92,55 @@ class BoardList extends Component {
               <p>Espacio de trabajo de Trello</p>
               <MdExpandMore style={{ minWidth: 16 }} />
             </div>
-            <div className="aside__link__info" style={{display: this.state.toggle}}>
-              <div className="aside__link" style={{paddingLeft: 40}}>
+            <div
+              className="aside__link__info"
+              style={{ display: this.state.toggle }}
+            >
+              <div className="aside__link" style={{ paddingLeft: 40 }}>
                 <FaTrello />
-                <p style={{fontWeight: "400"}}>Tableros</p>
+                <p style={{ fontWeight: "400" }}>Tableros</p>
               </div>
-              <div className="aside__link" style={{paddingLeft: 40}}>
+              <div className="aside__link" style={{ paddingLeft: 40 }}>
                 <CgHeart />
-                <p style={{fontWeight: "400"}}>Lo más destacado</p>
+                <p style={{ fontWeight: "400" }}>Lo más destacado</p>
               </div>
-              <div className="aside__link" style={{paddingLeft: 40}}>
+              <div className="aside__link" style={{ paddingLeft: 40 }}>
                 <HiOutlineViewGrid />
-                <p style={{fontWeight: "400"}}>Vistas</p>
+                <p style={{ fontWeight: "400" }}>Vistas</p>
               </div>
-              <div className="aside__link" style={{paddingLeft: 40}}>
+              <div className="aside__link" style={{ paddingLeft: 40 }}>
                 <GoPeople />
-                <p style={{fontWeight: "400"}}>Miembros</p>
+                <p style={{ fontWeight: "400" }}>Miembros</p>
               </div>
-              <div className="aside__link" style={{paddingLeft: 40}}>
+              <div className="aside__link" style={{ paddingLeft: 40 }}>
                 <DiAptana />
-                <p style={{fontWeight: "400"}}>Configuración</p>
+                <p style={{ fontWeight: "400" }}>Configuración</p>
               </div>
             </div>
           </section>
         </aside>
-        <div style={{ display: "flex", flexWrap: "wrap" }}>
+        <main className="board-page__main">
+          <section className="boards__container">
+            {this.props.boards &&
+              this.props.boards.map((board) => (
+                <article
+                  className="board__container"
+                  style={{ backgroundImage: "url(/flower.svg)" }}
+                >
+                  <Link className="board__link" key={board.id} to="/lists" onClick={() => this.handleBoardClick(board.id)}>
+                    <h3 className="board__title">{board.name}</h3>
+                  </Link>
+                </article>
+              ))}
+            <article className="board__container">
+              <a className="newboard__link">
+                <p className="newboard__title">Crear un tablero nuevo</p>
+              </a>
+            </article>
+          </section>
+        </main>
+
+        {/* <div style={{ display: "flex", flexWrap: "wrap" }}>
           {this.props.boards &&
             this.props.boards.map((board) => (
               <Link
@@ -188,8 +215,8 @@ class BoardList extends Component {
                 Crear
               </Dropdown.Item>
             </Dropdown.Menu>
-          </Dropdown>
-        </div>
+          </Dropdown> */}
+        {/* </div> */}
       </div>
     );
   }
@@ -197,10 +224,17 @@ class BoardList extends Component {
 
 const mapStateToProps = (state) => {
   let user = getUserId(state);
+  console.log('Current user:', user);
+  console.log('Current state:', state);
+
   if (!user) return { user, boards: null };
+
+  const boards = getBoardsByUser(user.id)(state);
+  console.log('Filtered boards:', boards);
+
   return {
     user,
-    boards: getBoardsByUser(user.id)(state),
+    boards,
   };
 };
 
@@ -208,7 +242,7 @@ const mapDispatchToProps = (dispatch) => ({
   boardAdded: (board) => dispatch(boardAdded(board)),
   boardDeleted: (id) => dispatch(boardDeleted(id)),
   boardSelected: (boardId) => dispatch(boardSelected(boardId)),
-  boardUnselected: (boards) => dispatch(boardUnselected(boards)),
+  boardUnselected: () => dispatch(boardUnselected()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BoardList);
