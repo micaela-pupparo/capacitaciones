@@ -19,7 +19,7 @@ class List extends Component {
     draggedItem: null,
     dragSource: null,
     dragTarget: null,
-    tasksOrder: this.props.tasks,
+    tasksOrder: this.props.tasks || [],
   };
 
   wrapperRef = React.createRef();
@@ -53,7 +53,14 @@ class List extends Component {
       listId: this.props.id,
     };
 
+    let newOrder = [...this.state.tasksOrder];
+    newOrder.push(newTask);
+
     this.props.taskAdded(newTask);
+    this.setState({
+      tasksOrder: newOrder,
+      draggedItem: null, // Asegurar que no hay tarea siendo arrastrada
+    });
   };
 
   handleModalShow = () => {
@@ -71,29 +78,41 @@ class List extends Component {
 
   handleDragStart = (e, task, listId) => {
     e.stopPropagation();
-
     e.dataTransfer.setData(
       "text/plain",
       JSON.stringify({ taskId: task.id, sourceListId: listId, type: "TASK" })
     );
-
-    this.setState({ draggedItem: task, dragSource: listId });
+    this.setState({
+      draggedItem: task,
+      dragSource: listId,
+    });
   };
 
   handleDragOver = (e, targetListId, targetTaskId = null) => {
     e.preventDefault();
+    e.stopPropagation();
 
-    const mouseY = e.clientY;
-    const targetRect = e.currentTarget.getBoundingClientRect();
-    const isUpperHalf = mouseY < targetRect.top + targetRect.height / 2;
+    if (targetTaskId) {
+      const mouseY = e.clientY;
+      const rect = e.currentTarget.getBoundingClientRect();
+      const position = mouseY < rect.top + rect.height / 2 ? "before" : "after";
 
-    this.setState({
-      dragTarget: {
-        listId: targetListId,
-        taskId: targetTaskId,
-        position: isUpperHalf ? "before" : "after",
-      },
-    });
+      this.setState({
+        dragTarget: {
+          listId: targetListId,
+          taskId: targetTaskId,
+          position: position,
+        },
+      });
+    } else {
+      this.setState({
+        dragTarget: {
+          listId: targetListId,
+          taskId: null,
+          position: "end",
+        },
+      });
+    }
   };
 
   handleDragEnd = () => {
@@ -106,49 +125,68 @@ class List extends Component {
 
   handleDrop = (e) => {
     e.preventDefault();
+    e.stopPropagation();
 
-    const dropData = JSON.parse(e.dataTransfer.getData("text/plain"));
-    const { taskId, sourceListId, type } = dropData;
-    const { dragTarget } = this.state;
+    try {
+      const dropData = JSON.parse(e.dataTransfer.getData("text/plain"));
+      const { taskId, sourceListId } = dropData;
+      const { dragTarget, tasksOrder } = this.state;
 
-    if (type === "TASK") {
-      this.moveTask(taskId, dragTarget);
-    }
-  };
+      if (!dragTarget || !taskId) return;
 
-  moveTask = (taskId, target) => {
-    let prevOrder = [...this.state.tasksOrder];
+      const newTasksOrder = [...tasksOrder];
 
-    let draggedTask;
-    let newOrder = prevOrder.filter((task) => {
-      if (task.id !== taskId) {
-        return true;
+      // Si la tarea viene de otra lista, no la removemos del array actual
+      const draggedTaskIndex =
+        sourceListId === this.props.list.id
+          ? newTasksOrder.findIndex((t) => t.id === taskId)
+          : -1;
+
+      let draggedTask;
+
+      if (draggedTaskIndex !== -1) {
+        // Si la tarea es de esta lista, la removemos
+        [draggedTask] = newTasksOrder.splice(draggedTaskIndex, 1);
       } else {
-        draggedTask = task;
-        return false;
+        // Si la tarea es de otra lista, la buscamos en las props
+        draggedTask = this.props.tasks.find((t) => t.id === taskId);
+        if (!draggedTask) return;
       }
-    });
 
-    let targetIndex = target.taskId
-      ? newOrder.findIndex((task) => task.id === target.taskId)
-      : -1;
+      // Determinar la posición de inserción
+      let insertIndex;
+      if (!dragTarget.taskId || dragTarget.position === "end") {
+        insertIndex = newTasksOrder.length;
+      } else {
+        const targetIndex = newTasksOrder.findIndex(
+          (t) => t.id === dragTarget.taskId
+        );
+        if (targetIndex === -1) {
+          insertIndex = newTasksOrder.length;
+        } else {
+          insertIndex =
+            dragTarget.position === "after" ? targetIndex + 1 : targetIndex;
+        }
+      }
 
-    let insertIndex = target.taskId
-      ? targetIndex + (target.position === "after" ? 1 : 0)
-      : newOrder.length;
+      // Insertar la tarea en la nueva posición
+      newTasksOrder.splice(insertIndex, 0, draggedTask);
 
-    newOrder.splice(insertIndex, 0, draggedTask);
-    this.setState({ tasksOrder: newOrder });
+      this.setState({ tasksOrder: newTasksOrder });
+    } catch (error) {
+      console.error("Error en handleDrop:", error);
+    }
   };
 
   render() {
     const { list } = this.props;
-    const { showInputTask, tasksOrder } = this.state;
+    const { showInputTask, tasksOrder, draggedItem, dragTarget, dragSource } =
+      this.state;
+
     return (
       <Card
-        onDragOver={this.handleDragOver}
-        onDragLeave={this.handleDragLeave}
-        onDrop={(e) => this.handleDrop(e, list.id)}
+        onDragOver={(e) => this.handleDragOver(e, list.id)}
+        onDrop={this.handleDrop}
         style={{
           padding: 8,
           height: "min-content",
@@ -176,15 +214,24 @@ class List extends Component {
 
         {tasksOrder &&
           tasksOrder.map((task) => (
-            <div key={task}>
+            <div
+              key={task.id}
+              data-task-id={task.id}
+              onDragStart={(e) => this.handleDragStart(e, task, list.id)}
+              onDragOver={(e) => this.handleDragOver(e, list.id, task.id)}
+              onDrop={this.handleDrop}
+              onDragEnd={this.handleDragEnd}
+              draggable
+              style={{
+                position: "relative",
+                marginBottom: "8px",
+                opacity: draggedItem && draggedItem.id === task.id ? 0.5 : 1,
+              }}
+            >
               <Card
                 style={{ width: "100%", margin: "auto", padding: 4 }}
-                key={task.id}
                 className="mb-2"
                 onClick={this.handleModalShow}
-                draggable
-                onDragStart={(e) => this.handleDragStart(e, task, list.id)}
-                onDragEnd={this.handleDragEnd}
               >
                 <Card.Text>{task.name}</Card.Text>
               </Card>
@@ -196,6 +243,7 @@ class List extends Component {
               />
             </div>
           ))}
+
         <Card
           style={{ width: "100%", margin: "auto", padding: 4 }}
           ref={this.wrapperRef}
