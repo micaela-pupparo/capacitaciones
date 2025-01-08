@@ -8,12 +8,19 @@ import "./lists.css";
 class Lists extends Component {
   state = {
     showInput: false,
+    listsRefs: [],
+    draggedItem: null,
+    draggingOver: null,
   };
 
   wrapperRef = React.createRef();
+  itemsRef = new Map();
 
   componentDidMount() {
     document.addEventListener("mousedown", this.handleInputClose);
+    this.props.lists.forEach(() =>
+      this.state.listsRefs.push(React.createRef())
+    );
   }
 
   componentWillUnmount() {
@@ -46,15 +53,15 @@ class Lists extends Component {
   };
 
   render() {
-    const { showInput } = this.state;
+    const { listsRefs, showInput } = this.state;
     return (
       <div className="lists__container">
         <aside className="nav-lists__container"></aside>
         <main className="main-lists__container">
           <div className="lists">
-            {this.props.lists.map((id) => (
+            {this.props.lists.map((id, index) => (
               <article className="list__container">
-                <List id={id} key={id}></List>
+                <List id={id} key={id} ref={listsRefs[index]}></List>
               </article>
             ))}
 

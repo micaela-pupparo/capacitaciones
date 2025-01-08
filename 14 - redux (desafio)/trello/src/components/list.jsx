@@ -16,6 +16,10 @@ class List extends Component {
   state = {
     showInputTask: false,
     modalShow: false,
+    draggedItem: null,
+    dragSource: null,
+    dragTarget: null,
+    tasksOrder: this.props.tasks,
   };
 
   wrapperRef = React.createRef();
@@ -65,11 +69,86 @@ class List extends Component {
     this.props.listDeleted(id);
   };
 
+  handleDragStart = (e, task, listId) => {
+    e.stopPropagation();
+
+    e.dataTransfer.setData(
+      "text/plain",
+      JSON.stringify({ taskId: task.id, sourceListId: listId, type: "TASK" })
+    );
+
+    this.setState({ draggedItem: task, dragSource: listId });
+  };
+
+  handleDragOver = (e, targetListId, targetTaskId = null) => {
+    e.preventDefault();
+
+    const mouseY = e.clientY;
+    const targetRect = e.currentTarget.getBoundingClientRect();
+    const isUpperHalf = mouseY < targetRect.top + targetRect.height / 2;
+
+    this.setState({
+      dragTarget: {
+        listId: targetListId,
+        taskId: targetTaskId,
+        position: isUpperHalf ? "before" : "after",
+      },
+    });
+  };
+
+  handleDragEnd = () => {
+    this.setState({
+      draggedItem: null,
+      dragSource: null,
+      dragTarget: null,
+    });
+  };
+
+  handleDrop = (e) => {
+    e.preventDefault();
+
+    const dropData = JSON.parse(e.dataTransfer.getData("text/plain"));
+    const { taskId, sourceListId, type } = dropData;
+    const { dragTarget } = this.state;
+
+    if (type === "TASK") {
+      this.moveTask(taskId, dragTarget);
+    }
+  };
+
+  moveTask = (taskId, target) => {
+    let prevOrder = [...this.state.tasksOrder];
+
+    let draggedTask;
+    let newOrder = prevOrder.filter((task) => {
+      if (task.id !== taskId) {
+        return true;
+      } else {
+        draggedTask = task;
+        return false;
+      }
+    });
+
+    let targetIndex = target.taskId
+      ? newOrder.findIndex((task) => task.id === target.taskId)
+      : -1;
+
+    let insertIndex = target.taskId
+      ? targetIndex + (target.position === "after" ? 1 : 0)
+      : newOrder.length;
+
+    newOrder.splice(insertIndex, 0, draggedTask);
+    this.setState({ tasksOrder: newOrder });
+  };
+
   render() {
-    const { list, tasks } = this.props;
-    const { showInputTask } = this.state;
+    const { list } = this.props;
+    const { showInputTask, tasksOrder } = this.state;
     return (
       <Card
+        onDragOver={this.handleDragOver}
+        onDragLeave={this.handleDragLeave}
+        onDrop={(e) => this.handleDrop(e, list.id)}
         style={{
           padding: 8,
           height: "min-content",
@@ -95,14 +174,17 @@ class List extends Component {
           />
         </Card.Title>
 
-        {tasks &&
-          tasks.map((task) => (
-            <React.Fragment key={task}>
+        {tasksOrder &&
+          tasksOrder.map((task) => (
+            <div key={task}>
               <Card
                 style={{ width: "100%", margin: "auto", padding: 4 }}
                 key={task.id}
                 className="mb-2"
                 onClick={this.handleModalShow}
+                draggable
+                onDragStart={(e) => this.handleDragStart(e, task, list.id)}
+                onDragEnd={this.handleDragEnd}
               >
                 <Card.Text>{task.name}</Card.Text>
               </Card>
@@ -112,7 +194,7 @@ class List extends Component {
                 name={task.name}
                 listName={list.name}
               />
-            </React.Fragment>
+            </div>
           ))}
         <Card
           style={{ width: "100%", margin: "auto", padding: 4 }}
