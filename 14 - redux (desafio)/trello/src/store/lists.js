@@ -1,6 +1,6 @@
 import { createSlice, createSelector } from "@reduxjs/toolkit";
 
-let lastId = 0;
+export let lastId = 0;
 
 const slice = createSlice({
   name: "lists",
@@ -11,10 +11,11 @@ const slice = createSlice({
   reducers: {
     listAdded: (lists, action) => {
       lists.list.push({
-        id: ++lastId,
+        id: action.payload.id ? action.payload.id : ++lastId,
         name: action.payload.name,
         boardId: action.payload.boardId,
       });
+      if (action.payload.id) ++lastId;
     },
     listDeleted: (lists, action) => {
       const listIndex = lists.list.findIndex(
@@ -45,6 +46,15 @@ export const getListIdByBoardId = (boardId) =>
       const result = lists.list
         .filter((list) => list.boardId === boardId)
         .map((list) => list.id);
+      return result ? result : [];
+    }
+  );
+
+export const getAllListsByBoardId = (boardId) =>
+  createSelector(
+    (state) => state.lists,
+    (lists) => {
+      const result = lists.list.filter((list) => list.boardId === boardId);
       return result ? result : [];
     }
   );

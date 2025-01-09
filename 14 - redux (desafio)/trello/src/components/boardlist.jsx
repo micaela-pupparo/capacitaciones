@@ -65,7 +65,7 @@ class BoardList extends Component {
   };
 
   render() {
-    console.log(this.props.boards)
+    console.log(this.props.boards);
     return (
       <div className="board-page__container">
         <aside className="board-page__aside">
@@ -126,8 +126,14 @@ class BoardList extends Component {
                 <article
                   className="board__container"
                   style={{ backgroundImage: "url(/flower.svg)" }}
+                  key={board.id}
                 >
-                  <Link className="board__link" key={board.id} to="/lists" onClick={() => this.handleBoardClick(board.id)}>
+                  <Link
+                    className="board__link"
+                    key={board.id}
+                    to="/lists"
+                    onClick={() => this.handleBoardClick(board.id)}
+                  >
                     <h3 className="board__title">{board.name}</h3>
                   </Link>
                 </article>
@@ -224,13 +230,13 @@ class BoardList extends Component {
 
 const mapStateToProps = (state) => {
   let user = getUserId(state);
-  console.log('Current user:', user);
-  console.log('Current state:', state);
+  console.log("Current user:", user);
+  console.log("Current state:", state);
 
   if (!user) return { user, boards: null };
 
   const boards = getBoardsByUser(user.id)(state);
-  console.log('Filtered boards:', boards);
+  console.log("Filtered boards:", boards);
 
   return {
     user,

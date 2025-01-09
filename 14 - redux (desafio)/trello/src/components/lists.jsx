@@ -2,7 +2,13 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import List from "./list";
 import { VscAdd, VscChromeClose } from "react-icons/vsc";
-import { listAdded, getListIdByBoardId, listUnselected } from "../store/lists";
+import {
+  listAdded,
+  getAllListsByBoardId,
+  listUnselected,
+} from "../store/lists";
+import { getOrderListByBoard } from "../store/boards";
+import { addListUpdateOrder } from "../store/middlewares/updateOrderList";
 import "./lists.css";
 
 class Lists extends Component {
@@ -11,6 +17,7 @@ class Lists extends Component {
     listsRefs: [],
     draggedItem: null,
     draggingOver: null,
+    listsOrder: this.props.lists,
   };
 
   wrapperRef = React.createRef();
@@ -33,35 +40,156 @@ class Lists extends Component {
     this.setState({ showInput: true });
   };
 
-  handleInputClose = (event) => {
+  handleInputClose = async (event) => {
     if (this.wrapperRef && !this.wrapperRef.current.contains(event.target)) {
       this.setState({ showInput: false });
     }
-    console.log("clicked");
+    // console.log("clicked");
   };
 
   handleAddList = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    console.log(e);
+
     const newList = {
       name: e.target.name.value,
       boardId: this.props.boardId,
     };
 
-    this.props.listAdded(newList);
+    this.props.addListUpdateOrder(newList, this.props.boardId);
+
+    setTimeout(() => this.setState({ listsOrder: this.props.lists }), 100);
+  };
+
+  handleDragStart = (e, listId, listIndex) => {
+    e.stopPropagation();
+    // console.log(e);
+
+    const rect = e.target.getBoundingClientRect();
+    // e.dataTransfer.setData(
+    //   "text/plain",
+    //   JSON.stringify({ listId: listId, type: "LIST" })
+    // );
+    // e.dataTransfer.effectAllowed = "copyMove";
+
+    this.setState({
+      draggedItem: { id: listId, index: listIndex, rect, clientX: e.clientX },
+      draggingOver: null,
+    });
+  };
+
+  handleDragEnter = (e) => {
+    e.preventDefault();
+  };
+
+  // componentDidUpdate(prevProps, prevState) {
+  //   console.log(prevState);
+  // }
+
+  handleDragOver = (e, targetId, targetIndex) => {
+    // console.log(e);
+    e.preventDefault();
+    if (this.state.draggedItem && targetId && targetIndex) {
+      if (this.state.draggedItem.id === targetId) return;
+
+      this.setState({ draggingOver: { id: targetId, index: targetIndex } });
+      const { listsOrder, draggedItem, draggingOver } = this.state;
+
+      const targetElement = e.currentTarget;
+      if (!targetElement.contains(e.target)) {
+        return;
+      }
+
+      const rect = targetElement.getBoundingClientRect();
+
+      const mousePosition = e.clientX;
+
+      const targetLeft = rect.left;
+      const targetWidth = rect.width;
+      const targetCenter = targetLeft + targetWidth / 2;
+
+      // Izquierda
+      if (mousePosition < targetCenter) {
+        if (
+          !listsOrder[targetIndex + 1] ||
+          listsOrder[targetIndex + 1] !== draggedItem.id
+        ) {
+          this.setState({ draggingOver: null });
+          return;
+        }
+
+        const listToMoveToIndex = listsOrder.find(
+          (id) => id === draggedItem.id
+        );
+        const listToMoveRight = listsOrder.find((id) => id === targetId);
+        const newOrder = listsOrder.filter(
+          (id) => id !== targetId && id !== draggedItem.id
+        );
+
+        newOrder.splice(targetIndex, 0, listToMoveToIndex);
+        newOrder.splice(targetIndex + 1, 0, listToMoveRight);
+
+        this.setState({ listsOrder: newOrder });
+      } else {
+        if (
+          !listsOrder[targetIndex - 1] ||
+          listsOrder[targetIndex - 1] !== draggedItem.id
+        ) {
+          this.setState({ draggingOver: null });
+          return;
+        }
+
+        const listToMoveToIndex = listsOrder.find(
+          (id) => id === draggedItem.id
+        );
+        const listToMoveLeft = listsOrder.find((id) => id === targetId);
+        const newOrder = listsOrder.filter(
+          (id) => id !== draggingOver.id && id !== draggedItem.id
+        );
+        newOrder.splice(targetIndex - 1, 0, listToMoveLeft);
+        newOrder.splice(targetIndex, 0, listToMoveToIndex);
+
+        this.setState({ listsOrder: newOrder });
+      }
+
+      this.setState({ draggingOver: null });
+    }
+  };
+
+  handleDrop = (e, index) => {
+    // const { listsOrder, draggedItemIndex } = this.state;
+    // const newOrder = [...listsOrder];
+    // const [draggedItem] = newOrder.splice(draggedItemIndex, 1);
+    // newOrder.splice(index, 0, draggedItem);
+    // this.setState({ listsOrder: newOrder, draggedItemIndex: null });
   };
 
   render() {
-    const { listsRefs, showInput } = this.state;
+    const { listsRefs, showInput, draggingOver } = this.state;
     return (
       <div className="lists__container">
         <aside className="nav-lists__container"></aside>
         <main className="main-lists__container">
-          <div className="lists">
-            {this.props.lists.map((id, index) => (
-              <article className="list__container">
-                <List id={id} key={id} ref={listsRefs[index]}></List>
+          <div
+            className="lists"
+            // onDragOver={(e) => this.handleDragOver(e)}
+            // onDragEnter={(e) => this.handleDragEnter(e)}
+          >
+            {this.state.listsOrder.map((id, index) => (
+              <article
+                className={
+                  draggingOver === id
+                    ? "list__container dragged-over"
+                    : `list__container`
+                }
+                key={id}
+                draggable
+                onDragOver={(e) => this.handleDragOver(e, id, index)}
+                onDrop={(e) => this.handleDrop(e, id, index)}
+                onDragStart={(e) => this.handleDragStart(e, id, index)}
+                onDragEnd={() => this.setState({ draggedItem: null })}
+              >
+                <List id={id} ref={listsRefs[index]}></List>
               </article>
             ))}
 
@@ -150,7 +278,7 @@ const mapStateToProps = (state) => {
 
   if (boardId)
     return {
-      lists: getListIdByBoardId(boardId)(state),
+      lists: getOrderListByBoard(boardId)(state),
       boardId,
     };
 };
@@ -158,6 +286,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
   listAdded: (newList) => dispatch(listAdded(newList)),
   listUnselected: (lists) => dispatch(listUnselected(lists)),
+  addListUpdateOrder: (list, boardId) =>
+    dispatch(addListUpdateOrder(list, boardId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Lists);

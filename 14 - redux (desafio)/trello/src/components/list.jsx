@@ -37,7 +37,7 @@ class List extends Component {
     if (this.wrapperRef && !this.wrapperRef.current.contains(event.target)) {
       this.setState({ showInputTask: false });
     }
-    console.log("clicked");
+    // console.log("clicked");
   };
 
   handleNewTaskClick = (id) => {
@@ -185,8 +185,8 @@ class List extends Component {
 
     return (
       <Card
-        onDragOver={(e) => this.handleDragOver(e, list.id)}
-        onDrop={this.handleDrop}
+        // onDragOver={(e) => this.handleDragOver(e, list.id)}
+        // onDrop={this.handleDrop}
         style={{
           padding: 8,
           height: "min-content",
@@ -217,11 +217,11 @@ class List extends Component {
             <div
               key={task.id}
               data-task-id={task.id}
-              onDragStart={(e) => this.handleDragStart(e, task, list.id)}
-              onDragOver={(e) => this.handleDragOver(e, list.id, task.id)}
-              onDrop={this.handleDrop}
-              onDragEnd={this.handleDragEnd}
-              draggable
+              // onDragStart={(e) => this.handleDragStart(e, task, list.id)}
+              // onDragOver={(e) => this.handleDragOver(e, list.id, task.id)}
+              // onDrop={this.handleDrop}
+              // onDragEnd={this.handleDragEnd}
+              // draggable
               style={{
                 position: "relative",
                 marginBottom: "8px",
