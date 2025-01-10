@@ -6,7 +6,11 @@ import { FiStar } from "react-icons/fi";
 import { GoPeople } from "react-icons/go";
 import { MdExpandMore } from "react-icons/md";
 import { RiRocketLine } from "react-icons/ri";
+import { BiCalendar } from "react-icons/bi";
+import { DiAptana } from "react-icons/di";
 import { VscListFilter } from "react-icons/vsc";
+import { LiaUser, LiaThListSolid, LiaCalendar } from "react-icons/lia";
+import { FaTrello } from "react-icons/fa6";
 import { BsFillLightningFill, BsPersonPlus } from "react-icons/bs";
 import { LuAlignStartHorizontal } from "react-icons/lu";
 import { listAdded, listUnselected } from "../store/lists";
@@ -169,7 +173,61 @@ class Lists extends Component {
     const { listsRefs, showInput, draggingOver } = this.state;
     return (
       <div className="lists__container">
-        <aside className="nav-lists__container"></aside>
+        <aside className="nav-lists__container">
+          <div className="nav-lists__space-work">
+            <div className="nav-lists__space-work__image">E</div>
+            <div className="nav-lists__space-work__name">
+              Espacio de trabajo de Trello
+            </div>
+            <MdExpandMore
+              style={{
+                minWidth: 16,
+                color: "#fff",
+                transform: "rotate(90deg)",
+                width: 24,
+                height: 24,
+              }}
+            />
+          </div>
+          <div className="nav-lists__links">
+            <div className="nav-lists__link">
+              <FaTrello />
+              <div>Tableros</div>
+            </div>
+            <div className="nav-lists__link">
+              <LiaUser />
+              <div>Miembros</div>
+            </div>
+            <div className="nav-lists__link">
+              <DiAptana />
+              <div>Ajustes del Espacio de trabajo</div>
+            </div>
+          </div>
+          <div className="nav-lists__links">
+            <div className="nav-lists__title">
+              Vistas del Espacio de trabajo
+            </div>
+            <div className="nav-lists__link">
+              <LiaThListSolid />
+              <div>Tabla</div>
+            </div>
+            <div className="nav-lists__link">
+              <BiCalendar />
+              <div>Calendario</div>
+            </div>
+          </div>
+          <div className="nav-lists__links">
+            <div className="nav-lists__title">Sus tableros</div>
+            <div className="nav-lists__link">
+              <LiaThListSolid />
+              <div>Tabla</div>
+            </div>
+            <div className="nav-lists__link">
+              <BiCalendar />
+              <div>Calendario</div>
+            </div>
+          </div>
+        </aside>
         <main className="main-lists__container">
           <div className="lists__header">
             <div className="lists__header-wrapper">
@@ -270,46 +328,6 @@ class Lists extends Component {
           </div>
         </main>
       </div>
-      // <div
-      //   style={{
-      //     display: "flex",
-      //     flexWrap: "wrap",
-      //     justifyContent: "center",
-      //     alignContent: "baseline",
-      //   }}
-      // >
-      //   {this.props.lists.map((id) => (
-      //     <List id={id} key={id}></List>
-      //   ))}
-      //   <Card
-      //     style={{ width: "18rem", height: "fit-content", minHeight: 75 }}
-      //     className="m-2"
-      //     ref={this.wrapperRef}
-      //   >
-      //     <Card.Body style={{ padding: 8 }}>
-      //       {!showInput && (
-      //         <Card.Text onClick={this.handleAddClick}>
-      //           Añade otra lista
-      //         </Card.Text>
-      //       )}
-      //       {showInput && (
-      //         <form onSubmit={this.handleAddList}>
-      //           <Card.Text>
-      //             <input
-      //               type="text"
-      //               placeholder="Introduce el nombre de la lista..."
-      //               name="name"
-      //               autoFocus
-      //             />
-      //           </Card.Text>
-      //           <Button variant="primary" type="submit">
-      //             Añadir lista
-      //           </Button>
-      //         </form>
-      //       )}
-      //     </Card.Body>
-      //   </Card>
-      // </div>
     );
   }
 }
