@@ -72,44 +72,48 @@ class Home extends Component {
           </div>
         </div>
         <section className="info">
-          <div className="title__info">
-            <h3>Explore Trello’s features that help your team succeed</h3>
-          </div>
-          <div className="badges">
-            <div className="badge--active">Cards</div>
-            <div className="badge">Views</div>
-            <div className="badge">Automation</div>
-          </div>
-          <div className="tasks-info">
-            <div className="task-info__text">
-              <h4 className="task-info__text__title">
-                Manage tasks with ease.
-              </h4>
-              <ul>
-                <li>
-                  <strong>Members:</strong> Keep everyone accountable and never
-                  have to ask “who’s doing that” by adding members to cards for
-                  their projects and tasks.{" "}
-                </li>
-                <li>
-                  <strong>Due dates:</strong> They're easy to set, hard to miss
-                  (with reminders!), and oh-so-satisfying to mark as “done.”{" "}
-                </li>
-                <li>
-                  <strong>Attachments:</strong> No more digging through endless
-                  email chains to find attachments. Just drag and drop them onto
-                  a card so the right files stay with the right tasks.{" "}
-                </li>
-                <li>
-                  <strong>Checklists:</strong> Your best tool to overpower
-                  overwhelming asks. Break big tasks into small ones, check
-                  things off the list, and watch that status bar go to 100%
-                  complete.{" "}
-                </li>
-              </ul>
+          <div className="info__wrapper">
+            <div className="title__info">
+              <h3>Explore Trello’s features that help your team succeed</h3>
             </div>
-            <div className="task-info__image">
-              <img src="/tasks.webp" alt="" />
+            <div className="badges">
+              <div className="badge--active">Cards</div>
+              <div className="badge">Views</div>
+              <div className="badge">Automation</div>
+            </div>
+            <div className="tasks-info">
+              <div className="task-info__text">
+                <h4 className="task-info__text__title">
+                  Manage tasks with ease.
+                </h4>
+                <ul>
+                  <li>
+                    <strong>Members:</strong> Keep everyone accountable and
+                    never have to ask “who’s doing that” by adding members to
+                    cards for their projects and tasks.{" "}
+                  </li>
+                  <li>
+                    <strong>Due dates:</strong> They're easy to set, hard to
+                    miss (with reminders!), and oh-so-satisfying to mark as
+                    “done.”{" "}
+                  </li>
+                  <li>
+                    <strong>Attachments:</strong> No more digging through
+                    endless email chains to find attachments. Just drag and drop
+                    them onto a card so the right files stay with the right
+                    tasks.{" "}
+                  </li>
+                  <li>
+                    <strong>Checklists:</strong> Your best tool to overpower
+                    overwhelming asks. Break big tasks into small ones, check
+                    things off the list, and watch that status bar go to 100%
+                    complete.{" "}
+                  </li>
+                </ul>
+              </div>
+              <div className="task-info__image">
+                <img src="/tasks.webp" alt="" />
+              </div>
             </div>
           </div>
         </section>
