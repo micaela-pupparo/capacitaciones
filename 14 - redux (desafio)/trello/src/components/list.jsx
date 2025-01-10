@@ -17,8 +17,7 @@ class List extends Component {
     showInputTask: false,
     modalShow: false,
     draggedItem: null,
-    dragSource: null,
-    dragTarget: null,
+    draggingOver: null,
     tasksOrder: this.props.tasks || [],
   };
 
@@ -31,6 +30,11 @@ class List extends Component {
   componentWillUnmount() {
     document.removeEventListener("mousedown", this.handleInputClose);
     this.props.listUnselected();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.tasks !== prevProps.tasks)
+      this.setState({ tasksOrder: this.props.tasks });
   }
 
   handleInputClose = (event) => {
@@ -76,107 +80,106 @@ class List extends Component {
     this.props.listDeleted(id);
   };
 
-  handleDragStart = (e, task, listId) => {
+  handleDragStart = (e, task, taskIndex) => {
     e.stopPropagation();
-    e.dataTransfer.setData(
-      "text/plain",
-      JSON.stringify({ taskId: task.id, sourceListId: listId, type: "TASK" })
-    );
+
+    const draggedItem = { ...task, index: taskIndex };
+    console.log("handle start: ", draggedItem);
+
     this.setState({
-      draggedItem: task,
-      dragSource: listId,
+      draggedItem,
+      draggingOver: null,
     });
+
+    console.log(this.state.draggedItem);
   };
 
-  handleDragOver = (e, targetListId, targetTaskId = null) => {
+  handleDragOver = (e, target, targetIndex) => {
     e.preventDefault();
-    e.stopPropagation();
+    // e.stopPropagation();
 
-    if (targetTaskId) {
-      const mouseY = e.clientY;
-      const rect = e.currentTarget.getBoundingClientRect();
-      const position = mouseY < rect.top + rect.height / 2 ? "before" : "after";
+    const { draggedItem } = this.state;
 
-      this.setState({
-        dragTarget: {
-          listId: targetListId,
-          taskId: targetTaskId,
-          position: position,
-        },
-      });
-    } else {
-      this.setState({
-        dragTarget: {
-          listId: targetListId,
-          taskId: null,
-          position: "end",
-        },
-      });
+    if (draggedItem && target && targetIndex) {
+      if (draggedItem.id === target.id) return;
+
+      const newDraggingOver = { ...target, index: targetIndex };
+
+      this.setState({ draggingOver: newDraggingOver });
+      const { tasksOrder, draggingOver } = this.state;
+
+      const targetElement = e.currentTarget;
+      if (!targetElement.contains(e.target)) return;
+
+      const rect = targetElement.getBoundingClientRect();
+
+      const mousePosition = e.clientY;
+
+      const targetTop = rect.top;
+      const targetHeight = rect.height;
+      const targetCenter = targetTop + targetHeight / 2;
+
+      // Arriba
+      if (mousePosition < targetCenter) {
+        if (
+          !tasksOrder[targetIndex + 1] ||
+          tasksOrder[targetIndex + 1].id !== draggedItem.id
+        ) {
+          this.setState({ draggingOver: null });
+          return;
+        }
+        console.log("draggedItem: ", draggedItem);
+        console.log("draggingOver: ", draggingOver);
+        console.log("order: ", tasksOrder);
+
+        const listToMoveToIndex = tasksOrder.find(
+          (task) => task.id === draggedItem.id
+        );
+        const listToMoveDown = tasksOrder.find((task) => task.id === target.id);
+        const newOrder = tasksOrder.filter(
+          (task) => task.id !== target.id && task.id !== draggedItem.id
+        );
+
+        newOrder.splice(targetIndex, 0, listToMoveToIndex);
+        newOrder.splice(targetIndex + 1, 0, listToMoveDown);
+
+        this.setState({ tasksOrder: newOrder });
+      } else {
+        // Abajo
+        if (
+          !tasksOrder[targetIndex - 1] ||
+          tasksOrder[targetIndex - 1].id !== draggedItem.id
+        ) {
+          this.setState({ draggingOver: null });
+          return;
+        }
+        console.log("draggedItem: ", draggedItem);
+        console.log("draggingOver: ", draggingOver);
+        console.log("order: ", tasksOrder);
+
+        const listToMoveToIndex = tasksOrder.find(
+          (task) => task.id === draggedItem.id
+        );
+        const listToMoveUp = tasksOrder.find((task) => task.id === target.id);
+        const newOrder = tasksOrder.filter(
+          (task) => task.id !== target.id && task.id !== draggedItem.id
+        );
+
+        newOrder.splice(targetIndex, 0, listToMoveToIndex);
+        newOrder.splice(targetIndex - 1, 0, listToMoveUp);
+
+        this.setState({ tasksOrder: newOrder });
+      }
     }
   };
 
   handleDragEnd = () => {
     this.setState({
       draggedItem: null,
-      dragSource: null,
-      dragTarget: null,
     });
   };
 
-  handleDrop = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    try {
-      const dropData = JSON.parse(e.dataTransfer.getData("text/plain"));
-      const { taskId, sourceListId } = dropData;
-      const { dragTarget, tasksOrder } = this.state;
-
-      if (!dragTarget || !taskId) return;
-
-      const newTasksOrder = [...tasksOrder];
-
-      // Si la tarea viene de otra lista, no la removemos del array actual
-      const draggedTaskIndex =
-        sourceListId === this.props.list.id
-          ? newTasksOrder.findIndex((t) => t.id === taskId)
-          : -1;
-
-      let draggedTask;
-
-      if (draggedTaskIndex !== -1) {
-        // Si la tarea es de esta lista, la removemos
-        [draggedTask] = newTasksOrder.splice(draggedTaskIndex, 1);
-      } else {
-        // Si la tarea es de otra lista, la buscamos en las props
-        draggedTask = this.props.tasks.find((t) => t.id === taskId);
-        if (!draggedTask) return;
-      }
-
-      // Determinar la posición de inserción
-      let insertIndex;
-      if (!dragTarget.taskId || dragTarget.position === "end") {
-        insertIndex = newTasksOrder.length;
-      } else {
-        const targetIndex = newTasksOrder.findIndex(
-          (t) => t.id === dragTarget.taskId
-        );
-        if (targetIndex === -1) {
-          insertIndex = newTasksOrder.length;
-        } else {
-          insertIndex =
-            dragTarget.position === "after" ? targetIndex + 1 : targetIndex;
-        }
-      }
-
-      // Insertar la tarea en la nueva posición
-      newTasksOrder.splice(insertIndex, 0, draggedTask);
-
-      this.setState({ tasksOrder: newTasksOrder });
-    } catch (error) {
-      console.error("Error en handleDrop:", error);
-    }
-  };
+  handleDrop = (e) => {};
 
   render() {
     const { list } = this.props;
@@ -185,8 +188,6 @@ class List extends Component {
 
     return (
       <Card
-        // onDragOver={(e) => this.handleDragOver(e, list.id)}
-        // onDrop={this.handleDrop}
         style={{
           padding: 8,
           height: "min-content",
@@ -213,36 +214,39 @@ class List extends Component {
         </Card.Title>
 
         {tasksOrder &&
-          tasksOrder.map((task) => (
-            <div
-              key={task.id}
-              data-task-id={task.id}
-              // onDragStart={(e) => this.handleDragStart(e, task, list.id)}
-              // onDragOver={(e) => this.handleDragOver(e, list.id, task.id)}
-              // onDrop={this.handleDrop}
-              // onDragEnd={this.handleDragEnd}
-              // draggable
-              style={{
-                position: "relative",
-                marginBottom: "8px",
-                opacity: draggedItem && draggedItem.id === task.id ? 0.5 : 1,
-              }}
-            >
-              <Card
-                style={{ width: "100%", margin: "auto", padding: 4 }}
-                className="mb-2"
-                onClick={this.handleModalShow}
+          tasksOrder.map((task, index) => {
+            if (!task || !task.id) return null;
+            return (
+              <div
+                key={task.id}
+                data-task-id={task.id}
+                onDragStart={(e) => this.handleDragStart(e, task, index)}
+                onDragOver={(e) => this.handleDragOver(e, task, index)}
+                onDrop={this.handleDrop}
+                onDragEnd={this.handleDragEnd}
+                draggable
+                style={{
+                  position: "relative",
+                  marginBottom: "8px",
+                  opacity: draggedItem && draggedItem.id === task.id ? 0.5 : 1,
+                }}
               >
-                <Card.Text>{task.name}</Card.Text>
-              </Card>
-              <Task
-                show={this.state.modalShow}
-                onHide={this.handleModalShow}
-                name={task.name}
-                listName={list.name}
-              />
-            </div>
-          ))}
+                <Card
+                  style={{ width: "100%", margin: "auto", padding: 4 }}
+                  className="mb-2"
+                  onClick={this.handleModalShow}
+                >
+                  <Card.Text>{task.name}</Card.Text>
+                </Card>
+                <Task
+                  show={this.state.modalShow}
+                  onHide={this.handleModalShow}
+                  name={task.name}
+                  listName={list.name}
+                />
+              </div>
+            );
+          })}
 
         <Card
           style={{ width: "100%", margin: "auto", padding: 4 }}

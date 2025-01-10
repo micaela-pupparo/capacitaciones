@@ -61,16 +61,17 @@ class Lists extends Component {
     setTimeout(() => this.setState({ listsOrder: this.props.lists }), 100);
   };
 
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (this.prevState.listsOrder !== this.props.lists) {
+  //     this.setState({ listsOrder: this.props.lists });
+  //   }
+  // }
+
   handleDragStart = (e, listId, listIndex) => {
     e.stopPropagation();
     // console.log(e);
 
     const rect = e.target.getBoundingClientRect();
-    // e.dataTransfer.setData(
-    //   "text/plain",
-    //   JSON.stringify({ listId: listId, type: "LIST" })
-    // );
-    // e.dataTransfer.effectAllowed = "copyMove";
 
     this.setState({
       draggedItem: { id: listId, index: listIndex, rect, clientX: e.clientX },
