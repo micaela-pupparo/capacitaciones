@@ -1,0 +1,32 @@
+.list__newtask {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  gap: 10px;
+  cursor: pointer;
+  padding: 6px 12px 6px 8px;
+  border-radius: 8px;
+}
+
+.list__newtask:hover {
+  background-color: #091e4224;
+}
+
+.list__newtask__input {
+  margin-bottom: 8px;
+  height: 56px;
+  min-height: 36px;
+  max-height: 160px;
+  overflow: hidden;
+  border: none;
+  text-align: start;
+  border-radius: 8px;
+  box-shadow: 0px 1px 1px #091e4240, 0px 0px 1px #091e424f;
+}
+
+.task {
+  min-height: 24px;
+  padding: 8px 12px 4px;
+  box-shadow: 0px 1px 1px #091e4240, 0px 0px 1px #091e424f;
+  border: none;
+}

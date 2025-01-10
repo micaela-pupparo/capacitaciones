@@ -116,8 +116,8 @@ h3 {
 .lists {
   display: flex;
   overflow: visible;
-  margin-top: 59px;
-  padding: 0 6px;
+  margin-top: 70px;
+  padding: 0 7px;
 }
 
 .list__container {
@@ -135,9 +135,11 @@ h3 {
   color: #fff;
   font-size: 14px;
   font-weight: 600;
+  border: none;
 }
 
 .list__inputs {
+  margin: 0 6px;
   width: 272px;
   padding: 12px;
   font-size: 14px;

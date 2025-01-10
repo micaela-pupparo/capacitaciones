@@ -10,7 +10,9 @@ import { taskAdded, getTasksByList } from "../store/tasks";
 import Task from "./task";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import { SlTrash } from "react-icons/sl";
+import { RxDotsHorizontal } from "react-icons/rx";
+import { VscAdd, VscChromeClose } from "react-icons/vsc";
+import "./list.css";
 
 class List extends Component {
   state = {
@@ -193,8 +195,9 @@ class List extends Component {
           height: "min-content",
           width: "18rem",
           boxSizing: "border-box",
+          border: "0",
         }}
-        className="m-2"
+        className="list__inputs"
       >
         <Card.Title
           style={{
@@ -203,11 +206,16 @@ class List extends Component {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "baseline",
+            padding: 0,
+            margin: 0,
+            marginBottom: 10,
           }}
           id={list.id}
         >
-          <p>{list.name}</p>
-          <SlTrash
+          <p style={{ fontWeight: "600", padding: "6px 8px 6px 12px" }}>
+            {list.name}
+          </p>
+          <RxDotsHorizontal
             style={{ fontSize: 15 }}
             onClick={(e) => this.handleDelete(e, list.id)}
           />
@@ -232,8 +240,8 @@ class List extends Component {
                 }}
               >
                 <Card
-                  style={{ width: "100%", margin: "auto", padding: 4 }}
-                  className="mb-2"
+                  style={{ width: "100%", margin: "auto" }}
+                  className="task"
                   onClick={this.handleModalShow}
                 >
                   <Card.Text>{task.name}</Card.Text>
@@ -249,13 +257,22 @@ class List extends Component {
           })}
 
         <Card
-          style={{ width: "100%", margin: "auto", padding: 4 }}
+          style={{
+            width: "100%",
+            margin: "auto",
+            background: "transparent",
+            border: "none",
+          }}
           ref={this.wrapperRef}
         >
           {!showInputTask && (
-            <Card.Text onClick={() => this.handleNewTaskClick(list.id)}>
-              Añade otra tarea
-            </Card.Text>
+            <div
+              onClick={() => this.handleNewTaskClick(list.id)}
+              className="list__newtask"
+            >
+              <VscAdd />
+              <div>Añade una tarjeta</div>
+            </div>
           )}
           {showInputTask && (
             <form onSubmit={this.handleAddTask}>
@@ -265,10 +282,15 @@ class List extends Component {
                   placeholder="Introduce el nombre de la lista..."
                   name="name"
                   autoFocus
+                  className="list__newtask__input"
                 />
               </Card.Text>
-              <Button variant="primary" type="submit">
-                Añadir tarea
+              <Button
+                variant="primary"
+                type="submit"
+                style={{ fontSize: 14, fontWeight: "600" }}
+              >
+                Añadir tarjeta
               </Button>
             </form>
           )}
