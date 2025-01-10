@@ -2,12 +2,16 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import List from "./list";
 import { VscAdd, VscChromeClose } from "react-icons/vsc";
-import {
-  listAdded,
-  getAllListsByBoardId,
-  listUnselected,
-} from "../store/lists";
-import { getOrderListByBoard } from "../store/boards";
+import { FiStar } from "react-icons/fi";
+import { GoPeople } from "react-icons/go";
+import { MdExpandMore } from "react-icons/md";
+import { RiRocketLine } from "react-icons/ri";
+import { VscListFilter } from "react-icons/vsc";
+import { BsFillLightningFill, BsPersonPlus } from "react-icons/bs";
+import { LuAlignStartHorizontal } from "react-icons/lu";
+import { listAdded, listUnselected } from "../store/lists";
+import { navbarClassChanged } from "../store/ui";
+import { getOrderListByBoard, getBoardById } from "../store/boards";
 import { addListUpdateOrder } from "../store/middlewares/updateOrderList";
 import "./lists.css";
 
@@ -28,11 +32,13 @@ class Lists extends Component {
     this.props.lists.forEach(() =>
       this.state.listsRefs.push(React.createRef())
     );
+    this.props.navbarClassChanged({ class: "navbar--pink" });
   }
 
   componentWillUnmount() {
     document.removeEventListener("mousedown", this.handleInputClose);
     this.props.listUnselected();
+    this.props.navbarClassChanged({ class: "navbar--white" });
   }
 
   handleAddClick = (e) => {
@@ -157,13 +163,7 @@ class Lists extends Component {
     }
   };
 
-  handleDrop = (e, index) => {
-    // const { listsOrder, draggedItemIndex } = this.state;
-    // const newOrder = [...listsOrder];
-    // const [draggedItem] = newOrder.splice(draggedItemIndex, 1);
-    // newOrder.splice(index, 0, draggedItem);
-    // this.setState({ listsOrder: newOrder, draggedItemIndex: null });
-  };
+  handleDrop = (e, index) => {};
 
   render() {
     const { listsRefs, showInput, draggingOver } = this.state;
@@ -171,11 +171,51 @@ class Lists extends Component {
       <div className="lists__container">
         <aside className="nav-lists__container"></aside>
         <main className="main-lists__container">
-          <div
-            className="lists"
-            // onDragOver={(e) => this.handleDragOver(e)}
-            // onDragEnter={(e) => this.handleDragEnter(e)}
-          >
+          <div className="lists__header">
+            <div className="lists__header-wrapper">
+              <div className="lists__header__items">
+                <h3 className="lists__header__title">
+                  {this.props.board.name}
+                </h3>
+                <FiStar className="lists__header__icon" />
+                <div className="lists__header__link">
+                  <GoPeople />
+                  <p>Visible para el Espacio de trabajo</p>
+                </div>
+                <div className="lists__header__link list__header__button">
+                  <LuAlignStartHorizontal />
+                  <p>Tablero</p>
+                </div>
+
+                <MdExpandMore
+                  style={{ minWidth: 16, color: "#fff", fontSize: 20 }}
+                />
+              </div>
+              <div className="lists__header__items">
+                <div className="lists__header__link">
+                  <RiRocketLine style={{ transform: "rotate(45deg)" }} />
+                  <p>Power-ups</p>
+                </div>
+                <div className="lists__header__link">
+                  <BsFillLightningFill />
+                  <p>Automatización</p>
+                </div>
+                <div className="lists__header__link">
+                  <VscListFilter />
+                  <p>Filtros</p>
+                </div>
+                <span className="lists__header__space-bar"></span>
+                <div className="lists__header__user">
+                  <p style={{ fontSize: 12, fontWeight: "600" }}>MP</p>
+                </div>
+                <div className="lists__header__link list__header__button">
+                  <BsPersonPlus />
+                  <p>Compartir</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="lists">
             {this.state.listsOrder.map((id, index) => (
               <article
                 className={
@@ -281,6 +321,7 @@ const mapStateToProps = (state) => {
     return {
       lists: getOrderListByBoard(boardId)(state),
       boardId,
+      board: getBoardById(boardId)(state),
     };
 };
 
@@ -289,6 +330,7 @@ const mapDispatchToProps = (dispatch) => ({
   listUnselected: (lists) => dispatch(listUnselected(lists)),
   addListUpdateOrder: (list, boardId) =>
     dispatch(addListUpdateOrder(list, boardId)),
+  navbarClassChanged: (newClass) => dispatch(navbarClassChanged(newClass)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Lists);

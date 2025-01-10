@@ -33,7 +33,7 @@ class NavBar extends Component {
   };
   render() {
     return this.props.user ? (
-      <nav className="navbar">
+      <nav className={`navbar ${this.props.navbarClass}`}>
         <div className="navbar-container">
           <div className="navbar__leftside">
             <MdApps />
@@ -62,14 +62,22 @@ class NavBar extends Component {
           </div>
           <div className="navbar__items">
             <div className="navbar__search-container">
-              <FaSistrix className="navbar__search-icon"/>
-              <input type="text" className="navbar__search" placeholder="Search"/>
+              <FaSistrix className="navbar__search-icon" />
+              <input
+                type="text"
+                className="navbar__search"
+                placeholder="Search"
+              />
             </div>
             <div className="navbar__icon">
-              <button><BsBell style={{transform: "rotate(45deg)"}}/></button>
+              <span>
+                <BsBell style={{ transform: "rotate(45deg)" }} />
+              </span>
             </div>
             <div className="navbar__icon">
-              <button><BsQuestionCircle /></button>
+              <span>
+                <BsQuestionCircle />
+              </span>
             </div>
             <div className="navbar__user">
               <button>MP</button>
@@ -109,6 +117,7 @@ class NavBar extends Component {
 
 const mapStateToProps = (state) => ({
   screen: state.ui.screen,
+  navbarClass: state.ui.navbar.class,
   user: state.users.logged,
 });
 

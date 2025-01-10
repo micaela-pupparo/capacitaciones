@@ -8,15 +8,21 @@ const slice = createSlice({
       width: window.innerWidth,
       height: window.innerHeight,
     },
+    navbar: {
+      class: "navbar--white",
+    },
   },
   reducers: {
     screenChanged: (ui, action) => {
       ui.screen.width = window.innerWidth;
       ui.screen.height = window.innerHeight;
     },
+    navbarClassChanged: (ui, action) => {
+      ui.navbar.class = action.payload.class;
+    },
   },
 });
 
-export const { screenChanged } = slice.actions;
+export const { screenChanged, navbarClassChanged } = slice.actions;
 
 export default slice.reducer;

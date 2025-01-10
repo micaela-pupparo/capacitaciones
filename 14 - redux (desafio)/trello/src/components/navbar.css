@@ -10,13 +10,26 @@ button {
 }
 
 .navbar {
-  background-color: #fff;
   position: fixed;
   top: 0px;
   width: 100%;
   z-index: 100;
   padding: 0;
+}
+
+.navbar--white {
+  background-color: #fff;
   border-bottom: 1px solid hsla(218, 54%, 19.6%, 0.16);
+}
+
+.navbar--pink {
+  background-color: rgb(130, 22, 89);
+  border-bottom: 1px solid hsla(0, 0%, 100%, 0.16);
+  color: #fff;
+}
+
+.navbar--pink .navbar__link {
+  color: #fff;
 }
 
 .navbar-container {
@@ -75,6 +88,10 @@ button {
   background-size: contain;
 }
 
+.navbar--pink .navbar__logo-container {
+  filter: none;
+}
+
 .navbar__logo-container:hover {
   background-image: url(/trellologovideo.gif);
 }
@@ -92,6 +109,14 @@ button {
   color: #fff;
   background-color: #0c66e4;
   padding: 0px 12px;
+}
+
+.navbar--pink .navbar__button {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.navbar--pink .navbar__button:hover {
+  background-color: rgba(255, 255, 255, 0.36);
 }
 
 .navbar__button:hover {
@@ -124,6 +149,14 @@ button {
   line-height: 20px;
 }
 
+.navbar--pink .navbar__search {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.navbar--pink .navbar__search::placeholder {
+  color: #fff;
+}
+
 .navbar__search-icon {
   width: 16px;
   height: 16px;
@@ -131,6 +164,10 @@ button {
   top: 8px;
   left: 8px;
   color: #626f86;
+}
+
+.navbar--pink .navbar__search-icon {
+  color: #fff;
 }
 
 .navbar__icon {
@@ -143,7 +180,8 @@ button {
   align-items: center;
 }
 
-.navbar__icon > button {
+.navbar__icon > span {
+  cursor: pointer;
   display: flex;
   align-items: center;
   width: 100%;
@@ -155,7 +193,7 @@ button {
   align-items: center;
 }
 
-.navbar__user > button{
+.navbar__user > button {
   border-radius: 100%;
   width: 24px;
   height: 24px;
