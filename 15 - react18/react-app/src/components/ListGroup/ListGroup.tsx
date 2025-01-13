@@ -1,5 +1,6 @@
 // import { MouseEvent } from "react";
 import { useState } from "react";
+import "./ListGroup.css";
 
 // {items: [], heading: string}
 interface ListGroupProps {
