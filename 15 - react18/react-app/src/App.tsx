@@ -64,24 +64,33 @@ import ListGroup from "./components/ListGroup";
 //   );
 // }
 
-import ExpandableText from "./components/ExpandableText";
+// import ExpandableText from "./components/ExpandableText";
+
+// function App() {
+//   return (
+//     <div>
+//       <ExpandableText maxChars={20}>
+//         Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repellendus
+//         fuga maxime omnis hic distinctio amet illum corrupti labore eius tenetur
+//         deserunt, animi, iusto adipisci, ducimus tempora ullam debitis eveniet
+//         explicabo esse quo nisi qui? Minus, quod sint consequuntur itaque
+//         blanditiis facere magnam eveniet sapiente tempore quasi animi culpa
+//         dolores illo voluptas dolor exercitationem earum! Quam, nam pariatur
+//         numquam iste repudiandae architecto earum iure omnis? Quibusdam,
+//         blanditiis! Quia repudiandae quo quaerat, fuga ab eaque delectus enim
+//         quis voluptas? Quo, sunt. Obcaecati impedit quaerat, dolore ducimus
+//         autem ad ipsam itaque eaque nam porro facilis architecto minima dolorem
+//         debitis fugit commodi! Debitis, obcaecati.
+//       </ExpandableText>
+//     </div>
+//   );
+// }
+import Form from "./components/Form";
 
 function App() {
   return (
     <div>
-      <ExpandableText maxChars={20}>
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repellendus
-        fuga maxime omnis hic distinctio amet illum corrupti labore eius tenetur
-        deserunt, animi, iusto adipisci, ducimus tempora ullam debitis eveniet
-        explicabo esse quo nisi qui? Minus, quod sint consequuntur itaque
-        blanditiis facere magnam eveniet sapiente tempore quasi animi culpa
-        dolores illo voluptas dolor exercitationem earum! Quam, nam pariatur
-        numquam iste repudiandae architecto earum iure omnis? Quibusdam,
-        blanditiis! Quia repudiandae quo quaerat, fuga ab eaque delectus enim
-        quis voluptas? Quo, sunt. Obcaecati impedit quaerat, dolore ducimus
-        autem ad ipsam itaque eaque nam porro facilis architecto minima dolorem
-        debitis fugit commodi! Debitis, obcaecati.
-      </ExpandableText>
+      <Form></Form>
     </div>
   );
 }
