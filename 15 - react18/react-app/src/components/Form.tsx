@@ -1,8 +1,20 @@
-import React from "react";
+import React, { FormEvent, useRef } from "react";
+import { useForm } from "react-hook-form";
 
 const Form = () => {
+  const { register } = useForm();
+  // const nameRef = useRef<HTMLInputElement>(null); //es una practica comun pasarle null aca
+  // const ageRef = useRef<HTMLInputElement>(null);
+  // const person = { name: "", age: 0 };
+
+  const handleSubmit = (event: FormEvent) => {
+    event.preventDefault();
+    // if (nameRef.current !== null) person.name = nameRef.current.value;
+    // if (ageRef.current !== null) person.age = parseInt(ageRef.current.value);
+  };
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <div className="mb-3">
         <label htmlFor="name" className="form-label">
           Name
