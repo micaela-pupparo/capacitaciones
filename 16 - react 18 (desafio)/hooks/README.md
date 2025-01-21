@@ -206,3 +206,28 @@ Si no hay dependencias especificadas, se volverá a ejecutar la función luego d
 - Se pueden manejar cambios directamente en eventos
 - Se trata de calcular valores derivados del estado
 - La lógica puede ejecutarse directamente en el render
+
+## useId
+
+Se utiliza para generar identificadores únicos y estables para elementos en la interfaz de usuario. Pueden ser pasados mediante atributos de acceibilidad. No deberia ser utilizado para generar keys en una lista.
+
+### Sintaxis básica
+
+```js
+useId();
+```
+
+Retorna un ID unico en string.
+
+### Cuándo usarlo y cuándo no
+
+#### Usalo si...
+
+- Se necesitan identificadores únicos en formularios
+- Se crean múltiples instancias de componentes dinámicos
+
+#### No lo uses si...
+
+- Se quiere usar como clave de lista en .map()
+- Los identificadores están disponibles en los datos
+- Los elementos son estáticos y no requieren IDs únicos

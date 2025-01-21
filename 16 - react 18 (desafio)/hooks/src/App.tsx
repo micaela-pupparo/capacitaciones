@@ -83,14 +83,33 @@ import "./App.css";
 // export default App;
 
 // ------------------- useEffect ----------------------
-import UserList from "./useEffect/buen uso/UserList";
-import WrongCounterEffect from "./useEffect/mal uso/WrongCounterEffect";
+// import UserList from "./useEffect/buen uso/UserList";
+// import WrongCounterEffect from "./useEffect/mal uso/WrongCounterEffect";
+
+// function App() {
+//   return (
+//     <>
+//       <UserList />
+//       <WrongCounterEffect />
+//     </>
+//   );
+// }
+
+// export default App;
+
+// ------------------ useId -----------------------------
+import FormFieldId from "./useId/buen uso/FormFieldId";
+import WrongItemList from "./useId/mal uso/WrongItemList";
 
 function App() {
+  const items = ["item1", "item2", "item3"];
+
   return (
     <>
-      <UserList />
-      <WrongCounterEffect />
+      <FormFieldId label="Nombre" />
+      <FormFieldId label="Correo electronico" />
+
+      <WrongItemList items={items} />
     </>
   );
 }
