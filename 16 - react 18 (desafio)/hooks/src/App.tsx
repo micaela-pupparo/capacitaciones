@@ -52,14 +52,30 @@ import "./App.css";
 // export default App;
 
 // ---------------- useDebugValue -------------------
-import UserProfile from "./useDebugValue/buen uso/UserProfile";
-import WrongCounterDebugger from "./useDebugValue/mal uso/WrongCounterDebugger";
+// import UserProfile from "./useDebugValue/buen uso/UserProfile";
+// import WrongCounterDebugger from "./useDebugValue/mal uso/WrongCounterDebugger";
+
+// function App() {
+//   return (
+//     <>
+//       <UserProfile />
+//       <WrongCounterDebugger />
+//     </>
+//   );
+// }
+
+// export default App;
+
+// ----------------- useDeferredValue ----------------
+import FilteredLists from "./useDeferredValue/buen uso/FilteredListss";
+import WrongCounterDeferred from "./useDeferredValue/mal uso/WrongCounterDeferred";
 
 function App() {
+  const items = Array.from({ length: 1000 }, (_, i) => `Elemento ${i + 1}`);
   return (
     <>
-      <UserProfile />
-      <WrongCounterDebugger />
+      <FilteredLists items={items} />
+      <WrongCounterDeferred />
     </>
   );
 }

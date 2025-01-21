@@ -146,3 +146,30 @@ useDebugValue(date, (date) => date.toDateString());
 - Se esta dentro de un componente funcional
 - El valor del estado es facilmente visible sin ayuda
 - El hook es muy simple o no es compartido ampliamente
+
+## useDeferredValue
+
+Permite diferir la actualización de un valor hasta que el navegador esté en estado inactivo. Esto es útil para mantener la interfaz de usuario (UI) receptiva al priorizar actualizaciones urgentes, como la entrada del usuario, sobre otras menos críticas.
+
+### Sintaxis básica
+
+```js
+const deferredValue = useDeferredValue(value, initialValue?)
+```
+
+- value: el valor que queres diferir. Puede tener cualquier tipo.
+- initialValue: un valor para usar en el renderizado inicial de un componente.
+
+### Cuándo usarlo y cuándo no
+
+#### Usalo si...
+
+- Se maneja un valor que desencadena renders costosos
+- Se desea optimizar la experiencia del usuario en cambios rápidos
+- Hay operaciones de búsqueda, filtrado o cálculos pesados
+
+#### No lo uses si...
+
+- El valor es simple y no afecta el rendimiento
+- No hay tareas urgentes que compitan por recursos
+- Los cálculos o renders son triviales y rápidos
