@@ -103,3 +103,46 @@ const theme = useContext(ThemeContext);
 - Los datos solo son relevantes en pocos componentes
 - El estado es de naturaleza local y simple
 - El estado cambia constantemente y causa renders
+
+## useDebugValue
+
+Es una herramienta de depuración que permite proporcionar etiquetas descriptivas a valores dentro de hooks personalizados. Estas etiquetas se muestran en las herramientas de desarrollo de React (React DevTools), facilitando la inspección del estado interno de los hooks.
+
+### Sintaxis básica
+
+```js
+function useCustomHook(value) {
+  useDebugValue(value ? "Activo" : "Inactivo");
+  return value;
+}
+
+function App() {
+  const isActive = useCustomHook(true);
+}
+```
+
+Puede tener un segundo parámetro:
+
+```js
+useDebugValue(value, format?)
+```
+
+Es una función formateadora. Cuando un componente es inspeccionado, React DevTools llamará a esta función con el value como parámetro, y luego mostrará el valor formateado retornado. Si no se especifica, el value original será mostrado.
+
+```js
+useDebugValue(date, (date) => date.toDateString());
+```
+
+### Cuándo usarlo y cuándo no
+
+#### Usalo si...
+
+- Se crea un hook personalizado para encapsular logica
+- Se requiere mejorar la depuración en herramientas de React
+- Se manejan valores complejos dentro del hook
+
+#### No lo uses si...
+
+- Se esta dentro de un componente funcional
+- El valor del estado es facilmente visible sin ayuda
+- El hook es muy simple o no es compartido ampliamente

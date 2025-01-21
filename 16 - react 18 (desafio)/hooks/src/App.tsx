@@ -30,21 +30,36 @@ import "./App.css";
 // export default App;
 
 // ---------------- useContext ----------------------
-import ThemedButton from "./useContext/buen uso/ThemedButton";
-import ThemeProvider from "./useContext/buen uso/ThemeProvider";
-import CounterProvider from "./useContext/mal uso/CounterProvider";
-import WrongCounterConsumer from "./useContext/mal uso/WrongCounterConsumer";
+// import ThemedButton from "./useContext/buen uso/ThemedButton";
+// import ThemeProvider from "./useContext/buen uso/ThemeProvider";
+// import CounterProvider from "./useContext/mal uso/CounterProvider";
+// import WrongCounterConsumer from "./useContext/mal uso/WrongCounterConsumer";
+
+// function App() {
+//   return (
+//     <>
+//       <ThemeProvider>
+//         <ThemedButton />
+//       </ThemeProvider>
+
+//       <CounterProvider>
+//         <WrongCounterConsumer />
+//       </CounterProvider>
+//     </>
+//   );
+// }
+
+// export default App;
+
+// ---------------- useDebugValue -------------------
+import UserProfile from "./useDebugValue/buen uso/UserProfile";
+import WrongCounterDebugger from "./useDebugValue/mal uso/WrongCounterDebugger";
 
 function App() {
   return (
     <>
-      <ThemeProvider>
-        <ThemedButton />
-      </ThemeProvider>
-
-      <CounterProvider>
-        <WrongCounterConsumer />
-      </CounterProvider>
+      <UserProfile />
+      <WrongCounterDebugger />
     </>
   );
 }
