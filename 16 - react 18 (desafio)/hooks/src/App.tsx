@@ -67,15 +67,30 @@ import "./App.css";
 // export default App;
 
 // ----------------- useDeferredValue ----------------
-import FilteredLists from "./useDeferredValue/buen uso/FilteredListss";
-import WrongCounterDeferred from "./useDeferredValue/mal uso/WrongCounterDeferred";
+// import FilteredLists from "./useDeferredValue/buen uso/FilteredListss";
+// import WrongCounterDeferred from "./useDeferredValue/mal uso/WrongCounterDeferred";
+
+// function App() {
+//   const items = Array.from({ length: 1000 }, (_, i) => `Elemento ${i + 1}`);
+//   return (
+//     <>
+//       <FilteredLists items={items} />
+//       <WrongCounterDeferred />
+//     </>
+//   );
+// }
+
+// export default App;
+
+// ------------------- useEffect ----------------------
+import UserList from "./useEffect/buen uso/UserList";
+import WrongCounterEffect from "./useEffect/mal uso/WrongCounterEffect";
 
 function App() {
-  const items = Array.from({ length: 1000 }, (_, i) => `Elemento ${i + 1}`);
   return (
     <>
-      <FilteredLists items={items} />
-      <WrongCounterDeferred />
+      <UserList />
+      <WrongCounterEffect />
     </>
   );
 }

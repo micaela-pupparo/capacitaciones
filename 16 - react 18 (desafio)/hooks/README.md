@@ -173,3 +173,36 @@ const deferredValue = useDeferredValue(value, initialValue?)
 - El valor es simple y no afecta el rendimiento
 - No hay tareas urgentes que compitan por recursos
 - Los cálculos o renders son triviales y rápidos
+
+## useEffect
+
+Permite ejecutar efectos secundarios en componentes funcionales de React. Se ejecuta después del renderizado del componente y puede configurarse para ejecutarse en diferentes momentos según las dependencias definidas.
+
+Los efectos secundarios pueden incluir:
+
+- Llamadas a APIs (fetching de datos)
+- Manipulación del DOM (event listeners, timers)
+- Subscripciones a servicios (WebSockets, Firebase)
+- Sincronización con sistemas externos
+
+### Sintaxis básica
+
+```js
+useEffect(setup, dependecies?)
+```
+
+Si no hay dependencias especificadas, se volverá a ejecutar la función luego de cada renderizado.
+
+### Cuándo usarlo y cuándo no
+
+#### Usalo si...
+
+- Se necesita ejecutar código en montaje o desmontaje
+- Se deben realizar peticiones a APIs o subscripciones
+- Se necesitan actualizaciones sincronizadas con efectos
+
+#### No lo uses si...
+
+- Se pueden manejar cambios directamente en eventos
+- Se trata de calcular valores derivados del estado
+- La lógica puede ejecutarse directamente en el render
