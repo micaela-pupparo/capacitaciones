@@ -253,3 +253,39 @@ useImperativeHandle(ref, createHandle, dependencies?)
 - ref: la referencia que se recibe como prop.
 - createHandle: una funcion sin argumentos que retorna el ref handle que queremos exponer. Usualmente se retorna un objeto con los metodos que queremos exponer
 - dependencies: listado de todos los valores reactivos referenciados dentro de createHandle. Estos incluyen props, state y todas las variables o funciones declaradas directamente dentro del body del componente
+
+### Cuándo usarlo y cuándo no
+
+#### Usalo si...
+
+- Necesitas exponer funcionalidades específicas de un componente hijo al padre. Por ejemplo:
+  - Métodos como focus, scrollTo o clear.
+  - Acceso controlado a propiedades o métodos del componente.
+
+#### No lo uses si...
+
+- No necesitas que el componente padre interactúe directamente con métodos o propiedades del componente hijo.
+- Podes lograr la misma funcionalidad pasando callbacks o manejadores de eventos a través de props.
+
+## useInsertionEffect
+
+Es un hook especializado que se ejecuta sincronizadamente antes de que las mutaciones del DOM sean realizadas. Se utiliza principalmente para insertar estilos, elementos o realizar tareas que requieren ser completadas antes de que el navegador dibuje la UI. Este hook es para los autores de la librería CSS-in-JS. Si no lo estás utilizando, es mejor usar useEffect o useLayoutEffect.
+
+### Sintaxis básica
+
+```js
+useInsertionEffect(setup, dependencies?)
+```
+
+- setup: funcion con la logica de Effect. Puede retornar una funcion limpiadora. Cuando el componente sea agregado al DOM, pero antes de que los layout Effect se ejecuten, React ejecutara la funcion setup. Luego de cada re-renderizado con las dependencias cambiadas (si las pusiste), React primero ejecutara la funcion limpiadora con los valores antiguos, y luego ejecutara la funcion setup con los nuevos valores. Cuando el componente es removido del DOM, React ejecutara la funcion limpiadora.
+- dependencias: listado de valores reactivos referenciados dentro del codigo de setup.
+
+### Cuándo usarlo y cuándo no
+
+#### Usalo si...
+
+- Estás utilizando CSS-in-JS y necesitas insertar estilos dinámicos antes de que el navegador renderice el contenido o cuando necesitas realizar modificaciones que afectan directamente el layout y requieren completarse antes del render.
+
+#### No lo uses si...
+
+- No estás usando CSS-in-JS

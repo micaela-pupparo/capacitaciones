@@ -117,19 +117,32 @@ import "./App.css";
 // export default App;
 
 // -------------------- useImperativeHandle --------------
-import { useRef } from "react";
-import CustomInput, {
-  CustomInputHandles,
-} from "./useImperativeHandle/buen uso/CustomInput";
+// import { useRef } from "react";
+// import CustomInput, {
+//   CustomInputHandles,
+// } from "./useImperativeHandle/buen uso/CustomInput";
+
+// function App() {
+//   const inputRef = useRef<CustomInputHandles>(null);
+
+//   return (
+//     <>
+//       <CustomInput ref={inputRef} />
+//       <button onClick={() => inputRef.current?.focus()}>Focus</button>
+//       <button onClick={() => inputRef.current?.clear()}>Clear</button>
+//     </>
+//   );
+// }
+
+// export default App;
+
+// -------------------- useInsertionEffect ---------------------
+import DynamicStyleComponent from "./useInsertionEffect/buen uso/DynamicStyleComponent";
 
 function App() {
-  const inputRef = useRef<CustomInputHandles>(null);
-
   return (
     <>
-      <CustomInput ref={inputRef} />
-      <button onClick={() => inputRef.current?.focus()}>Focus</button>
-      <button onClick={() => inputRef.current?.clear()}>Clear</button>
+      <DynamicStyleComponent />
     </>
   );
 }
