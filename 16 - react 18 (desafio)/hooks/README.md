@@ -289,3 +289,31 @@ useInsertionEffect(setup, dependencies?)
 #### No lo uses si...
 
 - No estás usando CSS-in-JS
+
+## useLayoutEffect
+
+Se ejecuta sincronizadamente después de que React haya realizado las mutaciones del DOM, pero antes de que el navegador pinte la pantalla. Esto permite realizar ajustes inmediatos en el DOM o medirlo antes de que sea visible para el usuario.
+
+Es ideal para tareas que requieren realizar cálculos basados en el layout actual o para evitar parpadeos visuales.
+
+**Nota:** useLayoutEffect puede dañar la performance. Se prefiere el uso de useEffect.
+
+### Sintaxis básica
+
+```js
+useLayoutEffect(setup, dependencies?)
+```
+
+### Cuándo usarlo y cuándo no
+
+#### Usalo si...
+
+- Necesitas medir tu layout/pantalla antes de que el navegador pinte la pantalla. Por ejemplo: tenemos un tooltip que aparece al lado de un elemento cuando se hace hover. Si hay suficiente espacio, el tooltip deberia aparecer arriba del elemento, pero si no entra, deberia aparecer debajo. Para lograr esto, necesitamos saber su altura. O sea, primero se renderiza el tooltip en cualquier lado, luego se mide su altura y decidimos en dónde colocarlo y, por último, renderizamos de nuevo el tooltip pero en la posición correcta. Todo esto debe pasar antes de que la pantalla se pinte.
+- Necesitas realizar cambios inmediatos en el DOM después de que React lo haya actualizado. Ejemplo: Cambiar estilos, desplazamiento, o posiciones que dependen del tamaño del elemento.
+- Cuando debes evitar parpadeos visuales. Ejemplo: Ajustar dinámicamente el tamaño o la posición de un elemento.
+
+#### No lo uses si...
+
+- Tenes que realizar tareas que no afectan directamente el layout del DOM. Para eso está useEffect.
+- Tenes que hacer operaciones pesadas. El uso de useLayoutEffect bloquea el render hasta que se complete, lo que puede afectar el rendimiento si haces cálculos costosos.
+- La lógica puede manejarse de manera asíncrona. Por ejemplo, actualizar estados o manejar eventos.

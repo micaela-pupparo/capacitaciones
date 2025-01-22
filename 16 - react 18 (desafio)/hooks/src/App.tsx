@@ -137,12 +137,46 @@ import "./App.css";
 // export default App;
 
 // -------------------- useInsertionEffect ---------------------
-import DynamicStyleComponent from "./useInsertionEffect/buen uso/DynamicStyleComponent";
+// import DynamicStyleComponent from "./useInsertionEffect/buen uso/DynamicStyleComponent";
 
+// function App() {
+//   return (
+//     <>
+//       <DynamicStyleComponent />
+//     </>
+//   );
+// }
+
+// export default App;
+
+// ------------------ useLayoutEffect --------------------------
+import ButtonWithTooltip from "./useLayoutEffect/buen uso/ButtonWithTooltip";
+import WrongLayoutEffect from "./useLayoutEffect/mal uso/WrongLayoutEffect";
+
+// comentar en index.css el body
 function App() {
   return (
     <>
-      <DynamicStyleComponent />
+      <div>
+        <ButtonWithTooltip
+          tooltipContent={
+            <div>
+              Este tooltip no entra arriba
+              <br />
+              Por eso va abajo
+            </div>
+          }
+        >
+          Pasa por arriba mio!
+        </ButtonWithTooltip>
+        <div style={{ height: 50 }} />
+        <ButtonWithTooltip
+          tooltipContent={<div>This tooltip fits above the button</div>}
+        >
+          Hover over me (tooltip below)
+        </ButtonWithTooltip>
+      </div>
+      <WrongLayoutEffect />
     </>
   );
 }
