@@ -317,3 +317,53 @@ useLayoutEffect(setup, dependencies?)
 - Tenes que realizar tareas que no afectan directamente el layout del DOM. Para eso está useEffect.
 - Tenes que hacer operaciones pesadas. El uso de useLayoutEffect bloquea el render hasta que se complete, lo que puede afectar el rendimiento si haces cálculos costosos.
 - La lógica puede manejarse de manera asíncrona. Por ejemplo, actualizar estados o manejar eventos.
+
+### Conceptos utilizados en los ejemplos
+
+#### createPortal
+
+Permite renderizar elementos o hijos en una parte diferente del DOM. El portal permite que algunos de los hijos de un componente, por ejemplo, sean renderizados en un lugar diferente del DOM. Esto permite que algunos elementos "escapen" del contenedor en el que estan.
+
+```js
+<div>
+  <SomeComponent />
+  {createPortal(children, domNode, key?)}
+</div>
+```
+
+- children: lo que sea que pueda ser renderizado con React, como JSX, un Fragment, un string, un numero, un array de estos.
+- domNode: cualquier nodo del DOM, como los retornados por document.getElementById(). El nodo debe de existir previamente. Si le pasas un nodo del DOM distinto durante una actualizacion causara que el contenido del portar sea creado de nuevo.
+- key: un string o numero unico para ser usado como la key del portal.
+
+## useMemo
+
+Permite memorizar valores calculados para evitar realizar cálculos costosos en cada render. Solo vuelve a calcular el valor cuando cambian las dependencias especificadas.
+
+Es útil para optimizar el rendimiento de componentes, especialmente cuando:
+
+1. Realizas cálculos intensivos.
+2. Trabajas con listas filtradas o transformadas que no necesitan actualizarse constantemente.
+
+### Sintaxis básica
+
+```js
+const cachedValue = useMemo(calculateValue, dependencies);
+```
+
+- calculateValue: funcion que calcula el valor que queres cachear. Deberia ser pura, no tomar argumento y retornar un valor de cualquier tipo. React llamara a la funcion durante el renderizado inicial. En los otros renderizados, retornara el mismo valor si las dependencias no cambian.
+- dependencies: listado de todos los valores reactivos referenciados dentro de calculateValue.
+
+### Cuándo usarlo y cuándo no
+
+#### Usalo si...
+
+- Querés optimizar cálculos intensivos que no necesitan ejecutarse en cada render.
+- Trabajas con listas filtradas o transformadas que dependen de datos específicos.
+- El rendimiento es crítico, especialmente en componentes que se renderizan con frecuencia.
+
+#### No lo uses si...
+
+- Los cálculos son triviales y no afectan significativamente el rendimiento.
+- El cálculo no depende de datos dinámicos.
+- Querés evitar re-renders.
+  - Usa React.memo en su lugar si necesitas evitar renders innecesarios de componentes.

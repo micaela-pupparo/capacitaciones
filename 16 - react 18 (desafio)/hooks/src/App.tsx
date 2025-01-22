@@ -150,33 +150,48 @@ import "./App.css";
 // export default App;
 
 // ------------------ useLayoutEffect --------------------------
-import ButtonWithTooltip from "./useLayoutEffect/buen uso/ButtonWithTooltip";
-import WrongLayoutEffect from "./useLayoutEffect/mal uso/WrongLayoutEffect";
+// import ButtonWithTooltip from "./useLayoutEffect/buen uso/ButtonWithTooltip";
+// import WrongLayoutEffect from "./useLayoutEffect/mal uso/WrongLayoutEffect";
 
 // comentar en index.css el body
+// function App() {
+//   return (
+//     <>
+//       <div>
+//         <ButtonWithTooltip
+//           tooltipContent={
+//             <div>
+//               Este tooltip no entra arriba
+//               <br />
+//               Por eso va abajo
+//             </div>
+//           }
+//         >
+//           Pasa por arriba mio!
+//         </ButtonWithTooltip>
+//         <div style={{ height: 50 }} />
+//         <ButtonWithTooltip
+//           tooltipContent={<div>This tooltip fits above the button</div>}
+//         >
+//           Hover over me (tooltip below)
+//         </ButtonWithTooltip>
+//       </div>
+//       <WrongLayoutEffect />
+//     </>
+//   );
+// }
+
+// export default App;
+
+// ----------------------- useMemo ------------------------------
+import UserListMemo from "./useMemo/buen uso/UserListMemo";
+import WrongMemo from "./useMemo/mal uso/WrongMemo";
+
 function App() {
   return (
     <>
-      <div>
-        <ButtonWithTooltip
-          tooltipContent={
-            <div>
-              Este tooltip no entra arriba
-              <br />
-              Por eso va abajo
-            </div>
-          }
-        >
-          Pasa por arriba mio!
-        </ButtonWithTooltip>
-        <div style={{ height: 50 }} />
-        <ButtonWithTooltip
-          tooltipContent={<div>This tooltip fits above the button</div>}
-        >
-          Hover over me (tooltip below)
-        </ButtonWithTooltip>
-      </div>
-      <WrongLayoutEffect />
+      <UserListMemo />
+      <WrongMemo />
     </>
   );
 }
