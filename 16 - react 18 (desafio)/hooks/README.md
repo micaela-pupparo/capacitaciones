@@ -231,3 +231,25 @@ Retorna un ID unico en string.
 - Se quiere usar como clave de lista en .map()
 - Los identificadores están disponibles en los datos
 - Los elementos son estáticos y no requieren IDs únicos
+
+## useImperativeHandle
+
+Permite personalizar la instancia de un componente hijo cuando es accedido desde un componente padre mediante una referencia (ref). Se utiliza principalmente para exponer métodos o propiedades específicas del componente hijo al componente padre, sin revelar toda su implementación interna.
+
+Este hook es útil en escenarios donde:
+
+- Se necesita un control más explícito del comportamiento de un componente desde el padre.
+- Se requieren funciones o propiedades específicas para interactuar con el componente hijo.
+- Se integra con bibliotecas de terceros que dependen de referencias de React.
+
+Con React 19, ref está disponible como prop. Antes para acceder a ref era necesario el uso de forwardRef
+
+### Sintaxis básica
+
+```js
+useImperativeHandle(ref, createHandle, dependencies?)
+```
+
+- ref: la referencia que se recibe como prop.
+- createHandle: una funcion sin argumentos que retorna el ref handle que queremos exponer. Usualmente se retorna un objeto con los metodos que queremos exponer
+- dependencies: listado de todos los valores reactivos referenciados dentro de createHandle. Estos incluyen props, state y todas las variables o funciones declaradas directamente dentro del body del componente

@@ -98,18 +98,38 @@ import "./App.css";
 // export default App;
 
 // ------------------ useId -----------------------------
-import FormFieldId from "./useId/buen uso/FormFieldId";
-import WrongItemList from "./useId/mal uso/WrongItemList";
+// import FormFieldId from "./useId/buen uso/FormFieldId";
+// import WrongItemList from "./useId/mal uso/WrongItemList";
+
+// function App() {
+//   const items = ["item1", "item2", "item3"];
+
+//   return (
+//     <>
+//       <FormFieldId label="Nombre" />
+//       <FormFieldId label="Correo electronico" />
+
+//       <WrongItemList items={items} />
+//     </>
+//   );
+// }
+
+// export default App;
+
+// -------------------- useImperativeHandle --------------
+import { useRef } from "react";
+import CustomInput, {
+  CustomInputHandles,
+} from "./useImperativeHandle/buen uso/CustomInput";
 
 function App() {
-  const items = ["item1", "item2", "item3"];
+  const inputRef = useRef<CustomInputHandles>(null);
 
   return (
     <>
-      <FormFieldId label="Nombre" />
-      <FormFieldId label="Correo electronico" />
-
-      <WrongItemList items={items} />
+      <CustomInput ref={inputRef} />
+      <button onClick={() => inputRef.current?.focus()}>Focus</button>
+      <button onClick={() => inputRef.current?.clear()}>Clear</button>
     </>
   );
 }
