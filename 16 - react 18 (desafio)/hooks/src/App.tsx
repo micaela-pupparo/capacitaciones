@@ -199,32 +199,47 @@ import "./App.css";
 // export default App;
 
 // ------------------------ useOptimistic -----------------------
-import { useState } from "react";
-import Thread from "./useOptimistic/buen uso/Thread";
-import { deliverMessage } from "./useOptimistic/buen uso/action";
-import { Message } from "./useOptimistic/buen uso/Thread";
+// import { useState } from "react";
+// import Thread from "./useOptimistic/buen uso/Thread";
+// import { deliverMessage } from "./useOptimistic/buen uso/action";
+// import { Message } from "./useOptimistic/buen uso/Thread";
+
+// function App() {
+//   const [messages, setMessages] = useState<Message[]>([
+//     { text: "Hello there!", sending: false, key: 1 },
+//   ]);
+
+//   async function sendMessage(formData: FormData) {
+//     const messageText = formData.get("message")?.toString();
+//     if (!messageText) return;
+
+//     const sentMessage = await deliverMessage(messageText);
+//     setMessages((messages) => [
+//       ...messages,
+//       {
+//         text: sentMessage || messageText,
+//         sending: false,
+//         key: Date.now(),
+//       },
+//     ]);
+//   }
+
+//   return <Thread messages={messages} sendMessage={sendMessage} />;
+// }
+
+// export default App;
+
+// ---------------------- useReducer --------------------------
+import CounterReducer from "./useReducer/buen uso/CounterReducer";
+import WrongToggleComponent from "./useReducer/mal uso/WrongToggleComponent";
 
 function App() {
-  const [messages, setMessages] = useState<Message[]>([
-    { text: "Hello there!", sending: false, key: 1 },
-  ]);
-
-  async function sendMessage(formData: FormData) {
-    const messageText = formData.get("message")?.toString();
-    if (!messageText) return;
-
-    const sentMessage = await deliverMessage(messageText);
-    setMessages((messages) => [
-      ...messages,
-      {
-        text: sentMessage || messageText,
-        sending: false,
-        key: Date.now(),
-      },
-    ]);
-  }
-
-  return <Thread messages={messages} sendMessage={sendMessage} />;
+  return (
+    <>
+      <CounterReducer />
+      <WrongToggleComponent />
+    </>
+  );
 }
 
 export default App;

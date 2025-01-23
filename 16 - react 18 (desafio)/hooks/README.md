@@ -415,3 +415,63 @@ const [optimisticState, addOptimistic] = useOptimistic(state, updateFn);
 
 - No podes revertir el cambio fácilmente. Ejemplo: Borrar un elemento sin confirmación puede ser problemático si falla la operación.
 - Los datos de la operación dependen del servidor. Si necesitas una respuesta específica del servidor para calcular el estado final, useOptimistic no es ideal.
+
+## useReducer
+
+Es una alternativa a useState que se utiliza cuando el estado de un componente tiene lógica compleja o múltiples subvalores que dependen entre sí. Este hook implementa un patrón similar al de un reducer en Redux, donde un estado inicial es modificado por acciones para producir un nuevo estado.
+
+### Sintaxis básica
+
+```js
+const reducer = (state: StateType, action: ActionType): StateType => {
+  switch (action.type) {
+    case "ACTION_TYPE":
+      return { ...state, value: action.payload };
+    default:
+      return state;
+  }
+};
+
+const Component: React.FC = () => {
+  const [state, dispatch] = useReducer(reducer, initialArg);
+
+  return <div>{state.value}</div>;
+};
+```
+
+- reducer: especifica cómo el estado es actualizado. Debe ser puro, tomar el estado y la acción como parámetros y debería retornar el siguiente estado.
+- initialArg: valor con el cual el estado inicial es calculado.
+- init?: la función inicializadora debe retornar el estado inicial. Si no se especifica, el estado inicial es seteado en initialArg. Caso contrario, el estado inicial es seteado al resultado del llamado de init(initialArg)
+
+### Cuándo usarlo y cuándo no
+
+#### Usalo si...
+
+- El estado tiene múltiples campos o es complejo. Ejemplo: Formularios con varios inputs relacionados.
+- Hay lógica de actualización compleja. Ejemplo: Estados que dependen de múltiples condiciones o acciones.
+- Queres organizar y centralizar la lógica del estado.
+
+#### No lo uses si...
+
+- El estado es simple.
+
+### Comparación con useState
+
+Nota: se puede utilizar ambos en un mismo componente.
+
+#### useState
+
+- Ideal para estados simples.
+- Menos escalable con múltiples valores.
+- Fácil de usar para casos simples.
+- Menos código a escribir.
+- Más fácil de leer cuando los estados son simples.
+- Ejemplo típico: contador o toggle.
+
+#### useReducer
+
+- Mejor para estados complejos o relacionados.
+- Escalable gracias a acciones centralizadas.
+- Requiere configurar reducer y acciones.
+- Más fácl de debuggear (tenés que hacer console.log solo en el reducer para chequear que cada acción esté bien).
+- Ejemplo típico: formularios o lógica con múltiples pasos.
