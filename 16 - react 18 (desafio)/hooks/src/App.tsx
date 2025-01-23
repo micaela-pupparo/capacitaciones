@@ -230,14 +230,29 @@ import "./App.css";
 // export default App;
 
 // ---------------------- useReducer --------------------------
-import CounterReducer from "./useReducer/buen uso/CounterReducer";
-import WrongToggleComponent from "./useReducer/mal uso/WrongToggleComponent";
+// import CounterReducer from "./useReducer/buen uso/CounterReducer";
+// import WrongToggleComponent from "./useReducer/mal uso/WrongToggleComponent";
+
+// function App() {
+//   return (
+//     <>
+//       <CounterReducer />
+//       <WrongToggleComponent />
+//     </>
+//   );
+// }
+
+// export default App;
+
+// --------------------- useRef -------------------------------------
+import Stopwatch from "./useRef/buen uso/Stopwatch";
+import CounterRef from "./useRef/mal uso/CounterRef";
 
 function App() {
   return (
     <>
-      <CounterReducer />
-      <WrongToggleComponent />
+      <Stopwatch />
+      <CounterRef />
     </>
   );
 }

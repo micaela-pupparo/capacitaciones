@@ -475,3 +475,46 @@ Nota: se puede utilizar ambos en un mismo componente.
 - Requiere configurar reducer y acciones.
 - Más fácl de debuggear (tenés que hacer console.log solo en el reducer para chequear que cada acción esté bien).
 - Ejemplo típico: formularios o lógica con múltiples pasos.
+
+## useRef
+
+Se utiliza para:
+
+- Acceder a elementos DOM directamente. Te permite interactuar con elementos HTML sin usar document.querySelector.
+- Guardar valores persistentes entre renders. Se puede usar como una variable mutable que no provoca renderizados adicionales.
+
+useRef devuelve un objeto con una propiedad .current, que puede almacenar cualquier valor y no se reinicia en cada render.
+
+### Sintaxis básica
+
+```js
+const ref = useRef(initialValue);
+```
+
+- initialValue: el valor que queremos que la propiedad current del objeto retornado tenga al principio. Este argumento es ignorado luego del renderizado inicial.
+
+### Cuándo usarlo y cuándo no
+
+#### Usalo si...
+
+- Querés manipular elementos DOM directamente. Ejemplo: Enfocar un input, desplazar un scroll o reproducir un video.
+- Querés almacenar valores mutables entre renders. Ejemplo: Almacenar un temporizador o el valor anterior de una variable.
+- Querés evitar renderizados innecesarios. Ejemplo: Referencias que cambian pero no afectan la UI.
+
+#### No lo uses si...
+
+- Necesitas provocar un re-render. En ese caso, usa useState.
+- Tenés que almacenar datos reactivos. useRef no detecta cambios, por lo que no es adecuado para actualizar la UI.
+- Tenés lógica compleja de estado. Usa useReducer o useState en lugar de useRef.
+
+### Conceptos utilizados en los ejemplos
+
+#### setInterval
+
+Metodo que llama a una función o ejecuta un fragmento de código de forma reiterada, con un retardo de tiempo fijo entre cada llamada.
+
+Este método devuelve un ID de intervalo que lo identifica de forma única, de ese modo, el intervalo puede ser eliminado más tarde llamando a clearInterval() .
+
+### A tener en cuenta
+
+- No escribir o leer ref.current durante el renderizado. Hacerlo desde los event handlers o los effect.
