@@ -518,3 +518,27 @@ Este método devuelve un ID de intervalo que lo identifica de forma única, de e
 ### A tener en cuenta
 
 - No escribir o leer ref.current durante el renderizado. Hacerlo desde los event handlers o los effect.
+
+## useState
+
+Se utiliza para declarar estados reactivos en componentes funcionales. Devuelve un par: el estado actual y una función para actualizarlo.
+
+Es ideal para manejar estados simples o independientes dentro de un componente.
+
+### Sintaxis básica
+
+```js
+const [state, setState] = useState(initialState);
+```
+
+### Cuándo usarlo y cuándo no
+
+#### Usalo si...
+
+- Necesitas un estado simple. Ejemplo: Contadores, toggles, formularios pequeños.
+- El estado es independiente. Ejemplo: Cada instancia del componente tiene su propio estado.
+
+#### No lo uses si...
+
+- El estado tiene lógica compleja. Usa useReducer si hay varias acciones que afectan el estado o una lógica más estructurada.
+- No necesitas re-renderizar. Si el valor no afecta la UI, considera usar useRef.
