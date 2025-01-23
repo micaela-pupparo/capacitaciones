@@ -367,3 +367,51 @@ const cachedValue = useMemo(calculateValue, dependencies);
 - El cálculo no depende de datos dinámicos.
 - Querés evitar re-renders.
   - Usa React.memo en su lugar si necesitas evitar renders innecesarios de componentes.
+
+### Diferencia React.memo y useMemo
+
+#### React.memo
+
+Es una función de orden superior que se usa para memorizar un componente completo. Sirve para evitar que un componente funcional se vuelva a renderizar si sus props no cambian.
+
+Se utiliza cuando:
+
+- Queres evitar renders innecesarios de un componente funcional si sus props no cambian.
+- Ideal para componentes que reciben props puras, ya que compara automáticamente las props usando una comparación superficial (===).
+
+#### useMemo
+
+Es un hook que se utiliza para memorizar valores calculados, como resultados de funciones costosas o transformaciones de datos. Esto evita que esos cálculos se ejecuten en cada render si las dependencias no han cambiado.
+
+Se utiliza cuando:
+
+- Tenes cálculos intensivos (procesamiento de datos grandes -filtrar, mapear o reducir una lista-, calculos matematicos complejos, renderizado de grafico o visualizaciones, operaciones de transformacion o normalizacion de datos, operaciones con fechas o tiempos) que afectan el rendimiento.
+- Necesitas transformar listas o realizar operaciones complejas dentro del render.
+
+## useOptimistic
+
+Se utiliza para gestionar actualizaciones optimistas en el estado de tu aplicación. Permite que el usuario vea inmediatamente un cambio en la UI antes de que una operación asíncrona (como una solicitud HTTP) se complete.
+
+### Sintaxis básica
+
+```js
+const [optimisticState, addOptimistic] = useOptimistic(state, updateFn);
+```
+
+- state: valor a retornar inicialmente meintras ninguna accion este pendiente.
+- updateFn(currentState, optimisticValue): funcion que toma el estado inicial y el valor optimista pasado en addOptimistic y retorna el resultado del estado optimista.
+
+### Cuándo usarlo y cuándo no
+
+#### Usalo si...
+
+- Necesitas actualizaciones rápidas en la UI para mejorar la experiencia del usuario, como:
+  - Listas de tareas (marcar como completado).
+  - Actualizaciones en tiempo real (likes, votos, comentarios).
+  - Formularios (mostrar cambios inmediatamente mientras se guardan).
+- En operaciones de red: Donde la latencia puede ser perceptible.
+
+#### No lo uses si...
+
+- No podes revertir el cambio fácilmente. Ejemplo: Borrar un elemento sin confirmación puede ser problemático si falla la operación.
+- Los datos de la operación dependen del servidor. Si necesitas una respuesta específica del servidor para calcular el estado final, useOptimistic no es ideal.

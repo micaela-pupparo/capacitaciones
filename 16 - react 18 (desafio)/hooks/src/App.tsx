@@ -184,16 +184,47 @@ import "./App.css";
 // export default App;
 
 // ----------------------- useMemo ------------------------------
-import UserListMemo from "./useMemo/buen uso/UserListMemo";
-import WrongMemo from "./useMemo/mal uso/WrongMemo";
+// import UserListMemo from "./useMemo/buen uso/UserListMemo";
+// import WrongMemo from "./useMemo/mal uso/WrongMemo";
+
+// function App() {
+//   return (
+//     <>
+//       <UserListMemo />
+//       <WrongMemo />
+//     </>
+//   );
+// }
+
+// export default App;
+
+// ------------------------ useOptimistic -----------------------
+import { useState } from "react";
+import Thread from "./useOptimistic/buen uso/Thread";
+import { deliverMessage } from "./useOptimistic/buen uso/action";
+import { Message } from "./useOptimistic/buen uso/Thread";
 
 function App() {
-  return (
-    <>
-      <UserListMemo />
-      <WrongMemo />
-    </>
-  );
+  const [messages, setMessages] = useState<Message[]>([
+    { text: "Hello there!", sending: false, key: 1 },
+  ]);
+
+  async function sendMessage(formData: FormData) {
+    const messageText = formData.get("message")?.toString();
+    if (!messageText) return;
+
+    const sentMessage = await deliverMessage(messageText);
+    setMessages((messages) => [
+      ...messages,
+      {
+        text: sentMessage || messageText,
+        sending: false,
+        key: Date.now(),
+      },
+    ]);
+  }
+
+  return <Thread messages={messages} sendMessage={sendMessage} />;
 }
 
 export default App;
