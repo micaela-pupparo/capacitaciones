@@ -1,6 +1,9 @@
 import { useActionState } from "react";
 
-async function genericAction(previousState: object, formData: FormData) {
+async function genericAction(
+  previousState: object | undefined,
+  formData: FormData
+) {
   // solo actualiza una cosa por mas de que en el form 2 tenga name y username
   if (formData.has("username")) {
     const newUsername = formData.get("username");
@@ -15,8 +18,7 @@ async function genericAction(previousState: object, formData: FormData) {
     );
 
     if (!response.ok) {
-      const { message } = await response.json();
-      return { message, previousState };
+      return { username: previousState };
     }
 
     return { username: newUsername };
@@ -35,8 +37,7 @@ async function genericAction(previousState: object, formData: FormData) {
     );
 
     if (!response.ok) {
-      const { message } = await response.json();
-      return { message, previousState };
+      return { name: previousState };
     }
 
     return { name: newName };
@@ -44,9 +45,11 @@ async function genericAction(previousState: object, formData: FormData) {
 }
 
 const WrongForm = () => {
-  const [state, submitAction, isPending] = useActionState(genericAction, "");
-  const name = state.name ? state.name : "";
-  const username = state.username ? state.username : "";
+  const [state, submitAction, isPending] = useActionState(genericAction, {
+    username: "",
+  });
+  const name = state?.name ? state.name : "";
+  const username = state?.username ? state.username : "";
 
   console.log(state);
 
@@ -71,12 +74,12 @@ const WrongForm = () => {
               id="name"
               name="name"
               placeholder="Nombre..."
-              defaultValue={name}
+              defaultValue={String(name)}
               style={{ padding: 6, marginTop: 6 }}
             />
             {name && !isPending && (
               <p style={{ fontSize: 8, textAlign: "left", margin: 0 }}>
-                Nombre del comentario actualizado a: {name}
+                Nombre del comentario actualizado a: {String(name)}
               </p>
             )}
           </div>
@@ -104,12 +107,12 @@ const WrongForm = () => {
               id="name"
               name="name"
               placeholder="Nombre..."
-              defaultValue={name}
+              defaultValue={String(name)}
               style={{ padding: 6, marginTop: 6 }}
             />
             {name && !isPending && (
               <p style={{ fontSize: 8, textAlign: "left", margin: 0 }}>
-                Nombre del usuario actualizado a: {name}
+                Nombre del usuario actualizado a: {String(name)}
               </p>
             )}
           </div>
@@ -129,12 +132,12 @@ const WrongForm = () => {
               id="username"
               name="username"
               placeholder="Usuario..."
-              defaultValue={username}
+              defaultValue={String(username)}
               style={{ padding: 6, marginTop: 6 }}
             />
             {username && !isPending && (
               <p style={{ fontSize: 8, textAlign: "left", margin: 0 }}>
-                Usuario actualizado a: {username}
+                Usuario actualizado a: {String(username)}
               </p>
             )}
           </div>

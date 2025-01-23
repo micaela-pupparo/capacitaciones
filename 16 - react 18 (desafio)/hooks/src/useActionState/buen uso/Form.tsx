@@ -1,7 +1,12 @@
 import { useActionState } from "react";
 
-async function updateName(previousName: string, formData: FormData) {
-  const newName = formData.get("name");
+type ActionState = string;
+
+async function updateName(
+  state: ActionState,
+  formData: FormData
+): Promise<ActionState> {
+  const newName = formData.get("name") as string;
 
   const response = await fetch("https://jsonplaceholder.typicode.com/users/1", {
     method: "PATCH",
@@ -10,8 +15,7 @@ async function updateName(previousName: string, formData: FormData) {
   });
 
   if (!response.ok) {
-    const { message } = await response.json();
-    return { message, previousName };
+    return state;
   }
 
   return newName;

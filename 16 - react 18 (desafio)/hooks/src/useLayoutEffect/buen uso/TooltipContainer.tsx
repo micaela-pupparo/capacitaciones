@@ -4,7 +4,7 @@ interface Props {
   children: React.ReactNode;
   x: number;
   y: number;
-  contentRef: React.RefObject<HTMLDivElement>;
+  contentRef: React.RefObject<HTMLDivElement | null>;
 }
 
 const TooltipContainer = ({ children, x, y, contentRef }: Props) => {
