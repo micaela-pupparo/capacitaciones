@@ -260,14 +260,29 @@ import "./App.css";
 // export default App;
 
 // ---------------------------- useState -------------------------
-import Checkbox from "./useState/buen uso/Checkbox";
-import WrongFormState from "./useState/mal uso/WrongFormState";
+// import Checkbox from "./useState/buen uso/Checkbox";
+// import WrongFormState from "./useState/mal uso/WrongFormState";
+
+// function App() {
+//   return (
+//     <>
+//       <Checkbox />
+//       <WrongFormState />
+//     </>
+//   );
+// }
+
+// export default App;
+
+// -------------- useSyncExternalStore ------------------------
+import TodosApp from "./useSyncExternalStore/buen uso/TodosApp";
+import WrongItemsStore from "./useSyncExternalStore/mal uso/WrongItemsStore";
 
 function App() {
   return (
     <>
-      <Checkbox />
-      <WrongFormState />
+      <TodosApp />
+      <WrongItemsStore />
     </>
   );
 }

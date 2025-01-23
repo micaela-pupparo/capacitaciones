@@ -542,3 +542,31 @@ const [state, setState] = useState(initialState);
 
 - El estado tiene lógica compleja. Usa useReducer si hay varias acciones que afectan el estado o una lógica más estructurada.
 - No necesitas re-renderizar. Si el valor no afecta la UI, considera usar useRef.
+
+## useSyncExternalStore
+
+se utiliza para suscribirse a almacenes de estado externos (external stores) de forma sincronizada. Es una solución optimizada para integrarse con bibliotecas de gestión de estado externas (como Redux, Zustand, o stores personalizados).
+
+Este hook garantiza que la UI se sincronice correctamente incluso en situaciones con renderizado concurrente.
+
+### Sintaxis básica
+
+```js
+const snapshot = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot?);
+```
+
+- subscribe: funcion que toma solo una callback como parametro y se suscribe a la store. Cuando la store cambia, deberia invocar al callback, lo que causaria que react vuelva a llamar getSnapshot y, de ser necesario, re-renderizar al componente. La funcion subscribe deberia retornar una funcion que limpie la suscripcion.
+- getSnapshot: funcion que retorna un snapshot de los datos en la store que son necesitados por el componente. Mientras la store no haya cambiado, los llamados a getSnapshot deben retornar el mismo valor. Si la store cambia y el valor retornado es diferente, React re-renderiza al componente
+- getServerSnapshot?: funcion que retorna el snapshot inicial de los datos en la store. Si se omite este argumento, renderizar el componente en el servidor arrojara un error.
+
+### Cuándo usarlo y cuándo no
+
+#### Usalo si...
+
+- Necesitas conectar componentes a stores externos.
+- Necesitas sincronización precisa. Es especialmente útil en aplicaciones con renderizado concurrente.
+
+#### No lo uses si...
+
+- El estado no está en un store externo. Usa hooks como useState o useReducer para estados locales.
+- No necesitas sincronización precisa. Si los cambios en el store no afectan la UI en tiempo real, considera otras soluciones más simples.
