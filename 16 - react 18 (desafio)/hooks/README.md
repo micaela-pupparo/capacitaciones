@@ -570,3 +570,28 @@ const snapshot = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot?
 
 - El estado no está en un store externo. Usa hooks como useState o useReducer para estados locales.
 - No necesitas sincronización precisa. Si los cambios en el store no afectan la UI en tiempo real, considera otras soluciones más simples.
+
+## useTransition
+
+El hook useTransition es utilizado para manejar transiciones asincrónicas o diferir actualizaciones no urgentes en React. Es útil para proporcionar una mejor experiencia de usuario al evitar bloqueos en la interfaz durante actualizaciones que pueden tomar más tiempo.
+
+### Sintaxis básica
+
+```js
+const [isPending, startTransition] = useTransition();
+```
+
+- isPending indica si la transición está en progreso. Es true mientras se realiza la actualización.
+- startTransition(callback): Una función que permite envolver actualizaciones que se deben considerar "no urgentes".
+
+### Cuándo usarlo y cuándo no
+
+#### Usalo si...
+
+- Una operación de actualización puede tardar más tiempo (como el filtrado de una lista grande o la renderización de componentes costosos).
+- Necesitas priorizar actualizaciones urgentes (como la entrada del usuario) mientras se difieren las no urgentes.
+
+#### No lo uses si...
+
+- Son operaciones completamente sincrónicas o rápidas, donde no hay riesgo de bloquear la UI.
+- Son escenarios donde no se necesita diferenciar entre actualizaciones urgentes y no urgentes.

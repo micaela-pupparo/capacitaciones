@@ -275,14 +275,30 @@ import "./App.css";
 // export default App;
 
 // -------------- useSyncExternalStore ------------------------
-import TodosApp from "./useSyncExternalStore/buen uso/TodosApp";
-import WrongItemsStore from "./useSyncExternalStore/mal uso/WrongItemsStore";
+// import TodosApp from "./useSyncExternalStore/buen uso/TodosApp";
+// import WrongItemsStore from "./useSyncExternalStore/mal uso/WrongItemsStore";
+
+// function App() {
+//   return (
+//     <>
+//       <TodosApp />
+//       <WrongItemsStore />
+//     </>
+//   );
+// }
+
+// export default App;
+
+// -------------------- useTransition ---------------------
+import ComplexChart from "./useTransition/buen uso/ComplexChart";
+import WrongFormTransition from "./useTransition/mal uso/WrongFormTransition";
 
 function App() {
   return (
     <>
-      <TodosApp />
-      <WrongItemsStore />
+      <ComplexChart />
+      <br />
+      <WrongFormTransition />
     </>
   );
 }
