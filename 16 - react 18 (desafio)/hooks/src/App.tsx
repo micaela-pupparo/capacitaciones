@@ -153,7 +153,7 @@ import "./App.css";
 // import ButtonWithTooltip from "./useLayoutEffect/buen uso/ButtonWithTooltip";
 // import WrongLayoutEffect from "./useLayoutEffect/mal uso/WrongLayoutEffect";
 
-// comentar en index.css el body
+// // comentar en index.css el body
 // function App() {
 //   return (
 //     <>
