@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import ms from "ms";
-import { GameQuery } from "../App";
+import useGameQueryStore from "../store";
 import { FetchResponse } from "../services/api-client";
 import APIClient from "../services/api-client";
 import { Platform } from "./usePlatforms";
@@ -16,9 +16,11 @@ export interface Game {
   rating_top: number;
 }
 
-const useGames = (gameQuery: GameQuery) =>
+const useGames = () => {
+  const gameQuery = useGameQueryStore((s) => s.gameQuery);
+
   // siempre que los valores cambien en el objeto que le pasamos a useQuery, react query va a voler a fetchear los juegos del backend
-  useInfiniteQuery<FetchResponse<Game>, Error>({
+  return useInfiniteQuery<FetchResponse<Game>, Error>({
     queryKey: ["games", gameQuery],
     // el segundo parametro del get es un objeto de configuracion para pasar nuestro query string parameters al backend
     queryFn: ({ pageParam = 1 }) =>
@@ -36,5 +38,6 @@ const useGames = (gameQuery: GameQuery) =>
     },
     staleTime: ms("24h"), //24h
   });
+};
 
 export default useGames;
