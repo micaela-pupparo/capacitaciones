@@ -1,24 +1,24 @@
 import { Provider } from "react-redux";
-import { Routes, Route } from "react-router";
-import { ToastContainer } from "react-toastify";
-import configureStore from "./store/configureStore";
-import NavBar from "./components/navbar";
-import Home from "./components/home";
-import BoardList from "./components/boardlist";
-import RegisterForm from "./components/registerForm";
-import LoginForm from "./components/loginForm";
-import Lists from "./components/lists";
-import NotFound from "./components/notFound";
-import ProtectedRoute from "./components/common/protectedRoute";
+// import { Routes, Route } from "react-router";
+// import { ToastContainer } from "react-toastify";
+// import configureStore from "./store/configureStore";
+// import NavBar from "./components/navbar";
+// import Home from "./components/home";
+// import BoardList from "./components/boardlist";
+// import RegisterForm from "./components/registerForm";
+// import LoginForm from "./components/loginForm";
+// import Lists from "./components/lists";
+// import NotFound from "./components/notFound";
+// import ProtectedRoute from "./components/common/protectedRoute";
 import "./App.css";
-import User from "./components/user";
+// import User from "./components/user";
 
 const store = configureStore();
 
 function App() {
   return (
     <div className="container" style={{ maxWidth: "100%", padding: 0 }}>
-      {/* <ToastContainer /> */}
+      <ToastContainer />
       <Provider store={store}>
         <NavBar></NavBar>
         <div className="app-container">
