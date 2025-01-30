@@ -1,11 +1,23 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice, createSelector } from "@reduxjs/toolkit";
+
+interface List {
+  id: number;
+  name: string;
+  boardId: number;
+}
+
+interface ListState {
+  list: List[];
+  selectedId: number | null;
+}
 
 export let lastId = 0;
 
 const slice = createSlice({
   name: "lists",
   initialState: {
-    list: [],
+    list: [] as List[],
     selectedId: null,
   },
   reducers: {
@@ -39,10 +51,10 @@ export const { listAdded, listDeleted, listSelected, listUnselected } =
 
 export default slice.reducer;
 
-export const getListIdByBoardId = (boardId) =>
+export const getListIdByBoardId = (boardId: number) =>
   createSelector(
     (state) => state.lists,
-    (lists) => {
+    (lists: ListState) => {
       const result = lists.list
         .filter((list) => list.boardId === boardId)
         .map((list) => list.id);
@@ -50,19 +62,19 @@ export const getListIdByBoardId = (boardId) =>
     }
   );
 
-export const getAllListsByBoardId = (boardId) =>
+export const getAllListsByBoardId = (boardId: number) =>
   createSelector(
     (state) => state.lists,
-    (lists) => {
+    (lists: ListState) => {
       const result = lists.list.filter((list) => list.boardId === boardId);
       return result ? result : [];
     }
   );
 
-export const getListById = (listId) =>
+export const getListById = (listId: number) =>
   createSelector(
     (state) => state.lists,
-    (lists) => {
+    (lists: ListState) => {
       const result = lists.list.find((list) => list.id === listId);
       return result ? result : [];
     }

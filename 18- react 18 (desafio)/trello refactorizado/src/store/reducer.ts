@@ -1,9 +1,9 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import uiReducer from "./ui";
 import usersReducer from "./users";
-import boardsReducer from "./boards";
-import listsReducer from "./lists";
-import tasksReducer from "./tasks"
+import boardsReducer from "./boards.ts";
+import listsReducer from "./lists.ts";
+import tasksReducer from "./tasks";
 
 export default combineReducers({
   users: usersReducer,

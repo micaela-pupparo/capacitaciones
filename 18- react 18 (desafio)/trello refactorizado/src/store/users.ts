@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice, createSelector } from "@reduxjs/toolkit";
 
-let lastId = 0;
-
 interface User {
   id?: number;
   name: string;
@@ -14,22 +12,24 @@ interface UserState {
   logged: User | null;
 }
 
+let lastId = 0;
+
 const slice = createSlice({
   name: "users",
   initialState: {
     list: [{ id: 1, username: "mica@gmail.com", name: "Micaela" }],
-    logged: { username: "mica@gmail.com", name: "Micaela" },
+    logged: null,
   },
   reducers: {
     // action => action handler
-    userAdded: (users: UserState, action) => {
+    userAdded: (users, action) => {
       users.list.push({
         id: ++lastId,
         name: action.payload.name,
         username: action.payload.username,
       });
     },
-    userModified: (users: UserState, action) => {
+    userModified: (users, action) => {
       const user = users.list.find(
         (user) => user.username === action.payload.username
       );
@@ -39,7 +39,7 @@ const slice = createSlice({
         users.logged = action.payload;
       }
     },
-    userDeleted: (users: UserState, action) => {
+    userDeleted: (users, action) => {
       const user = users.list.findIndex(
         (user) => user.username === action.payload.username
       );
@@ -49,11 +49,11 @@ const slice = createSlice({
         users.logged = null;
       }
     },
-    userLoggedIn: (users: UserState, action) => {
+    userLoggedIn: (users, action) => {
       console.log(action);
       users.logged = action.payload;
     },
-    userLoggedOut: (users: UserState, action) => {
+    userLoggedOut: (users, action) => {
       users.logged = null;
     },
   },

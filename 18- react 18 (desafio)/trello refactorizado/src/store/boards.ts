@@ -1,11 +1,24 @@
-import { createSlice, createSelector, current } from "@reduxjs/toolkit";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { createSlice, createSelector } from "@reduxjs/toolkit";
+
+interface Board {
+  id: number;
+  name: string;
+  userId: number;
+  order: number[];
+}
+
+interface BoardsState {
+  list: Board[];
+  selectedId: number;
+}
 
 let lastId = 0;
 
 const slice = createSlice({
   name: "boards",
   initialState: {
-    list: [{ id: 1, name: "tablero", userId: 1, order: [] }],
+    list: [{ id: 1, name: "tablero", userId: 1, order: [] }] as Board[],
     selectedId: null,
   },
   reducers: {
@@ -49,26 +62,26 @@ export const {
 
 export default slice.reducer;
 
-export const getBoardsByUser = (userId) =>
+export const getBoardsByUser = (userId: number) =>
   createSelector(
     (state) => state.boards,
-    (boards) =>
+    (boards: BoardsState) =>
       userId
         ? boards.list.filter((board) => board.userId === userId)
         : undefined
   );
 
-export const getBoardById = (boardId) =>
+export const getBoardById = (boardId: number) =>
   createSelector(
     (state) => state.boards,
-    (boards) => boards.list.find((board) => board.id === boardId)
+    (boards: BoardsState) => boards.list.find((board) => board.id === boardId)
   );
 
-export const getOrderListByBoard = (boardId) =>
+export const getOrderListByBoard = (boardId: number) =>
   createSelector(
     (state) => state.boards,
-    (boards) => {
+    (boards: BoardsState) => {
       const result = boards.list.find((board) => board.id === boardId);
-      return result.order;
+      return result?.order;
     }
   );
