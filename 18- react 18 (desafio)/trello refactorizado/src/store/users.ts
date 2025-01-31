@@ -2,7 +2,7 @@
 import { createSlice, createSelector } from "@reduxjs/toolkit";
 
 interface User {
-  id?: number;
+  id: number;
   name: string;
   username: string;
 }
