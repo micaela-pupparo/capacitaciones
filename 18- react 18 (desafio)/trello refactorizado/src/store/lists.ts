@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice, createSelector } from "@reduxjs/toolkit";
 
-interface List {
+export interface List {
   id: number;
   name: string;
   boardId: number;
@@ -76,6 +76,6 @@ export const getListById = (listId: number) =>
     (state) => state.lists,
     (lists: ListState) => {
       const result = lists.list.find((list) => list.id === listId);
-      return result ? result : [];
+      return result ? result : {} as List;
     }
   );
