@@ -17,8 +17,8 @@ const ListContainer = styled.article`
 `;
 
 const ListHeading = styled.div`
-  paddingbottom: 20px;
-  fontsize: 20px;
+  padding-bottom: 20px;
+  font-size: 20px;
   display: flex;
   justify-content: space-between;
   align-items: baseline;
@@ -28,7 +28,8 @@ const ListHeading = styled.div`
 `;
 
 const ListName = styled.p`
-  fontweight: 600;
+  margin: 0;
+  font-weight: 600;
   padding: 6px 8px 6px 12px;
 `;
 

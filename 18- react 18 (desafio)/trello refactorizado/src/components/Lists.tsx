@@ -99,6 +99,10 @@ const Main = styled.main`
   overflow: auto;
 `;
 
+const Paragraph = styled.p`
+  margin: 0;
+`
+
 const ListsHeaderWrapper = styled.div`
   background-color: #0000003d;
   backdrop-filter: blur(10px);
@@ -126,6 +130,7 @@ const ListsHeaderItems = styled.div`
 `;
 
 const ListsHeaderTitle = styled.h3`
+margin: 0;
   padding: 0 10px;
   overflow: hidden;
   background: transparent;
@@ -172,6 +177,7 @@ const User = styled.div`
 `;
 
 const UserIcon = styled.p`
+  margin: 0;
   font-size: 12;
   font-weight: 600;
 `;
@@ -210,6 +216,7 @@ const Form = styled.form`
 `;
 
 const Input = styled.input`
+box-sizing: border-box;
   height: 32px;
   width: 100%;
   min-height: 20px;
@@ -367,12 +374,12 @@ const Lists = () => {
 
               <ListsHeaderLink>
                 <GoPeople />
-                <p>Visible para el Espacio de trabajo</p>
+                <Paragraph>Visible para el Espacio de trabajo</Paragraph>
               </ListsHeaderLink>
 
               <ListsHeaderLink>
                 <LuAlignStartHorizontal />
-                <p>Tablero</p>
+                <Paragraph>Tablero</Paragraph>
               </ListsHeaderLink>
 
               <MdExpandMore
@@ -383,17 +390,17 @@ const Lists = () => {
             <ListsHeaderItems>
               <ListsHeaderLink>
                 <RiRocketLine style={{ transform: "rotate(45deg)" }} />
-                <p>Power-ups</p>
+                <Paragraph>Power-ups</Paragraph>
               </ListsHeaderLink>
 
               <ListsHeaderLink>
                 <BsFillLightningFill />
-                <p>Automatización</p>
+                <Paragraph>Automatización</Paragraph>
               </ListsHeaderLink>
 
               <ListsHeaderLink>
                 <VscListFilter />
-                <p>Filtros</p>
+                <Paragraph>Filtros</Paragraph>
               </ListsHeaderLink>
 
               <SpaceBar />
@@ -404,7 +411,7 @@ const Lists = () => {
 
               <ListsHeaderLink $button>
                 <BsPersonPlus />
-                <p>Compartir</p>
+                <Paragraph>Compartir</Paragraph>
               </ListsHeaderLink>
             </ListsHeaderItems>
           </ListsHeader>
@@ -421,7 +428,7 @@ const Lists = () => {
             {!showInput && (
               <ListButton onClick={(e) => handleAddClick(e)}>
                 <VscAdd style={{ marginRight: 8 }} />
-                <p>Añade otra lista</p>
+                <Paragraph>Añade otra lista</Paragraph>
               </ListButton>
             )}
 

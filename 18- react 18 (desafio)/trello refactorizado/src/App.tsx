@@ -1,26 +1,19 @@
-import { Provider } from "react-redux";
-// import { Routes, Route } from "react-router";
-// import { ToastContainer } from "react-toastify";
-// import configureStore from "./store/configureStore";
-// import NavBar from "./components/navbar";
-// import Home from "./components/home";
-// import BoardList from "./components/boardlist";
-// import RegisterForm from "./components/registerForm";
-// import LoginForm from "./components/loginForm";
-// import Lists from "./components/lists";
+import { Routes, Route } from "react-router";
+import NavBar from "./components/NavBar";
+import Home from "./components/Home";
+import BoardList from "./components/BoardList";
+import RegisterForm from "./components/common/RegisterForm";
+import LoginForm from "./components/common/LoginForm";
+import Lists from "./components/Lists";
 // import NotFound from "./components/notFound";
 // import ProtectedRoute from "./components/common/protectedRoute";
 import "./App.css";
 // import User from "./components/user";
 
-const store = configureStore();
-
 function App() {
   return (
-    <div className="container" style={{ maxWidth: "100%", padding: 0 }}>
-      <ToastContainer />
-      <Provider store={store}>
-        <NavBar></NavBar>
+    <div className="container">
+        <NavBar />
         <div className="app-container">
           <Routes>
             <Route path="/" element={<Home />} />
@@ -29,9 +22,9 @@ function App() {
             <Route
               path="/lists"
               element={
-                <ProtectedRoute>
+                // <ProtectedRoute>
                   <Lists />
-                </ProtectedRoute>
+                // </ProtectedRoute>
               }
             />
             <Route
@@ -42,18 +35,16 @@ function App() {
                 // {/* </ProtectedRoute> */}
               }
             />
-            <Route
+            {/* <Route
               path="/user/:userName"
               element={
-                <ProtectedRoute>
-                  <User />
-                </ProtectedRoute>
+                // <ProtectedRoute>
+                  // <User />
+                // </ProtectedRoute>
               }
-            />
-            <Route path="*" element={<NotFound />} />
+            /> */}
           </Routes>
         </div>
-      </Provider>
     </div>
   );
 }

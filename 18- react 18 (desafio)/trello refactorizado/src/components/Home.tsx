@@ -1,8 +1,11 @@
+import { FormEvent, useRef } from "react";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 
 // ------------------------------------- ESTILOS -------------------------------------
 
 const HomeWrapper = styled.section`
+  margin-top: 48px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -63,13 +66,15 @@ const HeroButton = styled.button`
 `;
 
 const HeroImgContainer = styled.div`
-  margin-left: -16.6%;
   left: 16.6%;
   flex: 0 0 auto;
-  width: 58.3%;
   margin-top: 0;
   padding: 128px 16px;
   padding-top: 8rem;
+`;
+
+const Image = styled.img`
+  width: 100%;
 `;
 
 const InfoWrapper = styled.section`
@@ -152,6 +157,16 @@ const InfoTaskImage = styled.div`
 // ------------------------------------- COMPONENTE -------------------------------------
 
 const Home = () => {
+  const usernameRef = useRef<HTMLInputElement>(null);
+
+  const navigate = useNavigate();
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+
+    navigate("/register", { state: { username: usernameRef.current?.value } });
+  };
+
   return (
     <HomeWrapper>
       <HeroContainer>
@@ -174,14 +189,19 @@ const Home = () => {
               <li>Unlimited Power-Ups per board</li>
             </ul>
 
-            <HeroForm>
-              <HeroInput type="text" placeholder="Correo electrónico" />
+            <HeroForm onSubmit={handleSubmit}>
+              <HeroInput
+                ref={usernameRef}
+                name="username"
+                type="text"
+                placeholder="Correo electrónico"
+              />
               <HeroButton type="submit">Regístrate, ¡es gratis!</HeroButton>
             </HeroForm>
           </HeroColumn>
 
           <HeroImgContainer>
-            <img
+            <Image
               sizes="(max-width: 1300px) 100vw, 1300px"
               srcSet="
               01_Hero_2x_q4wg87_c_scale,w_300.webp 300w,
@@ -235,7 +255,7 @@ const Home = () => {
             </InfoTaskText>
 
             <InfoTaskImage>
-              <img src="/tasks.webp" alt="" />
+              <Image src="/tasks.webp" alt="" />
             </InfoTaskImage>
           </InfoTasks>
         </Info>

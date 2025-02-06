@@ -52,10 +52,11 @@ const asideWrapperStyles = {
 const AsideWrapper = styled.section<{
   $variant: keyof typeof asideWrapperStyles;
 }>`
-  ${(props) => asideWrapperStyles[props.$variant]}
+  ${(props) => asideWrapperStyles[props.$variant]};
 `;
 
 const AsideWrapperTitle = styled.p`
+  margin: 0;
   font-size: 12;
   padding: 8px 0 8px 12px;
 `;
@@ -75,9 +76,9 @@ const AsideLink = styled.div<{ $selected?: boolean; $morePadding?: boolean }>`
     props.$selected ? "rgb(12, 102, 228)" : "rgb(23, 43, 77)"};
   background-color: ${(props) =>
     props.$selected ? "rgb(233, 242, 255)" : "none"};
-  padding-left: ${(props) => (props.$morePadding ? "40px" : "8px")}
+  padding-left: ${(props) => (props.$morePadding ? "40px" : "8px")};
 
-  $:hover {
+  &:hover {
     background-color: ${(props) =>
       props.$selected ? "rgb(233, 242, 255)" : "#091e4224"};
   }
@@ -97,6 +98,10 @@ const AsideLinkLogo = styled.div`
   color: #fff;
 `;
 
+const Paragraph = styled.p`
+  margin: 0;
+`;
+
 const Main = styled.main`
   max-width: 825px;
   min-width: 288px;
@@ -112,32 +117,32 @@ const BoardsContainer = styled.section`
 `;
 
 const BoardContainer = styled.article<{ $withBackground?: boolean }>`
-    height: 96px;
-    width: 100%;
-    overflow: hidden;
-    background-color: #091e420f;
-    background-size: cover;
-    font-size: 16px;
-    line-height: 20px;
-    width: 100%;
-    border-radius: 3px;
-    max-width: 194px;
-    backgroundImage: ${(props) =>
-      props.$withBackground ? "url(/flower.svg)" : "none"}
-}
+  height: 96px;
+  width: 100%;
+  overflow: hidden;
+  background-color: #091e420f;
+  background-size: cover;
+  font-size: 16px;
+  line-height: 20px;
+  width: 100%;
+  border-radius: 3px;
+  max-width: 194px;
+  background-image: ${(props) =>
+    props.$withBackground ? "url(/flower.svg)" : "none"};
 `;
 
-const BoardLink = styled(Link)`
+const BoardLink = styled(Link)<{ $background?: boolean }>`
   display: block;
   height: 100%;
   padding: 8px;
   color: #fff;
+  background: ${props => props.$background ? "url(/flower.svg)" : "none"};
 `;
 
 const boardTitleStyles = {
   normal: `
     font-size: 16px;
-  font-weight: 700;
+    font-weight: 700;
   `,
   new: `
     font-size: 14px;
@@ -146,7 +151,8 @@ const boardTitleStyles = {
 };
 
 const BoardTitle = styled.h3<{ $variant: keyof typeof boardTitleStyles }>`
-  ${(props) => boardTitleStyles[props.$variant]}
+  ${(props) => boardTitleStyles[props.$variant]};
+  margin: 0;
 `;
 
 const NewBoardForm = styled.a`
@@ -189,17 +195,17 @@ const BoardList = () => {
         <AsideWrapper $variant="firstChild">
           <AsideLink $selected>
             <FaTrello />
-            <p>Tableros</p>
+            <Paragraph>Tableros</Paragraph>
           </AsideLink>
 
           <AsideLink>
             <FaTrello />
-            <p>Plantillas</p>
+            <Paragraph>Plantillas</Paragraph>
           </AsideLink>
 
           <AsideLink>
             <FaTrello />
-            <p>Inicio</p>
+            <Paragraph>Inicio</Paragraph>
           </AsideLink>
         </AsideWrapper>
 
@@ -208,34 +214,34 @@ const BoardList = () => {
 
           <AsideLink onClick={handleToggle}>
             <AsideLinkLogo>E</AsideLinkLogo>
-            <p>Espacio de trabajo de Trello</p>
+            <Paragraph>Espacio de trabajo de Trello</Paragraph>
             <MdExpandMore size={16} />
           </AsideLink>
 
           <div style={{ display: toggle }}>
             <AsideLink $morePadding>
               <FaTrello />
-              <p>Tableros</p>
+              <Paragraph>Tableros</Paragraph>
             </AsideLink>
 
             <AsideLink $morePadding>
               <CgHeart />
-              <p>Lo más destacado</p>
+              <Paragraph>Lo más destacado</Paragraph>
             </AsideLink>
 
             <AsideLink $morePadding>
               <HiOutlineViewGrid />
-              <p>Vistas</p>
+              <Paragraph>Vistas</Paragraph>
             </AsideLink>
 
             <AsideLink $morePadding>
               <GoPeople />
-              <p>Miembros</p>
+              <Paragraph>Miembros</Paragraph>
             </AsideLink>
 
             <AsideLink $morePadding>
               <DiAptana />
-              <p>Configuración</p>
+              <Paragraph>Configuración</Paragraph>
             </AsideLink>
           </div>
         </AsideWrapper>
@@ -249,6 +255,7 @@ const BoardList = () => {
                 <BoardLink
                   to="/lists"
                   onClick={() => handleBoardClick(board.id)}
+                  $background
                 >
                   <BoardTitle $variant="normal">{board.name}</BoardTitle>
                 </BoardLink>

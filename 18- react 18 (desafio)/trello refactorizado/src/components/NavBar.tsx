@@ -1,22 +1,32 @@
 import styled from "styled-components";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import { screenChanged } from "../store/ui";
 import { userLoggedOut } from "../store/users";
 import { FaSistrix } from "react-icons/fa6";
 import { BsBell, BsQuestionCircle } from "react-icons/bs";
 import { MdApps, MdExpandMore } from "react-icons/md";
+import { useEffect, useState } from "react";
 
 // ------------------------------------- ESTILOS -------------------------------------
 
-const Nav = styled.nav`
+const Nav = styled.nav<{ $variant: "white" | "pink" }>`
   position: fixed;
   top: 0px;
   width: 100%;
   z-index: 100;
   padding: 0;
+  color: ${(props) =>
+    props.$variant === "white" ? "rgb(23, 43, 77)" : "#fff"};
+  background-color: ${(props) =>
+    props.$variant === "white" ? "#fff" : "rgb(130, 22, 89)"};
+  border-bottom: ${(props) =>
+    props.$variant === "white"
+      ? "1px solid hsla(218, 54%, 19.6%, 0.16)"
+      : "1px solid hsla(0, 0%, 100%, 0.16)"};
 `;
 
 const NavBarContainer = styled.div`
+  box-sizing: border-box;
   display: flex;
   height: 48px;
   margin: 0 auto;
@@ -38,27 +48,34 @@ const LogoLink = styled(Link)`
   padding: 0 8px 0 15px;
 `;
 
-const Logo = styled.div`
+const Logo = styled.div<{ $variant: "white" | "pink" }>`
   width: 75px;
   height: 16px;
   opacity: 1;
   padding: 8px 0;
-  filter: brightness(0) saturate(100%) invert(30%) sepia(53%) saturate(323%)
-    hue-rotate(179deg) brightness(91%) contrast(88%);
+  filter: ${(props) =>
+    props.$variant === "white"
+      ? "brightness(0) saturate(100%) invert(30%) sepia(53%) saturate(323%) hue-rotate(179deg) brightness(91%) contrast(88%)"
+      : "none"};
   background-image: url(/trellologo.gif);
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
+
+  &:hover {
+    background-image: url(/trellologovideo.gif);
+  }
 `;
 
-const NavLink = styled.div`
+const NavLink = styled.div<{ $variant: "white" | "pink" }>`
   cursor: pointer;
   height: 32px;
   line-height: 32px;
   white-space: nowrap;
   font-size: 14px;
   font-weight: 600;
-  color: rgb(68, 84, 111);
+  color: ${(props) =>
+    props.$variant === "white" ? "rgb(68, 84, 111)" : "#fff"};
   display: flex;
   align-items: center;
   padding: 6px 10px 6px 12px;
@@ -144,49 +161,59 @@ const Icon = styled.span`
 `;
 
 const UserContainer = styled.div`
-    display: flex;
+  display: flex;
   align-items: center;
-`
+`;
 
 const User = styled.button`
-    border-radius: 100%;
+  border-radius: 100%;
   width: 24px;
   height: 24px;
   background-color: rgb(38, 36, 36);
   color: #fff;
   font-size: 9px;
   letter-spacing: 0px;
-`
+`;
 
 // ------------------------------------- COMPONENTE -------------------------------------
 
 const NavBar = () => {
+  const [theme, setTheme] = useState<"white" | "pink">("white");
+
+  const location = useLocation();
+
+  useEffect(() => {
+    const newTheme = location.pathname === "/lists" ? "pink" : "white";
+
+    if (newTheme !== theme) setTheme(newTheme);
+  }, [location.pathname]);
+
   return (
-    <Nav>
+    <Nav $variant={theme}>
       <NavBarContainer>
         <LeftSide>
           <MdApps />
 
           <LogoLink to="/boards">
-            <Logo />
+            <Logo $variant={theme} />
           </LogoLink>
 
-          <NavLink>
+          <NavLink $variant={theme}>
             <span>Espacios de trabajo</span>
             <MdExpandMore size={16} />
           </NavLink>
 
-          <NavLink>
+          <NavLink $variant={theme}>
             <span>Reciente</span>
             <MdExpandMore size={16} />
           </NavLink>
 
-          <NavLink>
+          <NavLink $variant={theme}>
             <span>Marcado</span>
             <MdExpandMore size={16} />
           </NavLink>
 
-          <NavLink>
+          <NavLink $variant={theme}>
             <span>Plantillas</span>
             <MdExpandMore size={16} />
           </NavLink>
