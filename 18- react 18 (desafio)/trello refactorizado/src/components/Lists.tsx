@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { AppDispatch, RootState } from "../store/configureStore.ts";
-import { listAdded, listUnselected } from "../store/lists";
+import {
+  getAllListsByBoardId,
+  listAdded,
+  listUnselected,
+} from "../store/lists";
 import { navbarClassChanged } from "../store/ui";
 import { getOrderListByBoard, getBoardById } from "../store/boards";
 import { addListUpdateOrder } from "../store/middlewares/updateOrderList.ts";
@@ -19,6 +23,13 @@ import { LiaUser, LiaThListSolid, LiaCalendar } from "react-icons/lia";
 import { FaTrello } from "react-icons/fa6";
 import { BsFillLightningFill, BsPersonPlus } from "react-icons/bs";
 import { LuAlignStartHorizontal } from "react-icons/lu";
+import { closestCenter, DndContext, DragEndEvent } from "@dnd-kit/core";
+import {
+  arrayMove,
+  horizontalListSortingStrategy,
+  SortableContext,
+} from "@dnd-kit/sortable";
+import SortableItem from "./dnd/SortableItem.tsx";
 
 // ------------------------------------- ESTILOS -------------------------------------
 
@@ -101,7 +112,7 @@ const Main = styled.main`
 
 const Paragraph = styled.p`
   margin: 0;
-`
+`;
 
 const ListsHeaderWrapper = styled.div`
   background-color: #0000003d;
@@ -130,7 +141,7 @@ const ListsHeaderItems = styled.div`
 `;
 
 const ListsHeaderTitle = styled.h3`
-margin: 0;
+  margin: 0;
   padding: 0 10px;
   overflow: hidden;
   background: transparent;
@@ -216,7 +227,7 @@ const Form = styled.form`
 `;
 
 const Input = styled.input`
-box-sizing: border-box;
+  box-sizing: border-box;
   height: 32px;
   width: 100%;
   min-height: 20px;
@@ -261,6 +272,9 @@ const FormIcon = styled.div`
 const Lists = () => {
   const boardId = useSelector((state: RootState) => state.boards.selectedId);
   const lists = useSelector((state: RootState) =>
+    getAllListsByBoardId(boardId || 0)(state)
+  );
+  const listsIds = useSelector((state: RootState) =>
     getOrderListByBoard(boardId || 0)(state)
   );
   const board = useSelector((state: RootState) =>
@@ -269,8 +283,10 @@ const Lists = () => {
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const [listsOrder, setListOrder] = useState(lists);
+  const [listsOrder, setListOrder] = useState(listsIds);
   const [showInput, setShowInput] = useState(false);
+
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleAddClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -285,16 +301,43 @@ const Lists = () => {
 
     const formData = new FormData(e.currentTarget);
 
-    const newList = {
-      id: 0,
-      name: formData.get("name") as string,
-      boardId: boardId || 0,
-    };
+    console.log(inputRef.current?.value);
+    if (inputRef.current) {
+      const newList = {
+        id: 0,
+        name: formData.get("name") as string,
+        boardId: boardId || 0,
+      };
 
-    dispatch(addListUpdateOrder(newList, boardId || 0));
+      dispatch(addListUpdateOrder(newList, boardId || 0));
 
-    // TODO: refactorizar con useffect
-    setTimeout(() => setListOrder(lists), 100);
+      inputRef.current.value = "";
+      inputRef.current.focus();
+    }
+  };
+
+  // useEffect(() => {
+  //   setListOrder(listsIds);
+  // }, [lists]);
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (!over) return;
+
+    let oldIndex = listsOrder?.findIndex((id) => id === active.id);
+    let newIndex = listsOrder?.findIndex((id) => id === over.id);
+
+    if (oldIndex !== newIndex) {
+      console.log(listsOrder, oldIndex, newIndex);
+      // console.log(arrayMove(listsOrder, oldIndex, newIndex));
+      
+      if (listsOrder && ((typeof oldIndex === 'number') && (typeof newIndex === 'number'))) {
+        setListOrder(arrayMove(listsOrder, oldIndex, newIndex));
+        console.log('hola, funciona');
+        
+      }
+    }
   };
 
   return (
@@ -418,11 +461,23 @@ const Lists = () => {
         </ListsHeaderWrapper>
 
         <ListsItems>
-          {listsOrder?.map((id) => (
-            <ListContainer key={id}>
-              <List id={id}></List>
-            </ListContainer>
-          ))}
+          <DndContext
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+          >
+            <SortableContext
+              items={listsOrder || []}
+              strategy={horizontalListSortingStrategy}
+            >
+              {listsOrder?.map((id) => (
+                <SortableItem key={id} id={id}>
+                <ListContainer>
+                  <List id={id}></List>
+                </ListContainer>
+                </SortableItem>
+              ))}
+            </SortableContext>
+          </DndContext>
 
           <ListContainer>
             {!showInput && (
@@ -435,6 +490,7 @@ const Lists = () => {
             {showInput && (
               <Form onSubmit={(e) => handleAddList(e)}>
                 <Input
+                  ref={inputRef}
                   name="name"
                   type="text"
                   placeholder="Introduce el nombre de la lista..."
@@ -444,7 +500,7 @@ const Lists = () => {
                 <FormControls>
                   <FormButton type="submit">Añadir lista</FormButton>
 
-                  <FormIcon>
+                  <FormIcon onClick={() => setShowInput(false)}>
                     <VscChromeClose size={18} />
                   </FormIcon>
                 </FormControls>

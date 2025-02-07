@@ -12,7 +12,7 @@ interface UserState {
   logged: User | null;
 }
 
-let lastId = 1;
+let lastId = 10;
 
 const slice = createSlice({
   name: "users",

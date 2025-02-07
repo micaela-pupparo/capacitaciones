@@ -14,6 +14,13 @@ const ListContainer = styled.article`
   width: 18rem;
   box-sizing: border-box;
   border: 0;
+  margin: 0 6px;
+  width: 272px;
+  padding: 12px;
+  font-size: 14px;
+  background-color: #f1f2f4;
+  border-radius: 12px;
+  box-shadow: 0px 1px 1px #091e4240, 0px 0px 1px #091e424f;
 `;
 
 const ListHeading = styled.div`
@@ -77,7 +84,7 @@ const List = ({ id }: Props) => {
     id: number
   ) => {
     e.preventDefault();
-    e.stopPropagation();
+    // e.stopPropagation();
     dispatch(listDeleted(id));
   };
 

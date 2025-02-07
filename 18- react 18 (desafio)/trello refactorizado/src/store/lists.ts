@@ -12,7 +12,7 @@ interface ListState {
   selectedId: number | null;
 }
 
-export let lastId = 0;
+export let lastId = 10;
 
 const slice = createSlice({
   name: "lists",

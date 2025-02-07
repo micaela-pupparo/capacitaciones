@@ -12,7 +12,7 @@ interface TasksState {
   selectedId: number | null;
 }
 
-let lastId = 0;
+let lastId = 10;
 
 const slice = createSlice({
   name: "tasks",

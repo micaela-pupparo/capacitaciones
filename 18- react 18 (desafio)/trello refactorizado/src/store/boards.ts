@@ -13,7 +13,7 @@ interface BoardsState {
   selectedId: number;
 }
 
-let lastId = 0;
+let lastId = 10;
 
 const slice = createSlice({
   name: "boards",
