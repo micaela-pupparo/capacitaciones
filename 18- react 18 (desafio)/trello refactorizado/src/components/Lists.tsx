@@ -111,6 +111,7 @@ const LinksTitle = styled.div`
 const Main = styled.main`
   margin-top: 48px;
   flex-grow: 1;
+  width: calc(100% - 260px);
   height: calc(100vh - 48px);
   background-image: url(/flower.svg);
   overflow-x: scroll;

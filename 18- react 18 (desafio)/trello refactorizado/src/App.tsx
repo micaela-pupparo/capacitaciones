@@ -8,34 +8,24 @@ import Lists from "./components/Lists";
 // import NotFound from "./components/notFound";
 // import ProtectedRoute from "./components/common/protectedRoute";
 import "./App.css";
+import PrivateRoutes from "./components/routing/PrivateRoutes";
 // import User from "./components/user";
 
 function App() {
   return (
     <div className="container">
-        <NavBar />
-        <div className="app-container">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/register" element={<RegisterForm />} />
-            <Route path="/login" element={<LoginForm />} />
-            <Route
-              path="/lists"
-              element={
-                // <ProtectedRoute>
-                  <Lists />
-                // </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/boards"
-              element={
-                // <ProtectedRoute>
-                <BoardList />
-                // {/* </ProtectedRoute> */}
-              }
-            />
-            {/* <Route
+      <NavBar />
+      <div className="app-container">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/register" element={<RegisterForm />} />
+          <Route path="/login" element={<LoginForm />} />
+
+          <Route element={<PrivateRoutes />}>
+            <Route path="/lists" element={<Lists />} />
+            <Route path="/boards" element={<BoardList />} />
+          </Route>
+          {/* <Route
               path="/user/:userName"
               element={
                 // <ProtectedRoute>
@@ -43,8 +33,8 @@ function App() {
                 // </ProtectedRoute>
               }
             /> */}
-          </Routes>
-        </div>
+        </Routes>
+      </div>
     </div>
   );
 }
