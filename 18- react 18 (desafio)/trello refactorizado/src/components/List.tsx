@@ -36,6 +36,7 @@ const ListHeading = styled.div`
 `;
 
 const ListName = styled.p`
+  font-size: 14px;
   margin: 0;
   font-weight: 600;
   padding: 6px 8px 6px 12px;
@@ -53,6 +54,9 @@ const TaskDiv = styled.div`
   margin: auto;
   min-height: 24px;
   padding: 8px 12px 4px;
+  padding: 6px 12px;
+  overflow: hidden;
+  border-radius: 4px;
   box-shadow: 0px 1px 1px #091e4240, 0px 0px 1px #091e424f;
   border: none;
 `;

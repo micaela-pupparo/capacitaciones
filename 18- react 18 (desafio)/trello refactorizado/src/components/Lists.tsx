@@ -23,14 +23,20 @@ import { LiaUser, LiaThListSolid, LiaCalendar } from "react-icons/lia";
 import { FaTrello } from "react-icons/fa6";
 import { BsFillLightningFill, BsPersonPlus } from "react-icons/bs";
 import { LuAlignStartHorizontal } from "react-icons/lu";
-import { closestCenter, DndContext, DragEndEvent } from "@dnd-kit/core";
 import {
-  arrayMove,
-  horizontalListSortingStrategy,
-  SortableContext,
-} from "@dnd-kit/sortable";
-import SortableItem from "./dnd/SortableItem.tsx";
-import ListContent from "./dnd/ListContent.tsx";
+  DragDropContext,
+  Draggable,
+  Droppable,
+  DropResult,
+} from "@hello-pangea/dnd";
+// import { closestCenter, DndContext, DragEndEvent } from "@dnd-kit/core";
+// import {
+//   arrayMove,
+//   horizontalListSortingStrategy,
+//   SortableContext,
+// } from "@dnd-kit/sortable";
+// import SortableItem from "./dnd/SortableItem.tsx";
+// import ListContent from "./dnd/ListContent.tsx";
 
 // ------------------------------------- ESTILOS -------------------------------------
 
@@ -270,11 +276,21 @@ const FormIcon = styled.div`
 
 // ------------------------------------- COMPONENTE -------------------------------------
 
+const arrayMove = (arr: any[], fromIndex: number, toIndex: number): any[] => {
+  const newArr = Array.from(arr);
+  const [removed] = newArr.splice(fromIndex, 1);
+  newArr.splice(toIndex, 0, removed);
+  return newArr;
+};
+
 const Lists = () => {
-  console.log('o yo');
-  
-  const boardId = useSelector((state: RootState) => state.boards.selectedId, shallowEqual);
-  
+  console.log("o yo");
+
+  const boardId = useSelector(
+    (state: RootState) => state.boards.selectedId,
+    shallowEqual
+  );
+
   const listsSelector = useMemo(
     () => getAllListsByBoardId(boardId || 0),
     [boardId]
@@ -287,10 +303,7 @@ const Lists = () => {
   );
   const listsIds = useSelector(listsOrderSelector, shallowEqual);
 
-  const boardSelector = useMemo(
-    () => getBoardById(boardId || 0),
-    [boardId]
-  );
+  const boardSelector = useMemo(() => getBoardById(boardId || 0), [boardId]);
   const board = useSelector(boardSelector, shallowEqual);
 
   const dispatch = useDispatch<AppDispatch>();
@@ -333,7 +346,7 @@ const Lists = () => {
     if (listsIds && listsIds.length > 0) {
       // Tomamos el último ID del array proveniente del store.
       const newId = listsIds[listsIds.length - 1];
-  
+
       setListOrder((prevLists) => {
         if (prevLists?.includes(newId)) {
           return prevLists; // No lo agregamos de nuevo.
@@ -341,30 +354,18 @@ const Lists = () => {
         return [...(prevLists ?? []), newId];
       });
     }
-  }, [listsIds]); 
+  }, [listsIds]);
 
-  const handleDragEnd = useCallback((event: DragEndEvent) => {
-    const { active, over } = event;
+  const handleDragEnd = (result: DropResult) => {
+    if (!result.destination) return;
 
-    if (!over) return;
+    const sourceIndex = result.source.index;
+    const destinationIndex = result.destination.index;
 
-    let oldIndex = listsOrder?.findIndex((id) => id === active.id);
-    let newIndex = listsOrder?.findIndex((id) => id === over.id);
+    if (sourceIndex === destinationIndex) return;
 
-    if (oldIndex !== newIndex) {
-      console.log(listsOrder, oldIndex, newIndex);
-      // console.log(arrayMove(listsOrder, oldIndex, newIndex));
-
-      if (
-        listsOrder &&
-        typeof oldIndex === "number" &&
-        typeof newIndex === "number"
-      ) {
-        setListOrder(arrayMove(listsOrder, oldIndex, newIndex));
-        console.log("hola, funciona");
-      }
-    }
-  }, [listsOrder]);
+    setListOrder(arrayMove(listsOrder, sourceIndex, destinationIndex));
+  };
 
   const memoizedListsOrder = useMemo(() => listsOrder, [listsOrder]);
 
@@ -489,21 +490,35 @@ const Lists = () => {
         </ListsHeaderWrapper>
 
         <ListsItems>
-          <DndContext
-            collisionDetection={closestCenter}
-            onDragEnd={handleDragEnd}
-          >
-            <SortableContext
-              items={memoizedListsOrder}
-              strategy={horizontalListSortingStrategy}
-            >
-              {listsOrder?.map((id) => (
-              <SortableItem key={`draggable-${id}`} id={id}>
-                <ListContent id={id} />
-              </SortableItem>
-            ))}
-            </SortableContext>
-          </DndContext>
+          <DragDropContext onDragEnd={handleDragEnd}>
+            <Droppable droppableId="lists" direction="horizontal">
+              {(provided, snapshot) => (
+                <div ref={provided.innerRef} {...provided.droppableProps} style={{display: 'flex'}}>
+                  {listsOrder?.map((id, index) => (
+                    <Draggable
+                      key={id}
+                      draggableId={id.toString()}
+                      index={index}
+                    >
+                      {(provided, snapshot) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          style={{ ...provided.draggableProps.style }}
+                        >
+                          <ListContainer>
+                            <List id={id} />
+                          </ListContainer>
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
 
           <ListContainer>
             {!showInput && (
