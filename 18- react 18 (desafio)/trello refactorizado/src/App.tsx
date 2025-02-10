@@ -6,7 +6,6 @@ import RegisterForm from "./components/common/RegisterForm";
 import LoginForm from "./components/common/LoginForm";
 import Lists from "./components/Lists";
 // import NotFound from "./components/notFound";
-// import ProtectedRoute from "./components/common/protectedRoute";
 import "./App.css";
 import PrivateRoutes from "./components/routing/PrivateRoutes";
 // import User from "./components/user";

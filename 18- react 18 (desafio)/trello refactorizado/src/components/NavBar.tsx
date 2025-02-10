@@ -6,6 +6,8 @@ import { FaSistrix } from "react-icons/fa6";
 import { BsBell, BsQuestionCircle } from "react-icons/bs";
 import { MdApps, MdExpandMore } from "react-icons/md";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/configureStore";
 
 // ------------------------------------- ESTILOS -------------------------------------
 
@@ -39,6 +41,23 @@ const NavBarContainer = styled.div`
 const LeftSide = styled.div`
   display: flex;
   align-items: center;
+`;
+
+const RightSide = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  height: 100%
+`;
+
+const ButtonUnloggedUser = styled.button<{ $blue?: boolean }>`  
+  font-size: 16px;
+  display: block;
+  border: 0;
+  background-color: ${(props) => (props.$blue ? "#0c66e4" : "transparent")};
+  color: ${(props) =>
+    props.$blue ? "#fff" : "rgb(68, 84, 111)"};
+  height: 100%;
 `;
 
 const LogoLink = styled(Link)`
@@ -180,6 +199,8 @@ const User = styled.button`
 const NavBar = () => {
   const [theme, setTheme] = useState<"white" | "pink">("white");
 
+  const user = useSelector((state: RootState) => state.users.logged);
+
   const location = useLocation();
 
   useEffect(() => {
@@ -190,63 +211,100 @@ const NavBar = () => {
 
   return (
     <Nav $variant={theme}>
-      <NavBarContainer>
-        <LeftSide>
-          <MdApps />
+      {!user ? (
+        <NavBarContainer>
+          <LeftSide>
+            <NavLink $variant={theme}>
+              <span>Características</span>
+              <MdExpandMore size={16} />
+            </NavLink>
 
-          <LogoLink to="/boards">
-            <Logo $variant={theme} />
-          </LogoLink>
+            <NavLink $variant={theme}>
+              <span>Soluciones</span>
+              <MdExpandMore size={16} />
+            </NavLink>
 
-          <NavLink $variant={theme}>
-            <span>Espacios de trabajo</span>
-            <MdExpandMore size={16} />
-          </NavLink>
+            <NavLink $variant={theme}>
+              <span>Planes</span>
+              <MdExpandMore size={16} />
+            </NavLink>
 
-          <NavLink $variant={theme}>
-            <span>Reciente</span>
-            <MdExpandMore size={16} />
-          </NavLink>
+            <NavLink $variant={theme}>
+              <span>Precios</span>
+              <MdExpandMore size={16} />
+            </NavLink>
 
-          <NavLink $variant={theme}>
-            <span>Marcado</span>
-            <MdExpandMore size={16} />
-          </NavLink>
+            <NavLink $variant={theme}>
+              <span>Recursos</span>
+              <MdExpandMore size={16} />
+            </NavLink>
+          </LeftSide>
 
-          <NavLink $variant={theme}>
-            <span>Plantillas</span>
-            <MdExpandMore size={16} />
-          </NavLink>
+          <RightSide>
+            <ButtonUnloggedUser><Link to='/login'>Log in</Link></ButtonUnloggedUser>
 
-          <ButtonContainer>
-            <Button>Crear</Button>
-          </ButtonContainer>
-        </LeftSide>
+            <ButtonUnloggedUser $blue disabled>Obtenga Trello gratis</ButtonUnloggedUser>
+          </RightSide>
+        </NavBarContainer>
+      ) : (
+        <NavBarContainer>
+          <LeftSide>
+            <MdApps />
 
-        <Items>
-          <SearchContainer>
-            <SearchIcon />
+            <LogoLink to="/boards">
+              <Logo $variant={theme} />
+            </LogoLink>
 
-            <Search type="text" placeholder="Search" />
-          </SearchContainer>
+            <NavLink $variant={theme}>
+              <span>Espacios de trabajo</span>
+              <MdExpandMore size={16} />
+            </NavLink>
 
-          <IconContainer>
-            <Icon>
-              <BsBell style={{ transform: "rotate(45deg)" }} />
-            </Icon>
-          </IconContainer>
+            <NavLink $variant={theme}>
+              <span>Reciente</span>
+              <MdExpandMore size={16} />
+            </NavLink>
 
-          <IconContainer>
-            <Icon>
-              <BsQuestionCircle />
-            </Icon>
-          </IconContainer>
+            <NavLink $variant={theme}>
+              <span>Marcado</span>
+              <MdExpandMore size={16} />
+            </NavLink>
 
-          <UserContainer>
-            <User>MP</User>
-          </UserContainer>
-        </Items>
-      </NavBarContainer>
+            <NavLink $variant={theme}>
+              <span>Plantillas</span>
+              <MdExpandMore size={16} />
+            </NavLink>
+
+            <ButtonContainer>
+              <Button>Crear</Button>
+            </ButtonContainer>
+          </LeftSide>
+
+          <Items>
+            <SearchContainer>
+              <SearchIcon />
+
+              <Search type="text" placeholder="Search" />
+            </SearchContainer>
+
+            <IconContainer>
+              <Icon>
+                <BsBell style={{ transform: "rotate(45deg)" }} />
+              </Icon>
+            </IconContainer>
+
+            <IconContainer>
+              <Icon>
+                <BsQuestionCircle />
+              </Icon>
+            </IconContainer>
+
+            <UserContainer>
+              <User>MP</User>
+            </UserContainer>
+          </Items>
+        </NavBarContainer>
+      )}
     </Nav>
   );
 };
