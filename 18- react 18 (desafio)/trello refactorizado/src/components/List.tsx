@@ -6,6 +6,12 @@ import { getTasksByList, Task, taskAdded } from "../store/tasks";
 import { RxDotsHorizontal } from "react-icons/rx";
 import styled from "styled-components";
 import { VscAdd, VscChromeClose } from "react-icons/vsc";
+import {
+  DragDropContext,
+  Draggable,
+  Droppable,
+  DropResult,
+} from "@hello-pangea/dnd";
 
 // ------------------------------------- ESTILOS -------------------------------------
 
@@ -53,8 +59,7 @@ const TaskDiv = styled.div`
   width: 100%;
   margin: auto;
   min-height: 24px;
-  padding: 8px 12px 4px;
-  padding: 6px 12px;
+  padding: 8px 12px;
   overflow: hidden;
   border-radius: 4px;
   box-shadow: 0px 1px 1px #091e4240, 0px 0px 1px #091e424f;
@@ -126,6 +131,13 @@ interface Props {
   id: number;
 }
 
+const arrayMove = (arr: any[], fromIndex: number, toIndex: number): any[] => {
+  const newArr = Array.from(arr);
+  const [removed] = newArr.splice(fromIndex, 1);
+  newArr.splice(toIndex, 0, removed);
+  return newArr;
+};
+
 const List = ({ id }: Props) => {
   const dispatch = useDispatch();
 
@@ -175,6 +187,16 @@ const List = ({ id }: Props) => {
     [dispatch, id]
   );
 
+  const handleTaskDragEnd = (result: DropResult) => {
+    if (!result.destination) return;
+    const sourceIndex = result.source.index;
+    const destinationIndex = result.destination.index;
+    if (sourceIndex === destinationIndex) return;
+    setTasksOrder((prevTasks) =>
+      arrayMove(prevTasks, sourceIndex, destinationIndex)
+    );
+  };
+
   useEffect(() => {
     if (!tasks || tasks.length === 0) return;
 
@@ -200,17 +222,36 @@ const List = ({ id }: Props) => {
         />
       </ListHeading>
 
-      {tasksOrder &&
-        tasksOrder.map((task) => {
-          if (!task || !task.id) return null;
-          return (
-            <TaskContainer key={task.id}>
-              <TaskDiv>
-                <TaskName>{task.name}</TaskName>
-              </TaskDiv>
-            </TaskContainer>
-          );
-        })}
+      <DragDropContext onDragEnd={handleTaskDragEnd}>
+        <Droppable droppableId={`tasks-${id}`} direction="vertical" type="TASK">
+          {(provided) => (
+            <div ref={provided.innerRef} {...provided.droppableProps}>
+              {tasksOrder &&
+                tasksOrder.map((task, index) => (
+                  <Draggable
+                    key={task.id}
+                    draggableId={`task-${task.id}`}
+                    index={index}
+                  >
+                    {(provided) => (
+                      <TaskContainer
+                        ref={provided.innerRef}
+                        {...provided.dragHandleProps}
+                        {...provided.draggableProps}
+                        style={{ ...provided.draggableProps.style }}
+                      >
+                        <TaskDiv>
+                          <TaskName>{task.name}</TaskName>
+                        </TaskDiv>
+                      </TaskContainer>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
 
       <TaskContainer>
         {!showInputTask && (
