@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice, createSelector } from "@reduxjs/toolkit";
 
-interface Task {
+export interface Task {
   id: number;
   name: string;
   listId: number;
@@ -27,12 +27,18 @@ const slice = createSlice({
         name: action.payload.name,
         listId: action.payload.listId,
       });
+      console.log('task added');
+      
     },
     taskSelected: (tasks, action) => {
       tasks.selectedId = action.payload;
+      console.log('task selected');
+      
     },
     taskUnselected: (tasks, action) => {
       tasks.selectedId = null;
+      console.log('task unselected');
+      
     },
   },
 });
@@ -44,6 +50,9 @@ export default slice.reducer;
 export const getTasksByList = (listId: number) =>
   createSelector(
     (state) => state.tasks,
-    (tasks: TasksState) =>
-      listId ? tasks.list.filter((task) => task.listId === listId) : undefined
+    (tasks: TasksState) => { 
+      console.log('tasks selector');
+      
+      return listId ? tasks.list.filter((task) => task.listId === listId) : undefined
+    }
   );

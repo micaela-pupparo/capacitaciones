@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { AppDispatch, RootState } from "../store/configureStore.ts";
 import {
@@ -30,6 +30,7 @@ import {
   SortableContext,
 } from "@dnd-kit/sortable";
 import SortableItem from "./dnd/SortableItem.tsx";
+import ListContent from "./dnd/ListContent.tsx";
 
 // ------------------------------------- ESTILOS -------------------------------------
 
@@ -270,57 +271,79 @@ const FormIcon = styled.div`
 // ------------------------------------- COMPONENTE -------------------------------------
 
 const Lists = () => {
-  const boardId = useSelector((state: RootState) => state.boards.selectedId);
-  const lists = useSelector((state: RootState) =>
-    getAllListsByBoardId(boardId || 0)(state)
+  console.log('o yo');
+  
+  const boardId = useSelector((state: RootState) => state.boards.selectedId, shallowEqual);
+  
+  const listsSelector = useMemo(
+    () => getAllListsByBoardId(boardId || 0),
+    [boardId]
   );
-  const listsIds = useSelector((state: RootState) =>
-    getOrderListByBoard(boardId || 0)(state)
+  const lists = useSelector(listsSelector, shallowEqual);
+
+  const listsOrderSelector = useMemo(
+    () => getOrderListByBoard(boardId || 0),
+    [boardId]
   );
-  const board = useSelector((state: RootState) =>
-    getBoardById(boardId || 0)(state)
+  const listsIds = useSelector(listsOrderSelector, shallowEqual);
+
+  const boardSelector = useMemo(
+    () => getBoardById(boardId || 0),
+    [boardId]
   );
+  const board = useSelector(boardSelector, shallowEqual);
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const [listsOrder, setListOrder] = useState(listsIds);
+  const [listsOrder, setListOrder] = useState(listsIds ?? []);
   const [showInput, setShowInput] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleAddClick = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    e.stopPropagation();
-    setShowInput(true);
-  };
+  const handleAddClick = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      e.stopPropagation();
+      setShowInput(true);
+    },
+    []
+  );
 
-  const handleAddList = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
+  const handleAddList = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      e.stopPropagation();
 
-    const formData = new FormData(e.currentTarget);
+      const formData = new FormData(e.currentTarget);
+      if (inputRef.current) {
+        const newList = {
+          id: 0,
+          name: formData.get("name") as string,
+          boardId: boardId || 0,
+        };
 
-    console.log(inputRef.current?.value);
-    if (inputRef.current) {
-      const newList = {
-        id: 0,
-        name: formData.get("name") as string,
-        boardId: boardId || 0,
-      };
+        dispatch(addListUpdateOrder(newList, boardId || 0));
+        inputRef.current.value = "";
+        inputRef.current.focus();
+      }
+    },
+    [dispatch, boardId]
+  );
 
-      dispatch(addListUpdateOrder(newList, boardId || 0));
-
-      inputRef.current.value = "";
-      inputRef.current.focus();
+  useEffect(() => {
+    if (listsIds && listsIds.length > 0) {
+      // Tomamos el último ID del array proveniente del store.
+      const newId = listsIds[listsIds.length - 1];
+  
+      setListOrder((prevLists) => {
+        if (prevLists?.includes(newId)) {
+          return prevLists; // No lo agregamos de nuevo.
+        }
+        return [...(prevLists ?? []), newId];
+      });
     }
-  };
+  }, [listsIds]); 
 
-  // useEffect(() => {
-  //   setListOrder(listsIds);
-  // }, [lists]);
-
-  const handleDragEnd = (event: DragEndEvent) => {
+  const handleDragEnd = useCallback((event: DragEndEvent) => {
     const { active, over } = event;
 
     if (!over) return;
@@ -331,14 +354,19 @@ const Lists = () => {
     if (oldIndex !== newIndex) {
       console.log(listsOrder, oldIndex, newIndex);
       // console.log(arrayMove(listsOrder, oldIndex, newIndex));
-      
-      if (listsOrder && ((typeof oldIndex === 'number') && (typeof newIndex === 'number'))) {
+
+      if (
+        listsOrder &&
+        typeof oldIndex === "number" &&
+        typeof newIndex === "number"
+      ) {
         setListOrder(arrayMove(listsOrder, oldIndex, newIndex));
-        console.log('hola, funciona');
-        
+        console.log("hola, funciona");
       }
     }
-  };
+  }, [listsOrder]);
+
+  const memoizedListsOrder = useMemo(() => listsOrder, [listsOrder]);
 
   return (
     <ListsContainer>
@@ -466,16 +494,14 @@ const Lists = () => {
             onDragEnd={handleDragEnd}
           >
             <SortableContext
-              items={listsOrder || []}
+              items={memoizedListsOrder}
               strategy={horizontalListSortingStrategy}
             >
               {listsOrder?.map((id) => (
-                <SortableItem key={id} id={id}>
-                <ListContainer>
-                  <List id={id}></List>
-                </ListContainer>
-                </SortableItem>
-              ))}
+              <SortableItem key={`draggable-${id}`} id={id}>
+                <ListContent id={id} />
+              </SortableItem>
+            ))}
             </SortableContext>
           </DndContext>
 

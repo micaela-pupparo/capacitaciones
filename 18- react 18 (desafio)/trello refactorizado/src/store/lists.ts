@@ -28,6 +28,8 @@ const slice = createSlice({
         boardId: action.payload.boardId,
       });
       if (action.payload.id) ++lastId;
+      console.log('list added');
+      
     },
     listDeleted: (lists, action) => {
       const listIndex = lists.list.findIndex(
@@ -36,12 +38,18 @@ const slice = createSlice({
 
       lists.selectedId = null;
       lists.list.splice(listIndex, 1);
+      console.log('list deleted');
+      
     },
     listSelected: (lists, action) => {
       lists.selectedId = action.payload;
+      console.log('list selected');
+      
     },
     listUnselected: (lists, action) => {
       lists.selectedId = null;
+      console.log('list unselected');
+      
     },
   },
 });
@@ -58,6 +66,8 @@ export const getListIdByBoardId = (boardId: number) =>
       const result = lists.list
         .filter((list) => list.boardId === boardId)
         .map((list) => list.id);
+      console.log('get list id by board id');
+      
       return result ? result : [];
     }
   );
@@ -67,6 +77,8 @@ export const getAllListsByBoardId = (boardId: number) =>
     (state) => state.lists,
     (lists: ListState) => {
       const result = lists.list.filter((list) => list.boardId === boardId);
+      console.log('get all lists by board id');
+      
       return result ? result : [];
     }
   );
@@ -76,6 +88,8 @@ export const getListById = (listId: number) =>
     (state) => state.lists,
     (lists: ListState) => {
       const result = lists.list.find((list) => list.id === listId);
+      console.log('get list by id');
+      
       return result ? result : {} as List;
     }
   );

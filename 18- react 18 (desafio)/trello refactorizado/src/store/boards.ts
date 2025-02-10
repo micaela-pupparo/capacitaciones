@@ -29,6 +29,8 @@ const slice = createSlice({
         userId: action.payload.userId,
         order: [],
       });
+      console.log('board added');
+      
     },
     boardDeleted: (boards, action) => {
       const boardIndex = boards.list.findIndex(
@@ -37,17 +39,25 @@ const slice = createSlice({
 
       boards.selectedId = null;
       boards.list.splice(boardIndex, 1);
+      console.log('board deleted');
+      
     },
     boardUpdatedOder: (boards, action) => {
       const { boardId, listId } = action.payload;
       const board = boards.list.find((board) => board.id === boardId);
       if (board) board.order.push(listId);
+      console.log('board updated order');
+      
     },
     boardSelected: (boards, action) => {
       boards.selectedId = action.payload;
+      console.log('board selected');
+      
     },
     boardUnselected: (boards, action) => {
       boards.selectedId = null;
+      console.log('board unselected');
+
     },
   },
 });
@@ -66,21 +76,31 @@ export const getBoardsByUser = (userId: number) =>
   createSelector(
     (state) => state.boards,
     (boards: BoardsState) =>
-      userId
+    {
+      console.log('get board by user');
+      
+      return userId
         ? boards.list.filter((board) => board.userId === userId)
         : undefined
+    }
   );
 
 export const getBoardById = (boardId: number) =>
   createSelector(
     (state) => state.boards,
-    (boards: BoardsState) => boards.list.find((board) => board.id === boardId)
+    (boards: BoardsState) => {
+      console.log('get board by id');
+      
+      return boards.list.find((board) => board.id === boardId)
+    }
   );
 
 export const getOrderListByBoard = (boardId: number) =>
   createSelector(
     (state) => state.boards,
     (boards: BoardsState) => {
+      console.log('get order list by board');
+      
       const result = boards.list.find((board) => board.id === boardId);
       return result?.order;
     }
