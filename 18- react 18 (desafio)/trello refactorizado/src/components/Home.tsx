@@ -61,7 +61,6 @@ const HeroButton = styled.button`
   color: #fff;
   padding: 0.7rem 1rem 0.8rem;
   border-radius: 0.3rem;
-  white-space-collapse: preserve;
   width: 60%;
 `;
 

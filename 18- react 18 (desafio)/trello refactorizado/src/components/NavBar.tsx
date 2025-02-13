@@ -47,16 +47,15 @@ const RightSide = styled.div`
   display: flex;
   align-items: center;
   gap: 5px;
-  height: 100%
+  height: 100%;
 `;
 
-const ButtonUnloggedUser = styled.button<{ $blue?: boolean }>`  
+const ButtonUnloggedUser = styled.button<{ $blue?: boolean }>`
   font-size: 16px;
   display: block;
   border: 0;
   background-color: ${(props) => (props.$blue ? "#0c66e4" : "transparent")};
-  color: ${(props) =>
-    props.$blue ? "#fff" : "rgb(68, 84, 111)"};
+  color: ${(props) => (props.$blue ? "#fff" : "rgb(68, 84, 111)")};
   height: 100%;
 `;
 
@@ -241,9 +240,13 @@ const NavBar = () => {
           </LeftSide>
 
           <RightSide>
-            <ButtonUnloggedUser><Link to='/login'>Log in</Link></ButtonUnloggedUser>
+            <ButtonUnloggedUser>
+              <Link to="/login">Log in</Link>
+            </ButtonUnloggedUser>
 
-            <ButtonUnloggedUser $blue disabled>Obtenga Trello gratis</ButtonUnloggedUser>
+            <ButtonUnloggedUser $blue disabled>
+              Obtenga Trello gratis
+            </ButtonUnloggedUser>
           </RightSide>
         </NavBarContainer>
       ) : (

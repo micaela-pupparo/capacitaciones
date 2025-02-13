@@ -285,8 +285,6 @@ const arrayMove = (arr: any[], fromIndex: number, toIndex: number): any[] => {
 };
 
 const Lists = () => {
-  console.log("o yo");
-
   const boardId = useSelector(
     (state: RootState) => state.boards.selectedId,
     shallowEqual
