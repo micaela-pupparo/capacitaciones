@@ -23,8 +23,8 @@ const Home = () => {
               <Tab eventKey="profile" title="Form">
                 <TestingFormTab />
               </Tab>
-              <Tab eventKey="contact" title="Contact">
-                Tab content for Contact
+              <Tab eventKey="contact" title="Extra">
+                Para más información mirá mi video en Teams!
               </Tab>
             </Tabs>
         </div>
