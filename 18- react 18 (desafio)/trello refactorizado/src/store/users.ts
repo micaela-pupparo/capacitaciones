@@ -14,12 +14,14 @@ interface UserState {
 
 let lastId = 10;
 
+const initialState: UserState = {
+  list: [{ id: 1, username: "mica@gmail.com", name: "Micaela" }],
+  logged: null, 
+};
+
 const slice = createSlice({
   name: "users",
-  initialState: {
-    list: [{ id: 1, username: "mica@gmail.com", name: "Micaela" }],
-    logged: null,
-  },
+  initialState,
   reducers: {
     // action => action handler
     userAdded: (users, action) => {

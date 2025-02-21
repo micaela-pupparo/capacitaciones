@@ -253,9 +253,10 @@ const BoardList = () => {
             boards.map((board) => (
               <BoardContainer key={board.id}>
                 <BoardLink
-                  to="/lists"
+                  to="/user/lists"
                   onClick={() => handleBoardClick(board.id)}
                   $background
+                  role="board"
                 >
                   <BoardTitle $variant="normal">{board.name}</BoardTitle>
                 </BoardLink>
