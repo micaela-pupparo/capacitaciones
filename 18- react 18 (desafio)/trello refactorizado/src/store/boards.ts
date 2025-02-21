@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice, createSelector } from "@reduxjs/toolkit";
 
-interface Board {
+export interface Board {
   id: number;
   name: string;
   userId: number;
