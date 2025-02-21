@@ -129,7 +129,7 @@ const RegisterForm = () => {
     dispatch(userAdded(newUser));
     dispatch(userLoggedIn(newUser));
 
-    navigate("/boards");
+    navigate("/user/boards");
   };
 
   return (

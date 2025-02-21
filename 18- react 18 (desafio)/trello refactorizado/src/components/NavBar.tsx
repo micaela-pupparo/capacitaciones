@@ -198,18 +198,20 @@ const User = styled.button`
 const NavBar = () => {
   const [theme, setTheme] = useState<"white" | "pink">("white");
 
-  const user = useSelector((state: RootState) => state.users.logged);
+  const user = useSelector((state: RootState) => state.users?.logged);
 
   const location = useLocation();
 
   useEffect(() => {
-    const newTheme = location.pathname === "/lists" ? "pink" : "white";
+    const newTheme = location.pathname === "/user/lists" ? "pink" : "white";
 
-    if (newTheme !== theme) setTheme(newTheme);
+    if (newTheme !== theme) {
+      setTheme(newTheme);
+    }
   }, [location.pathname]);
 
   return (
-    <Nav $variant={theme}>
+    <Nav $variant={theme} data-variant={theme}>
       {!user ? (
         <NavBarContainer>
           <LeftSide>

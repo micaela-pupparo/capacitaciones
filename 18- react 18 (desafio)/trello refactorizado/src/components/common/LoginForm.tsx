@@ -121,7 +121,7 @@ const LoginForm = () => {
     dispatch(userLoggedIn(user));
     console.log("Submitted");
 
-    navigate("/boards");
+    navigate("/user/boards");
   };
 
   return (

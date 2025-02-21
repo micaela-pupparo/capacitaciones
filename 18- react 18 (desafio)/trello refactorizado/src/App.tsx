@@ -20,9 +20,9 @@ function App() {
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/login" element={<LoginForm />} />
 
-          <Route element={<PrivateRoutes />}>
-            <Route path="/lists" element={<Lists />} />
-            <Route path="/boards" element={<BoardList />} />
+          <Route path="/user" element={<PrivateRoutes />}>
+            <Route path="lists" element={<Lists />} />
+            <Route path="boards" element={<BoardList />} />
           </Route>
           {/* <Route
               path="/user/:userName"
