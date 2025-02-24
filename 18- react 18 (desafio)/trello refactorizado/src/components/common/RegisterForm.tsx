@@ -92,7 +92,7 @@ const schema = z.object({
   password: z
     .number({ invalid_type_error: "La contraseña es requerida" })
     .min(10, { message: "La contraseña debe tener al menos 10 caracteres." }),
-  name: z.string(),
+  name: z.string().min(1),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -134,7 +134,7 @@ const RegisterForm = () => {
 
   return (
     <FormContainer>
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form onSubmit={handleSubmit(onSubmit)} role="form">
         <LogoContainer>
           <FaTrello color="#0079bf" size={32} />
           <TrelloText>Trello</TrelloText>
@@ -164,6 +164,7 @@ const RegisterForm = () => {
           name="name"
           type="text"
           placeholder="Introduce tu nombre"
+          aria-label="name"
         />
         {errors.name && <p>{errors.name.message}</p>}
 
