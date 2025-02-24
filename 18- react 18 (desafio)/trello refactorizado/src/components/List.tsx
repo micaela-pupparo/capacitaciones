@@ -141,7 +141,7 @@ const arrayMove = (arr: any[], fromIndex: number, toIndex: number): any[] => {
 const List = ({ id }: Props) => {
   const dispatch = useDispatch();
 
-  const listSelector = useMemo(() => getListById(id), [id]);
+  const listSelector = useMemo(() => getListById(id ?? 0), [id]);
   const list = useSelector(listSelector, shallowEqual);
 
   const selectedList = useSelector(
@@ -149,7 +149,7 @@ const List = ({ id }: Props) => {
     shallowEqual
   );
 
-  const tasksSelector = useMemo(() => getTasksByList(id), [id]);
+  const tasksSelector = useMemo(() => getTasksByList(id ?? 0), [id]);
   const tasks = useSelector(tasksSelector, shallowEqual);
 
   const [showInputTask, setShowInputTask] = useState(false);

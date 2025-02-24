@@ -208,7 +208,9 @@ const ListsItems = styled.div`
   padding: 0 7px;
 `;
 
-const ListContainer = styled.article``;
+const ListContainer = styled.article`
+  width: 100%;
+`;
 
 const ListButton = styled.button`
   display: flex;
@@ -366,10 +368,12 @@ const Lists = () => {
     setListOrder(arrayMove(listsOrder, sourceIndex, destinationIndex));
   };
 
-  const memoizedListsOrder = useMemo(() => listsOrder, [listsOrder]);
 
+  console.log(boardId, lists, listsOrder, listsIds);
+
+  if (!boardId) return null;
   return (
-    <ListsContainer>
+    <ListsContainer role="board">
       <AsideContainer>
         <SpaceWork>
           <SpaceWorkImage>E</SpaceWorkImage>
@@ -489,7 +493,7 @@ const Lists = () => {
         </ListsHeaderWrapper>
 
         <ListsItems>
-          <DragDropContext onDragEnd={handleDragEnd}>
+          {listsOrder.length !== 0 && <DragDropContext onDragEnd={handleDragEnd}>
             <Droppable droppableId="lists" direction="horizontal">
               {(provided, snapshot) => (
                 <div ref={provided.innerRef} {...provided.droppableProps} style={{display: 'flex'}}>
@@ -506,7 +510,7 @@ const Lists = () => {
                           {...provided.dragHandleProps}
                           style={{ ...provided.draggableProps.style }}
                         >
-                          <ListContainer>
+                          <ListContainer aria-label="list">
                             <List id={id} />
                           </ListContainer>
                         </div>
@@ -517,7 +521,7 @@ const Lists = () => {
                 </div>
               )}
             </Droppable>
-          </DragDropContext>
+          </DragDropContext>}
 
           <ListContainer>
             {!showInput && (
