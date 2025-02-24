@@ -126,7 +126,7 @@ const LoginForm = () => {
 
   return (
     <FormContainer>
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form onSubmit={handleSubmit(onSubmit)} role="form">
         <LogoContainer>
           <FaTrello color="#0079bf" size={32} />
           <TrelloText>Trello</TrelloText>
