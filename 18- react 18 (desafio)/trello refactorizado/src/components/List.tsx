@@ -128,7 +128,7 @@ const FormIcon = styled.div`
 // ------------------------------------- COMPONENTE -------------------------------------
 
 interface Props {
-  id: number;
+  id?: number;
 }
 
 const arrayMove = (arr: any[], fromIndex: number, toIndex: number): any[] => {
@@ -212,71 +212,78 @@ const List = ({ id }: Props) => {
     }
   }, [tasks]);
 
-  return (
-    <ListContainer>
-      <ListHeading>
-        <ListName>{list.name}</ListName>
-        <RxDotsHorizontal
-          style={{ fontSize: 15 }}
-          onClick={(e) => handleDelete(e, list.id)}
-        />
-      </ListHeading>
+  if (id)
+    return (
+      <ListContainer>
+        <ListHeading>
+          <ListName>{list.name}</ListName>
+          <RxDotsHorizontal
+            style={{ fontSize: 15 }}
+            onClick={(e) => handleDelete(e, list.id)}
+          />
+        </ListHeading>
 
-      <DragDropContext onDragEnd={handleTaskDragEnd}>
-        <Droppable droppableId={`tasks-${id}`} direction="vertical" type="TASK">
-          {(provided) => (
-            <div ref={provided.innerRef} {...provided.droppableProps}>
-              {tasksOrder &&
-                tasksOrder.map((task, index) => (
-                  <Draggable
-                    key={task.id}
-                    draggableId={`task-${task.id}`}
-                    index={index}
-                  >
-                    {(provided) => (
-                      <TaskContainer
-                        ref={provided.innerRef}
-                        {...provided.dragHandleProps}
-                        {...provided.draggableProps}
-                        style={{ ...provided.draggableProps.style }}
-                      >
-                        <TaskDiv>
-                          <TaskName>{task.name}</TaskName>
-                        </TaskDiv>
-                      </TaskContainer>
-                    )}
-                  </Draggable>
-                ))}
+        <DragDropContext onDragEnd={handleTaskDragEnd}>
+          <Droppable
+            droppableId={`tasks-${id}`}
+            direction="vertical"
+            type="TASK"
+          >
+            {(provided) => (
+              <div ref={provided.innerRef} {...provided.droppableProps}>
+                {tasksOrder &&
+                  tasksOrder.map((task, index) => (
+                    <Draggable
+                      key={task.id}
+                      draggableId={`task-${task.id}`}
+                      index={index}
+                    >
+                      {(provided) => (
+                        <TaskContainer
+                          ref={provided.innerRef}
+                          {...provided.dragHandleProps}
+                          {...provided.draggableProps}
+                          style={{ ...provided.draggableProps.style }}
+                        >
+                          <TaskDiv>
+                            <TaskName>{task.name}</TaskName>
+                          </TaskDiv>
+                        </TaskContainer>
+                      )}
+                    </Draggable>
+                  ))}
                 {provided.placeholder}
-            </div>
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+
+        <TaskContainer>
+          {!showInputTask && (
+            <NewTaskButton onClick={(e) => setShowInputTask(true)}>
+              <VscAdd />
+              <div>Añade una tarjeta</div>
+            </NewTaskButton>
           )}
-        </Droppable>
-      </DragDropContext>
 
-      <TaskContainer>
-        {!showInputTask && (
-          <NewTaskButton onClick={(e) => setShowInputTask(true)}>
-            <VscAdd />
-            <div>Añade una tarjeta</div>
-          </NewTaskButton>
-        )}
+          {showInputTask && (
+            <NewTaskForm onSubmit={handleSubmit}>
+              <NewTaskInput name="name" ref={inputRef} autoFocus />
+              <FormControlsContainer>
+                <NewTaskButtonForm type="submit">
+                  Añadir tarjeta
+                </NewTaskButtonForm>
+                <FormIcon onClick={() => setShowInputTask(false)}>
+                  <VscChromeClose size={18} />
+                </FormIcon>
+              </FormControlsContainer>
+            </NewTaskForm>
+          )}
+        </TaskContainer>
+      </ListContainer>
+    );
 
-        {showInputTask && (
-          <NewTaskForm onSubmit={handleSubmit}>
-            <NewTaskInput name="name" ref={inputRef} autoFocus />
-            <FormControlsContainer>
-              <NewTaskButtonForm type="submit">
-                Añadir tarjeta
-              </NewTaskButtonForm>
-              <FormIcon onClick={() => setShowInputTask(false)}>
-                <VscChromeClose size={18} />
-              </FormIcon>
-            </FormControlsContainer>
-          </NewTaskForm>
-        )}
-      </TaskContainer>
-    </ListContainer>
-  );
+    return null;
 };
 
 export default memo(List);

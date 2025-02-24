@@ -54,7 +54,7 @@ describe("BoardList", () => {
     expect(button).not.toBeInTheDocument();
   });
 
-  it("should not render list of boards if boards is not provided", () => {
+  it("should render list of boards if boards is provided", () => {
     renderBoardList({ id: 1, name: "tablero", userId: 1, order: [] });
 
     const button = screen.queryByRole("board");

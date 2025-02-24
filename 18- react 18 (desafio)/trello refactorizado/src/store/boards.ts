@@ -10,17 +10,19 @@ export interface Board {
 
 interface BoardsState {
   list: Board[];
-  selectedId: number;
+  selectedId: number | null;
 }
+
+const initialState: BoardsState = {
+  list: [{ id: 1, name: "tablero", userId: 1, order: [] }],
+  selectedId: null, 
+};
 
 let lastId = 10;
 
 const slice = createSlice({
   name: "boards",
-  initialState: {
-    list: [{ id: 1, name: "tablero", userId: 1, order: [] }] as Board[],
-    selectedId: null,
-  },
+  initialState,
   reducers: {
     boardAdded: (boards, action) => {
       boards.list.push({

@@ -12,14 +12,16 @@ interface TasksState {
   selectedId: number | null;
 }
 
+const initialState: TasksState = {
+  list: [],
+  selectedId: null, 
+};
+
 let lastId = 10;
 
 const slice = createSlice({
   name: "tasks",
-  initialState: {
-    list: [] as Task[],
-    selectedId: null,
-  },
+  initialState,
   reducers: {
     taskAdded: (tasks, action) => {
       tasks.list.push({

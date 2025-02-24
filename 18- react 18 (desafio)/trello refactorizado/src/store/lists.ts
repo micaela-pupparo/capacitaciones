@@ -12,14 +12,16 @@ interface ListState {
   selectedId: number | null;
 }
 
+const initialState: ListState = {
+  list: [],
+  selectedId: null, 
+};
+
 export let lastId = 10;
 
 const slice = createSlice({
   name: "lists",
-  initialState: {
-    list: [] as List[],
-    selectedId: null,
-  },
+  initialState,
   reducers: {
     listAdded: (lists, action) => {
       lists.list.push({
