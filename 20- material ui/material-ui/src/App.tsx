@@ -1,35 +1,41 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { createTheme, CssBaseline, Grid2, ThemeProvider, useColorScheme } from "@mui/material";
+import { Outlet } from "react-router";
+import Sidebar from "./layouts/Sidebar";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { mode } = useColorScheme();
+
+  if (!mode) {
+    return null;
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+        <CssBaseline enableColorScheme />
+        {/* <Button onClick={() => setDarkMode(!darkMode)} variant="contained">Cambiar a {darkMode ? 'Claro' : 'Oscuro'}</Button> */}
+        
+        <Grid2 container>
+          <Grid2 size={2}>
+            <Sidebar />
+          </Grid2>
+          <Grid2 size="grow">
+            <Outlet />
+          </Grid2>
+        </Grid2>
     </>
-  )
+  );
 }
 
-export default App
+const theme = createTheme({
+  colorSchemes: {
+    dark: true,
+  },
+});
+
+export default function ToggleColorMode() {
+  return (
+    <ThemeProvider theme={theme}>
+      <App />
+    </ThemeProvider>
+  );
+}

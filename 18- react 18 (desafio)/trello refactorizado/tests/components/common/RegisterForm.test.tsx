@@ -76,7 +76,7 @@ describe("RegisterForm", () => {
 
     const user = userEvent.setup();
     await user.type(usernameInput, "mica@gmail.com");
-    await user.type(passwordInput, "1234");
+    await user.type(passwordInput, "1234"); 
 
     expect(submitButton).toBeDisabled();
   });
