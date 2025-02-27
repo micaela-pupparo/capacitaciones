@@ -12,7 +12,7 @@ import Lists from "../src/components/Lists";
 import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 
-const routes: RouteObject[] = [
+export const routes: RouteObject[] = [
   {
     path: "*",
     element: <App />,

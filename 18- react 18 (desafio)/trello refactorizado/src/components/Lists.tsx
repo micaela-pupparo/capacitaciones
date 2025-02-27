@@ -525,7 +525,7 @@ const Lists = () => {
 
           <ListContainer>
             {!showInput && (
-              <ListButton onClick={(e) => handleAddClick(e)}>
+              <ListButton onClick={(e) => handleAddClick(e)} aria-label="new-list">
                 <VscAdd style={{ marginRight: 8 }} />
                 <Paragraph>Añade otra lista</Paragraph>
               </ListButton>

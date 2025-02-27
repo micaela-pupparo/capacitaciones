@@ -260,7 +260,7 @@ const List = ({ id }: Props) => {
 
         <TaskContainer>
           {!showInputTask && (
-            <NewTaskButton onClick={(e) => setShowInputTask(true)}>
+            <NewTaskButton onClick={(e) => setShowInputTask(true)} role="new-task">
               <VscAdd />
               <div>Añade una tarjeta</div>
             </NewTaskButton>
